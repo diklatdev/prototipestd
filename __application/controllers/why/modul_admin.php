@@ -44,7 +44,16 @@ class modul_admin extends SHIPMENT_Controller{
 	}
 	
 	function getdisplay($type="", $p1="", $p2="", $p3=""){
-	}
+		switch($type){
+			case "pembentukan_tim":
+				$content = "modul-why/pembentukan-tim/main.html";
+				
+			break;
+		}
+		
+		$this->smarty->assign('type', $type);
+		$this->smarty->display($content);
+	}	
 	
 	function getdatagrid($type){
 		echo $this->madmin->get_data_grid($type);

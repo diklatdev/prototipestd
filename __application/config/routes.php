@@ -7,7 +7,7 @@ $route['admin-ctrlpnl'] = "why/modul_admin";
 $route['loginadm'] = "login/loginadm";
 $route['logoutadm'] = "login/logoutadm";
 
-
+$route['pembentukan-tim-kerja'] = "why/modul_admin/getdisplay/pembentukan_tim";
 
 
 ///////////////////////////*** LEVI
