@@ -1,0 +1,27 @@
+<style type="text/css">
+	.datagrid-row-over td{
+		background:#D0E5F5;
+	}
+	.datagrid-row-selected td{
+		background:#FBEC88;
+		color:#000;
+	}
+</style>
+
+
+<div id="div_{$tipe_grid}" style="width:102%">
+	<div id='{$tipe_grid}'></div>
+	<div id='toolbar_{$tipe_grid}' style='padding:5px;height:{$tinggi}'>
+		
+		{if $tipe_grid eq 'pembentukan_tim'}
+			{include file='modul-why/template/button.html' tipe='easyui-button' label='Tambah' class='icon-add'}
+			{include file='modul-why/template/button.html' tipe='easyui-button' label='Edit' class='icon-edit'}
+			{include file='modul-why/template/button.html' tipe='easyui-button' label='Hapus' class='icon-cancel'}
+		{/if}
+	</div>
+</div>
+
+<script>
+	$('#div_{$tipe_grid}').css('height',(getClientHeight()-230));
+	genGrid('{$tipe_grid}');
+</script>

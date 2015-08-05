@@ -3,8 +3,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
-    <title>Materialize - Material Design Admin Template</title>
-
+    <title>Sistem Informasi SK3APDN - KEMENTERIAN DALAM NEGERI</title>
+	
+	{*
     <!-- Favicons-->
     <link rel="icon" href="{$host}__assets/images/favicon/favicon-32x32.png" sizes="32x32">
     <!-- Favicons-->
@@ -13,23 +14,29 @@
     <meta name="msapplication-TileColor" content="#00bcd4">
     <meta name="msapplication-TileImage" content="{$host}__assets/images/favicon/mstile-144x144.png">
     <!-- For Windows Phone -->
-
+	*}
 
     <!-- CORE CSS-->    
     <link href="{$host}__assets/css/admin-style/materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="{$host}__assets/css/admin-style/style.css" type="text/css" rel="stylesheet" media="screen,projection">
     <!-- Custome CSS-->    
     <link href="{$host}__assets/css/admin-style/custom-style.css" type="text/css" rel="stylesheet" media="screen,projection">
-    <!-- Custome CSS-->    
-    <link href="{$host}__assets/css/admin-style/custom-style.css" type="text/css" rel="stylesheet" media="screen,projection">
 
 
     <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
     <link href="{$host}__assets/js/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
-    {*
+    
+	<!-- INCLUDED PLUGIN CSS EasyUI -->
+	<link href="{$host}__assets/js/plugins/easyui/themes/gray/easyui.css" type="text/css" rel="stylesheet" media="screen,projection">
+	<link href="{$host}__assets/js/plugins/easyui/themes/icon.css" type="text/css" rel="stylesheet" media="screen,projection">
+    
+	{*
 	<link href="{$host}__assets/js/plugins/jvectormap/jquery-jvectormap.css" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="{$host}__assets/js/plugins/chartist-js/chartist.min.css" type="text/css" rel="stylesheet" media="screen,projection">
 	*}
+	<script>
+		var hostir = '{$host}';
+	</script>
 
 </head>
 
@@ -47,7 +54,7 @@
 			 <!-- START CONTENT -->
             <section id="content">
                 <!--start container-->
-                <div id='tMain' class="container">
+                <div id='tMain' class="container" style='padding:0px !important;'>
 					{include file="template-admin/blank.html"}
 				</div>
 				 <!--end container-->
@@ -82,6 +89,8 @@
     <script type="text/javascript" src="{$host}__assets/js/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <!--prism-->
     <script type="text/javascript" src="{$host}__assets/js/prism.js"></script>
+	<!--easyui-->
+    <script type="text/javascript" src="{$host}__assets/js/plugins/easyui/jquery.easyui.min.js"></script>
 	
 	{*
     <!-- chartist -->
@@ -107,6 +116,7 @@
     <script type="text/javascript" src="{$host}__assets/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
     <script type="text/javascript" src="{$host}__assets/js/plugins/jvectormap/vectormap-script.js"></script>    
 	*}
+	
     
     <!--plugins.js - Some Specific JS codes for Plugin Settings-->
     <script type="text/javascript" src="{$host}__assets/js/plugins.js"></script>

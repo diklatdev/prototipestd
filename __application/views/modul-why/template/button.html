@@ -1,0 +1,14 @@
+
+{if $tipe eq 'easyui-button'}
+	<a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id="" onClick="">
+		<span class="l-btn-left l-btn-icon-left">
+			<span class="l-btn-text">{$label}</span><span class="l-btn-icon {$class}">&nbsp;</span>
+		</span>
+	</a>
+{/if}
+
+{if $tipe eq 'template-bawaan'}
+	{if $besaran eq 'kecil'}
+		<a class="btn waves-effect waves-light"><i class="mdi-content-add-box small left"></i>{$label}</a>
+	{/if}	
+{/if}	
