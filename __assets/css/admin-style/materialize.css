@@ -2189,8 +2189,10 @@ ul.staggered-list li {
     text-align: center; } }
 
 footer.page-footer {
+  /*
   margin-top: 20px;
   padding-top: 20px;
+  */
   background-color: #00bcd4; }
   footer.page-footer .footer-copyright {
     overflow: hidden;
@@ -2203,7 +2205,7 @@ table, th, td {
   border: none; }
 
 table {
-  width: 100%;
+  /*width: 100%;*/
   display: table; }
   table.bordered > thead > tr, table.bordered > tbody > tr {
     border-bottom: 1px solid #d0d0d0; }
@@ -2224,7 +2226,7 @@ thead {
   border-bottom: 1px solid #d0d0d0; }
 
 td, th {
-  padding: 15px 5px;
+  /*padding: 15px 5px;*/
   display: table-cell;
   text-align: left;
   vertical-align: middle;
@@ -4976,8 +4978,8 @@ span.badge {
   margin-right: -0.75rem; }
 
 .section {
-  padding-top: 1rem;
-  padding-bottom: 1rem; }
+  padding-top: 9px;
+  padding-bottom: 9px; }
   .section.no-pad {
     padding: 0; }
   .section.no-pad-bot {

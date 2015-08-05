@@ -38,7 +38,7 @@ function genGrid(modnya, lebarnya, tingginya){
 		lebarnya = getClientWidth-230;
 	}
 	if(tingginya == undefined){
-		tingginya = getClientHeight-300
+		tingginya = getClientHeight-350
 	}
 
 	var kolom ={};
@@ -51,111 +51,14 @@ function genGrid(modnya, lebarnya, tingginya){
 	var pagesizeboy = 10;
 	
 	switch(modnya){
-		case "data_peserta":
+		case "pembentukan_tim":
 			judulnya = "";
 			fitnya = true;
 			pagesizeboy = 50;
 			kolom[modnya] = [	
-				{field:'nama_lengkap',title:'Nama Peserta',width:250, halign:'center',align:'left'},
-				{field:'step_registrasi',title:'Registrasi',width:150, halign:'center',align:'center',
-					formatter: function(value,row,index){
-						if(row.step_registrasi == 1){
-							return "<button href='#' onClick='previewData(\"registrasi\", \""+row.tbl_data_peserta_id+"\", \""+row.idx_sertifikasi_id+"\", \""+row.kdreg_diklat+"\");' ><img src='"+hostir+"assets/images/ok.png' width='16px' height='16px' /></button>";
-						}else if(row.step_registrasi == 2){
-							return "<button href='#' onClick='previewData(\"registrasi\", \""+row.tbl_data_peserta_id+"\", \""+row.idx_sertifikasi_id+"\", \""+row.kdreg_diklat+"\");' >Lihat Data</button>";
-						}
-					}
-				},
-				{field:'step_asesmen_mandiri',title:'Asesmen Mandiri',width:150, halign:'center',align:'center',
-					formatter: function(value,row,index){
-						if(row.step_asesmen_mandiri == 1){
-							return "<button href='#' onClick='previewData(\"assmandiri\", \""+row.tbl_data_peserta_id+"\", \""+row.nama_lengkap+"\", \""+row.nama_aparatur+"\", \""+row.no_registrasi+"\", \""+row.idx_sertifikasi_id+"\", \""+row.kdreg_diklat+"\");' ><img src='"+hostir+"assets/images/ok.png' width='16px' height='16px' /></button>";
-						}else if(row.step_asesmen_mandiri == 2){
-							return "<button href='#' onClick='previewData(\"assmandiri\", \""+row.tbl_data_peserta_id+"\", \""+row.nama_lengkap+"\", \""+row.nama_aparatur+"\", \""+row.no_registrasi+"\", \""+row.idx_sertifikasi_id+"\", \""+row.kdreg_diklat+"\");' >Lihat Data</button>";
-						}else if(row.step_asesmen_mandiri == 3){
-							return "Dalam Proses";
-						}else if(row.step_asesmen_mandiri == 0){
-							return "<img src='"+hostir+"assets/images/cancel.png' width='16px' height='16px' />";
-						}
-					}
-				},
-				{field:'step_uji_test',title:'Uji Test',width:150, halign:'center',align:'center',
-					formatter: function(value,row,index){
-						if(row.step_uji_test == 1){
-							return "<button href='#' ><img src='"+hostir+"assets/images/ok.png' width='16px' height='16px' /></button>";
-						}else if(row.step_uji_test == 2){
-							return "<button href='#'>Lihat Data</button>";
-						}else if(row.step_uji_test == 3){
-							return "Dalam Proses";
-						}else if(row.step_uji_test == 4){
-							return "<button href='#' onClick='kumpulPost(\"ijin_tpa\", \""+row.tbl_data_peserta_id+"\", \""+row.idx_sertifikasi_id+"\", \""+row.kdreg_diklat+"\", \""+row.step_uji_simulasi+"\" );'>Ijinkan Ujian</button>";
-						}else if(row.step_uji_test == 0){
-							return "<img src='"+hostir+"assets/images/cancel.png' width='16px' height='16px' />";
-						}
-					}
-				},
-				{field:'step_uji_simulasi',title:'Uji Simulasi',width:150, halign:'center',align:'center',
-					formatter: function(value,row,index){
-						if(row.step_uji_simulasi == 1){
-							return "<button href='#' ><img src='"+hostir+"assets/images/ok.png' width='16px' height='16px' /></button>";
-						}else if(row.step_uji_simulasi == 2){
-							return "<button href='#'>Lihat Data</button>";
-						}else if(row.step_uji_simulasi == 3){
-							return "Dalam Proses";
-						}else if(row.step_uji_simulasi == 4){
-							return "<button href='#' onClick='kumpulPost(\"ijin_sim\", \""+row.tbl_data_peserta_id+"\", \""+row.idx_sertifikasi_id+"\", \""+row.kdreg_diklat+"\", \""+row.step_uji_test+"\");'>Ijinkan Ujian</button>";
-						}else if(row.step_uji_simulasi == 0){
-							return "<img src='"+hostir+"assets/images/cancel.png' width='16px' height='16px' />";
-						}
-					}
-				},
-				{field:'step_wawancara',title:'Wawancara',width:150, halign:'center',align:'center',
-					formatter: function(value,row,index){
-						if(row.step_wawancara == 1){
-							return "<button href='#' ><img src='"+hostir+"assets/images/ok.png' width='16px' height='16px' /></button>";
-						}else if(row.step_wawancara == 2){
-							return "<button href='#'>Lihat Data</button>";
-						}else if(row.step_wawancara == 0){
-							return "<img src='"+hostir+"assets/images/cancel.png' width='16px' height='16px' />";
-						}
-					}
-				},
-				{field:'nama_asesor',title:'Petugas Asesor',width:200, halign:'center',align:'left'},
-			];
-		break;
-		case "file_registrasi":
-			judulnya = "";
-			fitnya = true;
-			pagesizeboy = 50;
-			kolom[modnya] = [	
-				{field:'nama_lengkap',title:'Nama Peserta',width:250, halign:'center',align:'left'},
-				{field:'tbl_data_peserta_id',title:'Cek File',width:150, halign:'center',align:'center',
-					formatter: function(value,row,index){
-						return "<button href='#'>Preview Data</button>";
-					}
-				},
-			];
-		break;
-		case "akun_peserta":
-			judulnya = "";
-			fitnya = true;
-			pagesizeboy = 50;
-			kolom[modnya] = [	
-				{field:'nama_lengkap',title:'Nama Peserta',width:300, halign:'center',align:'left'},
-				{field:'kdreg_diklat',title:'Status Sertifikasi',width:250, halign:'center',align:'left',
-					formatter: function(value,row,index){
-						if(row.kdreg_diklat != null){
-							return "<font color='green'>Sedang Dalam Sertifikasi</font>";
-						}else{
-							return "<font color='red'>Tidak Dalam Sertifikasi</font>";
-						}
-					}
-				},
-				{field:'idnya_data_peserta',title:'Akun',width:150, halign:'center',align:'center',
-					formatter: function(value,row,index){
-						return "<button href='#' onClick='previewData(\"lhkps\", \""+row.idnya_data_peserta+"\");' >Lihat Akun</button>";
-					}
-				},
+				{field:'nama_lengkap',title:'Nama Tim',width:250, halign:'center',align:'left'},
+				{field:'nama_lengkap',title:'Kementerian / Lembaga',width:250, halign:'center',align:'left'},
+				{field:'nama_lengkap',title:'Kelompok',width:200, halign:'center',align:'left'},
 			];
 		break;
 	}
@@ -182,15 +85,18 @@ function genGrid(modnya, lebarnya, tingginya){
 		toolbar: '#toolbar_'+modnya,
 	});
 
+	$('.pagination-page-list').css({'display':'inline'});
 }
 
 function loadUrl(urls,func){	
     $("#tMain").html("").addClass("loading");
+	
 	$.get(urls,function (html){
 	    $("#tMain").html(html).removeClass("loading");
     }).done(function(){
        // func;
     });
+	//*/
 }
 
 function ajxamsterfrm(objid, func){
