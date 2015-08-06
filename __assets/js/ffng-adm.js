@@ -255,7 +255,6 @@ function ajxamsterfrm(objid, func){
     });
 }
 
-<<<<<<< .mine
 function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){    
     $("#"+domnya).html("").addClass("loading");
     switch(type){
@@ -291,6 +290,7 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
         
     }
     return false;
+	}
 
 
 function kumpulPost($type, p1, p2, p3, p4){
