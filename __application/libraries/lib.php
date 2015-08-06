@@ -179,6 +179,7 @@ class lib {
 	}	
 	//End Class KirimEmail
 	
+	//Class Json Data
 	function jsondata($sql, $type){
 		$ci =& get_instance();
 		
@@ -207,5 +208,57 @@ class lib {
 		   return json_encode($responce);
 		} 
 	}
+	//END Class Json Data
+	
+	//Class Fillcombo
+	function fillcombo($type="", $balikan="", $p1="", $p2="", $p3=""){
+		$ci =& get_instance();
+		$ci->load->model(array('madmin'));
+		
+		$v = $ci->input->post('v');
+		if($v != ""){
+			$selTxt = $v;
+		}else{
+			$selTxt = $p1;
+		}
+		
+		
+		$optTemp = '<option value="0"> -- Pilih -- </option>';
+		switch($type){
+			case "jenis_kelamin":
+				$data = array(
+					'0' => array('id'=>'L','txt'=>'Laki-Laki'),
+					'1' => array('id'=>'P','txt'=>'Perempuan'),
+				);
+			break;
+			case "status":
+				$data = array(
+					'0' => array('id'=>'1','txt'=>'Active'),
+					'1' => array('id'=>'0','txt'=>'Inactive'),
+				);
+			break;
+			default:
+				$data = $ci->madmin->get_data_fillcombo($type, $p1, $p2);
+			break;
+		}
+		
+		if($data){
+			foreach($data as $k=>$v){
+				if($selTxt == $v['id']){
+					$optTemp .= '<option selected value="'.$v['id'].'">'.$v['txt'].'</option>';
+				}else{ 
+					$optTemp .= '<option value="'.$v['id'].'">'.$v['txt'].'</option>';	
+				}
+			}
+		}
+		
+		if($balikan == 'return'){
+			return $optTemp;
+		}elseif($balikan == 'echo'){
+			echo $optTemp;
+		}
+		
+	}
+	//End Class Fillcombo
 	
 }

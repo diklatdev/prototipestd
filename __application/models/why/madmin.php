@@ -54,6 +54,81 @@ class madmin extends SHIPMENT_Model{
 		return $this->lib->jsondata($sql, $type);
 	}
 	
+	function get_data_fillcombo($type="", $p1="", $p2=""){
+		$where = " WHERE 1=1 ";
+		$tabel = $type;
+		switch($type){
+			case "idx_kl":
+				$select = "
+					id, nama_kl as txt
+				";
+			break;
+			case "idx_dirjen":
+				$param = $this->input->post('v2');
+				$select = "
+					id, nama_dirjen as txt
+				";			
+				$where .= "
+					AND idx_kl_id = '".$param."'
+				";
+			break;
+			case "idx_bidang":
+				$select = "
+					id, nama_bidang as txt
+				";			
+			break;
+			case "idx_sub_bidang":
+				$param = $this->input->post('v2');
+				$select = "
+					id, nama_sub_bidang as txt
+				";		
+				$where .= "
+					AND idx_bidang_id = '".$param."'
+				";
+			break;
+			case "idx_tim_kerja":
+				$select = "
+					id, nama as txt
+				";
+			break;
+			case "idx_jabatan_tim_kerja":
+				$select = "
+					id, nama as txt
+				";
+			break;
+			
+			case "idx_tim_verifikasi_perumus":
+				$select = "
+					id, nama as txt
+				";
+				$tabel = "tbl_tim_kerja";
+				$where .= " AND idx_tim_kerja_id = '3'";
+			break;
+			case "idx_tim_kerja_perumus":
+				$select = "
+					id, nama as txt
+				";
+				$tabel = "tbl_tim_kerja";
+				$where .= " AND idx_tim_kerja_id = '2'";
+			break;
+			case "idx_tim_komite_perumus":
+				$select = "
+					id, nama as txt
+				";
+				$tabel = "tbl_tim_kerja";
+				$where .= " AND idx_tim_kerja_id = '1'";
+			break;
+		}
+		
+		$sql = "
+			SELECT $select
+			FROM $tabel
+			$where
+		";
+		
+		return $this->db->query($sql)->result_array();
+	}
+	
 	function simpansavedatabase($type="", $post="", $p1="", $p2="", $p3=""){
 		$this->load->library('lib');
 		$this->db->trans_begin();
