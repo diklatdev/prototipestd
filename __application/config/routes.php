@@ -29,6 +29,8 @@ $route['bakat'] = "lv/modul_admin/getdisplay/datagridview/bakat";
 $route['list-eselon'] = "lv/modul_admin/getdisplay/datagridview/list_eselon";
 $route['sub-bidang'] = "lv/modul_admin/getdisplay/datagridview/sub_bidang";
 $route['sub-subbidang'] = "lv/modul_admin/getdisplay/sub_subbidang";
+$route['detil-komp-manaj'] = "lv/modul_admin/getdisplay/detil_komp_manaj";
+$route['level-komp-kunci'] = "lv/modul_admin/getdisplay/level_komp_kunci";
 
 $route['form-kementrian_grid'] = "lv/modul_admin/getdisplay/kementrian_grid/form";
 $route['form-bidang'] = "lv/modul_admin/getdisplay/datagridview/bidang_urusan";

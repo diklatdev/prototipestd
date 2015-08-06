@@ -35,6 +35,34 @@ class madmin extends SHIPMENT_Model{
 				";
 			break;
 			// End User Manajemen & ACL
+                        case "sub_sub2bidang":
+                               $sql = "SELECT A.* FROM idx_sub_subbidang A "
+                                . "WHERE idx_sub_bidang_id = $p1 AND tingkat_pemerintahan = $p2"; 
+                        break;
+                        case "kompetensi_manajerial":
+                            if ($p2 == 'detil'){
+                                $sql = "SELECT A.*, B.nama_kelompok, B.inisial as ini_kelompok 
+                                    FROM `idx_kompetensi_manajerial` A 
+                                    LEFT JOIN idx_kelompok_kompetensi_manajerial B 
+                                        ON B.id = A.idx_kelompok_kompetensi_manajerial_id
+                                    WHERE A.id = $p1;";                                
+                            }
+                            if ($p2 == 'level'){
+                                $sql = "SELECT A.* 
+                                    FROM `idx_level_kompetensi_manajerial` A
+                                    WHERE A.idx_kompetensi_manajerial_id = $p1;";
+                            }
+                        break;
+                        case "kompetensi_kunci":
+                            if ($p2 == 'detil'){
+                                $sql = "SELECT A.* FROM idx_kompetensi_kunci A "
+                                        . "WHERE id = $p1";
+                            }
+                            if ($p2 == 'level'){
+                                $sql = "SELECT * FROM idx_level_kompetensi_kunci "
+                                        . "WHERE idx_kompetensi_kunci_id = $p1";
+                            }
+                        break;
 			
 			
 		}

@@ -115,7 +115,7 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                     {field:'ini_komp',title:'<b>Kode</b>', halign:'left',width:150, align:'left'},
                     {field:'id', title:'<b>Action</b>', halign:'center', width:100,align:'center',
                         formatter: function(value,row,index){
-                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'\loadUrl_adds("detil-komp-manaj","'+hostir+'detil-komp-manaj","tMain","'+value+'")\'\><i class="mdi-content-create"></i></a>\n\
                                 <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';
                         }
                     },
@@ -129,7 +129,8 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                     {field:'nama',title:'<b>Kompetensi Kunci</b>',width:850, halign:'left',align:'left'},
                     {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
                         formatter: function(value,row,index){
-                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+                                return '<a class="btn-floating btn-small waves-effect waves-light light-blue darken-4" href="#" onclick=\'\loadUrl_adds("level-komp-kunci","'+hostir+'level-komp-kunci","tMain","'+value+'")\'\><i class="mdi-content-send"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
                                 <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';
                         }
                     },
@@ -271,8 +272,7 @@ function ajxamsterfrm(objid, func){
     });
 }
 
-function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){    
-    $("#"+domnya).html("").addClass("loading");
+function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){  
     switch(type){
 		/*Wahyu*/		
 		case "tambah_pembentukan_tim":
@@ -288,26 +288,43 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 			 });
 		break;
 	/*Levi*/
-        case "kementrian_grid":
+        case "kementrian_grid":  
+            $("#"+domnya).html("").addClass("loading");
             $.post(urlnya, function(resp){
                 $("#"+domnya).html(resp).removeClass("loading");
             });
         break;
         case "list-eselon":
+            $("#"+domnya).html("").addClass("loading");
             $.post(urlnya, { 'id_kementrian' : p1}, function(resp){
 		$("#"+domnya).html(resp).removeClass("loading");
             });
         break;
         case "sub-bidang":
+            $("#"+domnya).html("").addClass("loading");
             $.post(urlnya, { 'id_bidang' : p1}, function(resp){
 		$("#"+domnya).html(resp).removeClass("loading");
             });
         break;
         case "sub-subbidang":
+            $("#"+domnya).html("").addClass("loading");
             $.post(urlnya, { 'id_subbidang' : p1}, function(resp){
 		$("#"+domnya).html(resp).removeClass("loading");
             });
         break;
+        case 'detil-komp-manaj':
+            $("#"+domnya).html("").addClass("loading");
+            $.post(urlnya, { 'id_komp_man' : p1}, function(resp){
+		$("#"+domnya).html(resp).removeClass("loading");
+            });
+        break;
+        case "level-komp-kunci":
+            $("#"+domnya).html("").addClass("loading");
+            $.post(urlnya, { 'id_komp_kunci' : p1}, function(resp){
+		$("#"+domnya).html(resp).removeClass("loading");
+            });
+        break;
+        
         
     }
     return false;

@@ -96,7 +96,31 @@ class modul_admin extends SHIPMENT_Controller{
                     $content = "modul-lv/kementrian_lembaga/tabel.html";
                 break;
                 case 'sub_subbidang':
+                    $id_sub2bidang = $this->input->post('id_subbidang');
+                    $sql_pusat = $this->madmin->get_data('sub_sub2bidang','result_array',$id_sub2bidang,'1');
+                    $sql_prov = $this->madmin->get_data('sub_sub2bidang','result_array',$id_sub2bidang,'2');
+                    $sql_kab = $this->madmin->get_data('sub_sub2bidang','result_array',$id_sub2bidang,'3');
+                    $this->smarty->assign('data_pusat',$sql_pusat);
+                    $this->smarty->assign('data_prov',$sql_prov);
+                    $this->smarty->assign('data_kab',$sql_kab);
                     $content = "modul-lv/bidang/sub_subbidang.html";
+                break;
+                case 'detil_komp_manaj':
+                    $id_kompt_man = $this->input->post('id_komp_man');
+                    $sql = $this->madmin->get_data('kompetensi_manajerial', 'row_array', $id_kompt_man,'detil');
+                    $level_sql = $this->madmin->get_data('kompetensi_manajerial','result_array',$id_kompt_man,'level');
+                    $this->smarty->assign('data', $sql);
+                    $this->smarty->assign('data_level', $level_sql);
+                    $content = "modul-lv/kompetensi_manajerial/form.html";
+                    
+                break;
+                case "level_komp_kunci":
+                    $id_komp_kunci = $this->input->post('id_komp_kunci');
+                    $sql_detail = $this->madmin->get_data('kompetensi_kunci', 'row_array', $id_komp_kunci,'detil');
+                    $sql = $this->madmin->get_data('kompetensi_kunci', 'result_array', $id_komp_kunci,'level');
+                    $this->smarty->assign('data', $sql);
+                    $this->smarty->assign('detil', $sql_detail);
+                    $content = "modul-lv/kompetensi_kunci/tabel_level.html";                    
                 break;
             }
             $this->smarty->assign('type', $type);
