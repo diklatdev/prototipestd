@@ -33,7 +33,7 @@ function fillCmb(url, SelID, value, value2, value3, value4){
 	});
 }
 
-function genGrid(modnya, lebarnya, tingginya){
+function genGrid(modnya, lebarnya, tingginya, p1, p2){
 	if(lebarnya == undefined){
 		lebarnya = getClientWidth-230;
 	}
@@ -164,6 +164,22 @@ function genGrid(modnya, lebarnya, tingginya){
                     },
                 ];                
             break;
+            case"sub_bidang":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [
+                    {field:'nama_sub_bidang',title:'<b>SUB BIDANG & FUNGSI KERJA URUSAN PEMERINTAHAN</b>',width:700, halign:'left',align:'left'},
+                    {field:'inisial',title:'<b>Inisial</b>',width:150, halign:'left',align:'left'},
+                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a class="btn-floating btn-small waves-effect waves-light light-blue darken-4" href="#" onclick=\'\loadUrl_adds("sub-subbidang","'+hostir+'sub-subbidang","tMain","'+value+'")\'\><i class="mdi-content-send"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';
+                        }
+                    },
+                ];                
+            break;
             
 		case "pembentukan_tim":
 			judulnya = "";
@@ -204,7 +220,7 @@ function genGrid(modnya, lebarnya, tingginya){
         striped:true,
         pagination:true,
         remoteSort: false,
-        url: hostir+'datagrid/'+modnya,
+        url: hostir+'datagrid/'+modnya+'/'+p1+'/'+p2,
         nowrap: true,
         singleSelect:true,
         pageSize:pagesizeboy,
@@ -271,7 +287,7 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 				$("#div_"+urlnya).html(respo).removeClass("loading");
 			 });
 		break;
-		/*Levi*/
+	/*Levi*/
         case "kementrian_grid":
             $.post(urlnya, function(resp){
                 $("#"+domnya).html(resp).removeClass("loading");
@@ -284,6 +300,11 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
         break;
         case "sub-bidang":
             $.post(urlnya, { 'id_bidang' : p1}, function(resp){
+		$("#"+domnya).html(resp).removeClass("loading");
+            });
+        break;
+        case "sub-subbidang":
+            $.post(urlnya, { 'id_subbidang' : p1}, function(resp){
 		$("#"+domnya).html(resp).removeClass("loading");
             });
         break;

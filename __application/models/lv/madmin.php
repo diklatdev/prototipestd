@@ -77,7 +77,13 @@ class madmin extends SHIPMENT_Model{
                     break;
                     case 'list_eselon':
                          $sql = "SELECT A.*, B.nama_kl FROM idx_dirjen A "
-                            . "LEFT JOIN idx_kl B ON B.id = A.idx_kl_id";
+                            . "LEFT JOIN idx_kl B ON B.id = A.idx_kl_id "
+                            . "WHERE A.idx_kl_id = $p1";
+                    break;
+                    case 'sub_bidang':
+                         $sql = "SELECT A.*, B.nama_bidang FROM idx_sub_bidang A "
+                            . "LEFT JOIN idx_bidang B ON B.id = A.idx_bidang_id "
+                            . "WHERE A.idx_bidang_id = $p1";
                     break;
 		}
 		

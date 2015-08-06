@@ -78,7 +78,16 @@ class modul_admin extends SHIPMENT_Controller{
                             
                             $content = "modul-lv/kementrian_lembaga/dirjen.html";   
                             $this->smarty->assign('row',$sql);
-                            $this->smarty->assign('tipe',$p1);                     
+                            $this->smarty->assign('tipe',$p1);                
+                            $this->smarty->assign('id_where', $id_kl);     
+                        break;
+                        case "sub_bidang":
+                            $id_bidang = $this->input->post('id_bidang');
+                            $sql = $this->db->query("SELECT * FROM idx_bidang WHERE id = '$id_bidang'")->row_array(); 
+                            $this->smarty->assign('row',$sql);
+                            $content = "modul-lv/bidang/sub_bidang.html";
+                            $this->smarty->assign('tipe',$p1);  
+                            $this->smarty->assign('id_where', $id_bidang);
                         break;
                             
                     }
@@ -86,19 +95,16 @@ class modul_admin extends SHIPMENT_Controller{
                 case 'kementrian_grid':
                     $content = "modul-lv/kementrian_lembaga/tabel.html";
                 break;
-                case "sub_bidang":
-                    $id_bidang = $this->input->post('id_bidang');
-                    $sql = $this->db->query("SELECT * FROM idx_bidang WHERE id = '$id_bidang'")->row_array(); 
-                    $this->smarty->assign('row',$sql);
-                    $content = "modul-lv/bidang/sub_bidang.html";
+                case 'sub_subbidang':
+                    $content = "modul-lv/bidang/sub_subbidang.html";
                 break;
             }
             $this->smarty->assign('type', $type);
             $this->smarty->display($content);
 	}
 	
-	function getdatagrid($type){
-		echo $this->madmin->get_data_grid($type);
+	function getdatagrid($type, $p1 = '', $p2 = ''){
+		echo $this->madmin->get_data_grid($type, $p1, $p2);
 	}
 	
 	

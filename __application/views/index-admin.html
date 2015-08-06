@@ -24,19 +24,21 @@
 
 
     <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+    <link href="{$host}__assets/css/admin-style/prism.css" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="{$host}__assets/js/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="{$host}__assets/js/plugins/chartist-js/chartist.min.css" type="text/css" rel="stylesheet" media="screen,projection">
     
-	<!-- INCLUDED PLUGIN CSS EasyUI -->
-	<link href="{$host}__assets/js/plugins/easyui/themes/gray/easyui.css" type="text/css" rel="stylesheet" media="screen,projection">
-	<link href="{$host}__assets/js/plugins/easyui/themes/icon.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <!-- INCLUDED PLUGIN CSS EasyUI -->
+    <link href="{$host}__assets/js/plugins/easyui/themes/gray/easyui.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="{$host}__assets/js/plugins/easyui/themes/icon.css" type="text/css" rel="stylesheet" media="screen,projection">
     
 	{*
-	<link href="{$host}__assets/js/plugins/jvectormap/jquery-jvectormap.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="{$host}__assets/js/plugins/jvectormap/jquery-jvectormap.css" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="{$host}__assets/js/plugins/chartist-js/chartist.min.css" type="text/css" rel="stylesheet" media="screen,projection">
 	*}
-	<script>
-		var hostir = '{$host}';
-	</script>
+    <script>
+            var hostir = '{$host}';
+    </script>
 
 </head>
 
@@ -52,7 +54,7 @@
 			{include file="template-admin/menu.html"}
 			
 			 <!-- START CONTENT -->
-            <section id="content tMain">
+            <section id="content">
                 <!--start container-->
                 <div id='tMain' >
                     <div class='row'>
@@ -91,12 +93,12 @@
     <script type="text/javascript" src="{$host}__assets/js/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <!--prism-->
     <script type="text/javascript" src="{$host}__assets/js/prism.js"></script>
-	<!--easyui-->
+    <!--easyui-->
     <script type="text/javascript" src="{$host}__assets/js/plugins/easyui/jquery.easyui.min.js"></script>
-	
-	{*
     <!-- chartist -->
-    <script type="text/javascript" src="{$host}__assets/js/plugins/chartist-js/chartist.min.js"></script>   
+    <script type="text/javascript" src="{$host}__assets/js/plugins/chartist-js/chartist.min.js"></script> 
+	
+	{*  
 
     <!-- chartjs -->
     <script type="text/javascript" src="{$host}__assets/js/plugins/chartjs/chart.min.js"></script>
