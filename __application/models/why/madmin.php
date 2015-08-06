@@ -51,6 +51,19 @@ class madmin extends SHIPMENT_Model{
 		$this->load->library('lib');
 		$where = "";
 		
+		switch($type){
+			case "pembentukan_tim":
+				$sql = "
+					SELECT A.*, B.nama_kl, C.nama_dirjen, D.nama_bidang, E.nama as nama_timkerja
+					FROM tbl_tim_kerja A
+					LEFT JOIN idx_kl B ON A.idx_kl_id = B.id
+					LEFT JOIN idx_dirjen C ON A.idx_dirjen_id = C.id
+					LEFT JOIN idx_bidang D ON A.idx_bidang_id = D.id
+					LEFT JOIN idx_tim_kerja E ON A.idx_tim_kerja_id = E.id
+				";
+			break;
+		}
+		
 		return $this->lib->jsondata($sql, $type);
 	}
 	
@@ -132,8 +145,51 @@ class madmin extends SHIPMENT_Model{
 	function simpansavedatabase($type="", $post="", $p1="", $p2="", $p3=""){
 		$this->load->library('lib');
 		$this->db->trans_begin();
+		$this->db->trans_strict(TRUE);
+		$post_bnr = array();
 		
-		
+		switch($type){
+			case "pembentukan_tim":
+				$kode_gen = strtoupper($this->lib->randomString(5));
+				$post_bnr['idx_kl_id'] 			= $post['kementerian'];
+				$post_bnr['idx_dirjen_id'] 		= $post['dirjen'];
+				$post_bnr['idx_bidang_id'] 		= $post['bidangfungsi'];
+				$post_bnr['idx_tim_kerja_id'] 	= $post['kelompok'];
+				$post_bnr['nama'] 				= $post['namatim'];
+				$post_bnr['kode_gen'] 			= $kode_gen;
+				
+				if($post['editstatus'] == 'add'){
+					$execute = $this->db->insert('tbl_tim_kerja', $post_bnr);
+				}elseif($post['editstatus'] == 'edit'){
+					$execute = $this->db->update('tbl_tim_kerja', $post_bnr, array('id'=>$post['id']) );
+				}
+				
+				if($execute){
+					if($post['editstatus'] == 'add'){
+						$get_id = $this->db->get_where('tbl_tim_kerja', array('kode_gen'=>$kode_gen))->row_array();
+						$tbl_tim_kerja_id = $get_id['id'];
+					}elseif($post['editstatus'] == 'edit'){	
+						$tbl_tim_kerja_id = $post['id'];
+						$this->db->delete('tbl_anggota_tim_kerja', array('tbl_tim_kerja_id'=>$tbl_tim_kerja_id));
+					}
+				
+					$count = count($post['nama'])-1;
+					$array_insert_batch = array();
+					for($i = 0; $i <= $count; $i++){
+						$array_insert = array(
+							'tbl_tim_kerja_id' => $tbl_tim_kerja_id,
+							'idx_jabatan_tim_kerja_id' => $post['jabatan_tim_kerja'][$i],
+							'jabatan' =>  $post['jabatan'][$i],
+							'nama' =>  $post['nama'][$i],
+						);
+						array_push($array_insert_batch, $array_insert);
+					}
+					
+					$this->db->insert_batch("tbl_anggota_tim_kerja", $array_insert_batch);
+				}
+				
+			break;
+		}
 		
 		if($this->db->trans_status() == false){
 			$this->db->trans_rollback();

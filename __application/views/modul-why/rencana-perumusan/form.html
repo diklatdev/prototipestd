@@ -1,0 +1,414 @@
+<div class="container">
+	<div class="section">
+		<div class="row">
+			<div class="col s12 m12 l12">
+				<div class="card-panel">
+					<div class="row">
+						<form method='post' url='{$host}' class="col s12">
+							<h4 class="header2">I. Identitas Program Perumusan</h4>
+							<div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='besar' name='namaperumusan' label="Program Perumusan Standar Kompetensi" } 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/input_select.html' ukuran='besar' name='bidang_fungsi' label="Bidang & Fungsi Kerja Urusan Pemerintahan" option={$idx_bidang} } 
+							</div>
+							
+							<div id="responsive-table" style='margin-top:10px !important;margin-bottom:40px !important;'>
+								<div class="row">
+									<div class="col s12">
+										<table class="responsive-table" style='width:50%;'>
+											<thead>
+												<tr>
+													<td style='text-align:center !important;font-weight:none;color:#A49EAB'>Sub Bidang & Fungsi Kerja</td>
+													<td style='text-align:center !important;'>::</td>
+												</tr>
+											</thead>
+											<tbody id='uye'>
+												<tr>
+													<td>
+														<select name='subbidang[]' id='subbidang_1' class="browser-default" style='width:90%;'>
+															<option value=""> -- Pilih Combo Bidang Dahulu -- </option>
+														</select>
+													</td>
+													<td>
+														<a id='tombol_1' style='display:none;' href="javascript:void(0);" title='Tambah Sub Bidang' onClick="addrowtableinput('rencana_perumusan', 'uye', '1');" ><i class="mdi-content-add-box tiny"></i></a>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							
+							
+							<div class="row">
+								{include file='modul-why/template/input_select.html' ukuran='besar' name='tim_perumus' label="Tim Perumus" option={$idx_tim_kerja_perumus}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/input_select.html' ukuran='besar' name='tim_verifikasi' label="Tim Verifikasi" option={$idx_tim_verifikasi_perumus}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/input_select.html' ukuran='besar' name='komite_standarisasi' label="Komite Standarisasi" option={$idx_tim_komite_perumus}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='sedang' name='estimasi_wkt' label="Estimasi Waktu (bulan)" } 
+							</div>
+							<br/>
+							<h4 class="header2">II. Ketentuan dan Kebijakan Perumusan Standar Kompetensi</h4>
+							<div class="row">
+								{include file='modul-why/template/input_select.html' ukuran='sedang' name='kementerian_lembaga' label="Kementrian / Lembaga" } 
+								{include file='modul-why/template/input_select.html' ukuran='sedang' name='dirjen_eselon' label="Dirjen / Eselon 1" } 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='besar' name='dasar_hukum' label="Dasar Hukum" } 
+							</div>
+							<br/>
+							
+							<h4 class="header2">III. Proses Perumusan  Standar Kompetensi (Permen - Pedoman Koordinasi 30-33)</h4>
+							<table style='width:100%;border:1px solid #000;padding:5px;'>
+								<tr style='border:1px solid #000;padding:5px !important;background:#F4F4F4;'>
+									<td width='5%' style='padding:5px !important; text-align:center;'>No.</td>
+									<td width='20%'>Proses Kegiatan</td>
+									<td width='15%'>Penanggung Jawab</td>
+									<td width='20%'>Keluaran</td>
+									<td width='20%' style='text-align:center;'>Jadwal(Bulan)</td>
+								</tr>
+								<tr>
+									<td rowspan='3' style='padding:5px !important;text-align:center;'>1.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;' rowspan='3'>Pendelegasian Tugas</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;' rowspan='3'>Pimpinan</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>SK Komisi Standarisasi Kompetensi</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_1'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>SK Tim Perumus Standar</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_2'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>SK Tim Verifikasi Standar</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_3'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>2.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Perencanaan Program</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Ketua Perumus</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Program Perumusan</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_4'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>3.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Pertemuan Tim Perumus: menyusun perencanaan penulisan standar</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Ketua Perumus</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Perumusan kegiatan dan jadwal </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_5'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>4.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;' >Identifikasi Acuan Normatif dan lingkup perumusan standar</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Daftar acuan normatif yang terkait dengan urusan pemerintahan yang disusun SKT</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_6'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>5.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Pemetaan fungsi kerja urusan pemerintahan</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Peta Fungsi Pekerjaan urusan pemerintahan</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_7'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>6.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Penyusunan peta kompetensi urusan pemerintahan</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Daftar Unit Kompetensi</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_8'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>7.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Survey lapangan</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Laporan survey tentang esesuaian daftar unit kompetensi dengan kebutuhan penyelenggaraan urusan pemerintahan </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_9'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>8.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Pengembangan Elemen  Kompetensi dan Kriteria Unjuk Kerja</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tabel pengembangan Unit Kompetensi berupa judul Unit kompetensi, elemen kompetensi dan kriteria unjuk kerja </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_10'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>9.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Penulisan Rancangan Unit Kompetensi Teknis</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Rancangan Unit-unit Kompetensi Teknis</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_11'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>10.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Penyusunan Peta Jabatan dan Pemaketan Unit Kompetensi</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Peta Jabatan dan Paket Unit Kompetensi yang harus dikuasai</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_12'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>11.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Klarifikasi dan Pembahasan Peta Jabatan dan Pemaketan Unit Kompetensi</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus dan Pemangku Kepentingan</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Peta Jabatan dan Paket Unit Kompetensi yang harus dikuasai</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_13'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>12.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Perumusan Rancangan 1 RSKTUP</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Bahan RSKTUP 1</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_14'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>13.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Perumusan Rancangan 1 RSKTUP</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>RSKTUP 1</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_15'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>14.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Verifikasi   1 RSKTUP</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Verifikator Standar</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Hasil verifikasi RSKTUP 1</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_16'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>15.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tindakan Perbaikan   1 RSKTUP</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Hasil verifikasi RSKTUP 1</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_17'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>16.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Pra-Konvensi</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>RSKTUP 1 dan Usulan Perbaikan</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_18'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>17.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Perbaikan hasil Pra-Konvensi</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Hasil perbaikan RSKTUP 1  </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_19'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>18.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Verifikasi hasil Perbaikan</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Verifikator Standar</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>RSKTUP 2</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_20'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>19.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Konvensi</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>RSKTUP 2 dan Usulan Perbaikan</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_21'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>20.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Perbaikan dan pengintegrasian RSKTUPD sesuai hasil Konvensi</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>RSKTUP  </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='3_22'></span>
+									</td>
+								</tr>
+							</table>
+							<br/>
+							
+							<h4 class="header2">IV. Finalisasi Standar Kompetensi</h4>
+							<table style='width:100%;border:1px solid #000;padding:5px;'>
+								<tr style='border:1px solid #000;padding:5px !important;background:#F4F4F4;'>
+									<td width='5%' style='padding:5px !important; text-align:center;'>No.</td>
+									<td width='20%'>Kegiatan</td>
+									<td width='15%'>Penanggung Jawab</td>
+									<td width='20%' style='text-align:center;'>Jadwal(Bulan)</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>1.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>
+										Penyuntingan:
+										<ul style='list-style-type: square !important;'>
+											<li style='list-style-type: square !important;'>
+												RSKTUPD diperiksa dan dilaksanakan pengeditan untuk memastikan perubahan-perubahan yang relevan telah dilaksanakan dan hasil akhir telah memenuhi semua persyaratan
+											</li>
+											<li style='list-style-type: square !important;'>
+												Isu-isu yang masih ada dipertimbangkan dan dijadikan masukan 
+											</li>
+											<li style='list-style-type: square !important;'>
+												Rancangan final dipaparkan dan disampaikan kepada pimpinan
+											</li>
+											<li style='list-style-type: square !important;'>
+												Proses perumusan dievaluasi dan dilaksanakan pengkajian untuk mengidentifikasi perubahan maupun perbaikan
+											</li>
+										</ul>
+									</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='4_1'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>2.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>
+										Verifikasi/Validasi Akhir:
+										<ul>
+											<li style='list-style-type: square !important;'>
+												Proses 
+											</li>
+											<li style='list-style-type: square !important;'>
+												Format
+											</li>
+											<li style='list-style-type: square !important;'>
+												Prinsip-prinsip Perumusan Standar: <br>
+													a.	Transparan dan keterbukaan <br>
+													b.	Konsensus dan tidak memeihak <br>
+													c.	Efektif dan Relevan <br>
+													d.	Koheren <br>
+												
+											</li>
+										</ul>
+										Mempertimbangkan dimensi pengembangan
+									</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='4_2'></span>
+									</td>
+								</tr>
+								
+							</table>
+							<br/>
+							
+							<h4 class="header2">V. Penetapan Standar Kompetensi</h4>
+							<table style='width:100%;border:1px solid #000;padding:5px;'>	
+								<tr style='border:1px solid #000;padding:5px !important;background:#F4F4F4;'>
+									<td width='5%' style='padding:5px !important; text-align:center;'>No.</td>
+									<td width='20%'>Proses Kegiatan</td>
+									<td width='15%'>Penanggung Jawab</td>
+									<td width='20%'>Keluaran</td>
+									<td width='20%' style='text-align:center;'>Jadwal(Bulan)</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>1.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Pengajuan RSKTUPD kepada Mendagri untuk mendapat paraf koordinasi </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Paraf koordinasi RSKTUP    </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='5_1'></span>
+									</td>
+								</tr>
+								<tr>
+									<td style='padding:5px !important;text-align:center;'>2.</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Pengajuan RSKTUPD kepada menteri/kepala lembaga pemerintah non kementerian untuk penanda-tanganan </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
+									<td style='border-bottom:1px solid #000;padding:3px !important;'>SKTUPD</td>
+									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
+										<span id='5_2'></span>
+									</td>
+								</tr>
+								
+								
+							</table>
+							
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var edi = "{$editstatus}";
+	$('#bidang_fungsi').bind('change', function(){
+		if(edi == 'add'){
+			fillCmb(hostir+'why/modul_admin/getcombo/idx_sub_bidang', "subbidang_1", "", $(this).val() );
+			$('#tombol_1').css({ 'display':'inline' });
+		}
+	});
+	
+	$('#estimasi_wkt').bind('keyup', function(){
+		//alert('ok');
+		var jumlah = parseInt($(this).val());
+		var cekbok = "";
+		var cekbok2 = "";
+		var cekbok3 = "";
+		
+		for (var s=1; s <= 22; s++) {
+			for (var i=1; i <= jumlah; i++) {
+				cekbok += "<input id='3_"+s+"_"+i+"' name='3_"+s+"[]' type='checkbox'  value='"+i+"'> "+i+" &nbsp;";
+			}
+			$('#3_'+s).html(cekbok);
+			cekbok = "";
+		}
+		
+		for (var ss=1; ss <= 2; ss++) {
+			for (var ii=1; ii <= jumlah; ii++) {
+				cekbok2 += "<input id='4_"+ss+"_"+ii+"' name='4_"+ss+"[]' type='checkbox'  value='"+ii+"'> "+ii+" &nbsp;";
+			}
+			$('#4_'+ss).html(cekbok2);
+			cekbok2 = "";
+		}
+		
+		for (var sss=1; sss <= 2; sss++) {
+			for (var iii=1; iii <= jumlah; iii++) {
+				cekbok3 += "<input id='5_"+sss+"_"+iii+"' name='5_"+sss+"[]' type='checkbox'  value='"+iii+"'> "+iii+" &nbsp;";
+			}
+			$('#5_'+sss).html(cekbok3);
+			cekbok3 = "";
+		}
+	});
+
+</script>

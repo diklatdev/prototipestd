@@ -1,0 +1,16 @@
+{if $ukuran eq 'besar'}
+	<div class="input-field col s12">
+		<select class="browser-default" name='{$name}' id='{$name}'>
+			{$option|default:''}
+		</select>
+		<label class="active">{$label}</label>
+	</div>
+{/if}
+{if $ukuran eq 'sedang'}
+	<div class="input-field col s6">
+		<select class="browser-default" name='{$name}' id='{$name}'>
+			{$option|default:''}
+		</select>
+		<label class="active">{$label}</label>
+	</div>
+{/if}

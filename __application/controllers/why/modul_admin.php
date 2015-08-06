@@ -52,11 +52,28 @@ class modul_admin extends SHIPMENT_Controller{
 				$editstatus = $this->input->post('editstatus');
 				$content = "modul-why/pembentukan-tim/form.html";
 				
+				if($editstatus == 'edit'){
+					$id = $this->input->post('id');
+					$data = $this->db->get_where('tbl_tim_kerja', array('id'=>$id) )->row_array();
+					$data_anggota = $this->db->get_where('tbl_anggota_tim_kerja', array('tbl_tim_kerja_id'=>$id))->result_array();
+					if($data_anggota){
+						$array_combo = array();
+						$idx = 1;
+						foreach($data_anggota as $k => $v){
+							$this->smarty->assign('combo_'.$idx, $this->lib->fillcombo('idx_jabatan_tim_kerja', 'return', $v['idx_jabatan_tim_kerja_id'] ) );
+							$idx++;
+						}
+					}
+					
+					$this->smarty->assign('data', $data);
+					$this->smarty->assign('data_anggota', $data_anggota);
+					$this->smarty->assign('class', "active");
+				}
+				
 				$this->smarty->assign('editstatus', $editstatus);
-				$this->smarty->assign('idx_kl', $this->lib->fillcombo('idx_kl', 'return', ($editstatus == 'edit' ? "buat" : "") ));
-				//$this->smarty->assign('idx_dirjen', $this->lib->fillcombo('idx_dirjen', 'return', ($editstatus == 'edit' ? "buat" : "") ));
-				$this->smarty->assign('idx_bidang', $this->lib->fillcombo('idx_bidang', 'return', ($editstatus == 'edit' ? "buat" : "") ));
-				$this->smarty->assign('idx_tim_kerja', $this->lib->fillcombo('idx_tim_kerja', 'return', ($editstatus == 'edit' ? "buat" : "") ));
+				$this->smarty->assign('idx_kl', $this->lib->fillcombo('idx_kl', 'return', ($editstatus == 'edit' ? $data['idx_kl_id'] : "") ));
+				$this->smarty->assign('idx_bidang', $this->lib->fillcombo('idx_bidang', 'return', ($editstatus == 'edit' ? $data['idx_bidang_id'] : "") ));
+				$this->smarty->assign('idx_tim_kerja', $this->lib->fillcombo('idx_tim_kerja', 'return', ($editstatus == 'edit' ? $data['idx_tim_kerja_id'] : "") ));
 			break;
 			
 			

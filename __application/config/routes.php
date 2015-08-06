@@ -9,11 +9,14 @@ $route['logoutadm'] = "login/logoutadm";
 
 $route['pembentukan-tim-kerja'] = "why/modul_admin/getdisplay/pembentukan_tim";
 $route['form-pembentukan-tim'] = "why/modul_admin/getdisplay/form_pembentukan_tim";
+$route['submit-pembentukan-tim'] = "why/modul_admin/simpansavedbx/pembentukan_tim";
 
 $route['rencana-perumusan'] = "why/modul_admin/getdisplay/rencana_perumusan";
 $route['form-rencana-perumusan'] = "why/modul_admin/getdisplay/form_rencana_perumusan";
 
 $route['pemetaan-fungsi'] = "why/modul_admin/getdisplay/pemetaan_fungsi";
+
+$route['datagrid-adm/(:any)'] = "why/modul_admin/getdatagrid/$1";
 
 
 ///////////////////////////*** LEVI
