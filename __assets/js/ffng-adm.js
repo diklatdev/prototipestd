@@ -51,6 +51,120 @@ function genGrid(modnya, lebarnya, tingginya){
 	var pagesizeboy = 10;
 	
 	switch(modnya){
+            case "kementrian_grid":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [
+                    {field:'nama_kl',title:'<b>Bidang Urusan Pemerintahan</b>',width:700, halign:'left',align:'left',
+                        styler: function(value,row,index){
+					return 'margin-top:8px;';
+					// the function can return predefined css class and inline style
+					// return {class:'c1',style:'color:red'}
+				}
+                    },
+                    {field:'inisial',title:'<b>Inisial</b>', halign:'left',width:150, align:'left'},
+                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a class="btn-floating btn-small waves-effect waves-light light-blue darken-4" href="#" onclick=\'\loadUrl_adds("list-eselon","'+hostir+'list-eselon","tMain","'+value+'")\'\><i class="mdi-content-send"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';
+                        }
+                    },
+                ];
+            break;
+            case"bidang_urusan":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [
+                    {field:'nama_bidang',title:'<b>Bidang & Fungsi Kerja</b>',width:700, halign:'left',align:'left'},
+                    {field:'inisial',title:'<b>Inisial</b>', halign:'left',width:150, align:'left'},
+                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a class="btn-floating btn-small waves-effect waves-light light-blue darken-4" href="#" onclick=\'\loadUrl_adds("sub-bidang","'+hostir+'sub-bidang","tMain","'+value+'")\'\><i class="mdi-content-send"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';
+                        }
+                    },
+                ];                
+            break;
+            case"kel_kompetensi":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [
+                    {field:'nama_kelompok_kompetensi',title:'<b>Kelompok Kompetensi</b>',width:700, halign:'left',align:'left'},
+                    {field:'inisial',title:'<b>Inisial</b>', halign:'left',width:150, align:'left'},
+                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';
+                        }
+                    },
+                ];                
+            break;
+            case"kompetensi_manajerial":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [
+                    {field:'nama_kelompok',title:'<b>Kelompok</b>',width:300, halign:'left',align:'left'},
+                    {field:'ini_kelompok',title:'<b>Kode Kelompok</b>', halign:'left',width:150, align:'left'},
+                    {field:'nama_kompetensi_manajerial',title:'<b>Kompetensi Managerial</b>', halign:'left',width:300, align:'left'},
+                    {field:'ini_komp',title:'<b>Kode</b>', halign:'left',width:150, align:'left'},
+                    {field:'id', title:'<b>Action</b>', halign:'center', width:100,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';
+                        }
+                    },
+                ];
+            break;
+            case"kompetensi_kunci":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [
+                    {field:'nama',title:'<b>Kompetensi Kunci</b>',width:850, halign:'left',align:'left'},
+                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';
+                        }
+                    },
+                ];                
+            break;
+            case"bakat":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [
+                    {field:'nama_bakat',title:'<b>Bakat</b>',width:850, halign:'left',align:'left'},
+                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';
+                        }
+                    },
+                ];                
+            break;
+            case"list_eselon":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [
+                    {field:'nama_dirjen',title:'<b>ES-1</b>',width:700, halign:'left',align:'left'},
+                    {field:'inisial',title:'<b>Inisial</b>',width:150, halign:'left',align:'left'},
+                    {field:'id_eselon', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';
+                        }
+                    },
+                ];                
+            break;
+            
 		case "pembentukan_tim":
 			judulnya = "";
 			fitnya = true;
@@ -81,25 +195,25 @@ function genGrid(modnya, lebarnya, tingginya){
 	}
 	
 	$("#"+modnya).datagrid({
-		title:judulnya,
+	title:judulnya,
         height:tingginya,
         width:lebarnya,
-		rownumbers:true,
-		iconCls:'database',
+        rownumbers:true,
+        iconCls:'',
         fit:fitnya,
         striped:true,
         pagination:true,
         remoteSort: false,
         url: hostir+'datagrid/'+modnya,
-		nowrap: true,
+        nowrap: true,
         singleSelect:true,
-		pageSize:pagesizeboy,
-		pageList:[10,20,30,40,50,75,100,200],
-		queryParams:param,
-		columns:[
+        pageSize:pagesizeboy,
+        pageList:[10,20,30,40,50,75,100,200],
+        queryParams:param,
+        columns:[
             kolom[modnya]
         ],
-		toolbar: '#toolbar_'+modnya,
+        toolbar: '#toolbar_'+modnya,
 	});
 
 	$('.pagination-page-list').css({'display':'inline'});
@@ -141,8 +255,11 @@ function ajxamsterfrm(objid, func){
     });
 }
 
-function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
-	switch(type){
+<<<<<<< .mine
+function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){    
+    $("#"+domnya).html("").addClass("loading");
+    switch(type){
+		/*Wahyu*/		
 		case "tambah_pembentukan_tim":
 			$("#div_"+urlnya).html("").addClass("loading");
 			$.post(hostir+'form-pembentukan-tim', { 'editstatus':'add' }, function(respo){
@@ -155,9 +272,26 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 				$("#div_"+urlnya).html(respo).removeClass("loading");
 			 });
 		break;
-		
-	}
-}
+		/*Levi*/
+        case "kementrian_grid":
+            $.post(urlnya, function(resp){
+                $("#"+domnya).html(resp).removeClass("loading");
+            });
+        break;
+        case "list-eselon":
+            $.post(urlnya, { 'id_kementrian' : p1}, function(resp){
+		$("#"+domnya).html(resp).removeClass("loading");
+            });
+        break;
+        case "sub-bidang":
+            $.post(urlnya, { 'id_bidang' : p1}, function(resp){
+		$("#"+domnya).html(resp).removeClass("loading");
+            });
+        break;
+        
+    }
+    return false;
+
 
 function kumpulPost($type, p1, p2, p3, p4){
 	

@@ -9,7 +9,7 @@ class modul_admin extends SHIPMENT_Controller{
 		
 		$this->smarty->assign('host',$this->host);
 		$this->smarty->assign('auth', $this->auth);
-		$this->load->model("why/madmin");
+		$this->load->model("lv/madmin");
 	}
 	
 	function index() {
@@ -44,6 +44,57 @@ class modul_admin extends SHIPMENT_Controller{
 	}
 	
 	function getdisplay($type="", $p1="", $p2="", $p3=""){
+            $modul = "front/";
+            switch($type){
+                case "datagridview":
+                    switch ($p1){
+                        case 'kementrian_grid':
+                            $content = "modul-lv/kementrian_lembaga/main.html";
+                            $this->smarty->assign('tipe',$p1);
+                        break;
+                        case 'bidang_urusan':
+                            $content = "modul-lv/bidang/tabel.html";
+                            $this->smarty->assign('tipe',$p1);
+                        break; 
+                        case "kel_kompetensi":
+                            $content = "modul-lv/kel_kompetensi/tabel.html";
+                            $this->smarty->assign('tipe',$p1);                    
+                        break;
+                        case "kompetensi_manajerial":
+                            $content = "modul-lv/kompetensi_manajerial/tabel.html";     
+                            $this->smarty->assign('tipe',$p1);                
+                        break;
+                        case "kompetensi_kunci":
+                            $content = "modul-lv/kompetensi_kunci/tabel.html";     
+                            $this->smarty->assign('tipe',$p1);                      
+                        break;
+                        case "bakat":
+                            $content = "modul-lv/bakat/tabel.html";      
+                            $this->smarty->assign('tipe',$p1);                     
+                        break;
+                        case "list_eselon":
+                            $id_kl = $this->input->post('id_kementrian');
+                            $sql = $this->db->query("SELECT * FROM idx_kl WHERE id = '$id_kl'")->row_array();
+                            
+                            $content = "modul-lv/kementrian_lembaga/dirjen.html";   
+                            $this->smarty->assign('row',$sql);
+                            $this->smarty->assign('tipe',$p1);                     
+                        break;
+                            
+                    }
+                break; 
+                case 'kementrian_grid':
+                    $content = "modul-lv/kementrian_lembaga/tabel.html";
+                break;
+                case "sub_bidang":
+                    $id_bidang = $this->input->post('id_bidang');
+                    $sql = $this->db->query("SELECT * FROM idx_bidang WHERE id = '$id_bidang'")->row_array(); 
+                    $this->smarty->assign('row',$sql);
+                    $content = "modul-lv/bidang/sub_bidang.html";
+                break;
+            }
+            $this->smarty->assign('type', $type);
+            $this->smarty->display($content);
 	}
 	
 	function getdatagrid($type){

@@ -18,6 +18,24 @@ $route['pemetaan-fungsi'] = "why/modul_admin/getdisplay/pemetaan_fungsi";
 
 ///////////////////////////*** LEVI
 
+$route['datagrid/(:any)'] = "lv/modul_admin/getdatagrid/$1";
+
+$route['kementrian-grid'] = "lv/modul_admin/getdisplay/datagridview/kementrian_grid";
+$route['bidang'] = "lv/modul_admin/getdisplay/datagridview/bidang_urusan";
+$route['kel-kompetensi'] = "lv/modul_admin/getdisplay/datagridview/kel_kompetensi";
+$route['kompetensi-manajerial'] = "lv/modul_admin/getdisplay/datagridview/kompetensi_manajerial";
+$route['kompetensi-kunci'] = "lv/modul_admin/getdisplay/datagridview/kompetensi_kunci";
+$route['bakat'] = "lv/modul_admin/getdisplay/datagridview/bakat";
+$route['list-eselon'] = "lv/modul_admin/getdisplay/datagridview/list_eselon";
+$route['sub-bidang'] = "lv/modul_admin/getdisplay/sub_bidang";
+
+
+$route['form-kementrian_grid'] = "lv/modul_admin/getdisplay/kementrian_grid/form";
+$route['form-bidang'] = "lv/modul_admin/getdisplay/datagridview/bidang_urusan";
+$route['form-kel-kompetensi'] = "lv/modul_admin/getdisplay/datagridview/kel_kompetensi";
+$route['form-kompetensi-manajerial'] = "lv/modul_admin/getdisplay/datagridview/kompetensi_manajerial";
+$route['form-kompetensi-kunci'] = "lv/modul_admin/getdisplay/datagridview/kompetensi_kunci";
+$route['form-bakat'] = "lv/modul_admin/getdisplay/datagridview/bakat";
 
 $route['404_override'] = '';
 

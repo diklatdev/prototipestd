@@ -50,6 +50,36 @@ class madmin extends SHIPMENT_Model{
 	function get_data_grid($type="", $p1="", $p2=""){
 		$this->load->library('lib');
 		$where = "";
+                switch($type){
+                    case 'kementrian_grid' :
+                        $sql = "SELECT A.id, A.nama_kl, A.inisial
+                                FROM idx_kl A";
+                    break;
+                    case 'bidang_urusan':
+                        $sql = 'SELECT A.id, A.nama_bidang, A.inisial '
+                            . 'FROM idx_bidang A';
+                    break;
+                    case 'kel_kompetensi':
+                        $sql = 'SELECT A.id, A.nama_kelompok_kompetensi, A.inisial '
+                            . 'FROM idx_kelompok_kompetensi A';
+                    break;
+                    case 'kompetensi_manajerial':
+                        $sql = 'SELECT A.id, A.nama_kompetensi_manajerial, A.inisial as ini_komp, A.deskripsi,'
+                            . 'A.kata_kunci, B.nama_kelompok, B.inisial as ini_kelompok '
+                            . 'FROM idx_kompetensi_manajerial A '
+                            . 'LEFT JOIN idx_kelompok_kompetensi_manajerial B ON B.id = A.idx_kelompok_kompetensi_manajerial_id';
+                    break;
+                    case 'kompetensi_kunci':
+                         $sql = "SELECT * FROM idx_kompetensi_kunci";
+                    break;
+                    case 'bakat':
+                         $sql = "SELECT * FROM idx_bakat";
+                    break;
+                    case 'list_eselon':
+                         $sql = "SELECT A.*, B.nama_kl FROM idx_dirjen A "
+                            . "LEFT JOIN idx_kl B ON B.id = A.idx_kl_id";
+                    break;
+		}
 		
 		return $this->lib->jsondata($sql, $type);
 	}

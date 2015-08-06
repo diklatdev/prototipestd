@@ -5798,7 +5798,7 @@ small {
     background-color: #DFDFDF;
     color: #9F9F9F; }
 
-.btn i, .btn-large i, .btn-floating i, .btn-large i, .btn-flat i {
+.btn i, .btn-large i, .btn-floating i, .btn-large i, .btn-flat i , .btn-small i{
   font-size: 1.3rem;
   line-height: inherit; }
 
@@ -5814,7 +5814,7 @@ small {
   -ms-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
   cursor: pointer; }
-  .btn:hover, .btn-large:hover {
+  .btn:hover, .btn-large:hover, .btn-small:hover {
     background-color: #ff5a92; }
 
 .btn-floating {
@@ -5831,7 +5831,9 @@ small {
   border-radius: 50%;
   transition: .3s;
   cursor: pointer;
-  vertical-align: middle; }
+  vertical-align: middle;
+  margin-top:5px;
+  margin-bottom:5px;}
   .btn-floating i {
     width: inherit;
     display: inline-block;
@@ -5841,13 +5843,21 @@ small {
     line-height: 37px; }
   .btn-floating:before {
     border-radius: 0; }
-  .btn-floating.btn-large {
-    width: 55.5px;
-    height: 55.5px; }
-    .btn-floating.btn-large i {
-      line-height: 55.5px; }
+.btn-floating.btn-large {
+width: 55.5px;
+height: 55.5px; }
+.btn-floating.btn-large i {
+  line-height: 55.5px; }
+.btn-floating.btn-small {
+    width: 25px;
+    height: 25px; 
+}	
 
-button.btn-floating {
+.btn-floating.btn-small i {
+  line-height: 25px; 
+    font-size: 1.2rem;}
+
+.button.btn-floating {
   border: none; }
 
 .fixed-action-btn {
