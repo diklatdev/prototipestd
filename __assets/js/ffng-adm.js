@@ -187,9 +187,11 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
 			fitnya = true;
 			pagesizeboy = 50;
 			kolom[modnya] = [	
-				{field:'nama_lengkap',title:'Nama Tim',width:250, halign:'center',align:'left'},
-				{field:'nama_lengkap',title:'Kementerian / Lembaga',width:250, halign:'center',align:'left'},
-				{field:'nama_lengkap',title:'Kelompok',width:200, halign:'center',align:'left'},
+				{field:'nama',title:'<b>Nama Tim</b>',width:250, halign:'center',align:'left'},
+				{field:'nama_kl',title:'<b>Kementerian / Lembaga</b>',width:250, halign:'center',align:'left'},
+				{field:'nama_dirjen',title:'<b>Dirjen</b>',width:200, halign:'center',align:'left'},
+				{field:'nama_bidang',title:'<b>Bidang</b>',width:200, halign:'center',align:'left'},
+				{field:'nama_timkerja',title:'<b>Jenis Tim Kerja</b>',width:200, halign:'center',align:'left'},
 			];
 		break;
 		case "rencana_perumusan":
@@ -236,6 +238,73 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
 	$('.pagination-page-list').css({'display':'inline'});
 }
 
+function genGrid2(modnya, lebarnya, tingginya, p1, p2){
+	if(lebarnya == undefined){
+		lebarnya = getClientWidth-230;
+	}
+	if(tingginya == undefined){
+		tingginya = getClientHeight-350
+	}
+
+	var kolom ={};
+	var frozen ={};
+	var judulnya;
+	var param={};
+	var urlnya;
+	var urlglobal="";
+	var fitnya;
+	var pagesizeboy = 10;
+	
+	switch(modnya){
+		case "pembentukan_tim":
+			judulnya = "";
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'nama',title:'<b>Nama Tim</b>',width:250, halign:'center',align:'left'},
+				{field:'nama_kl',title:'<b>Kementerian / Lembaga</b>',width:250, halign:'center',align:'left'},
+				{field:'nama_dirjen',title:'<b>Dirjen</b>',width:200, halign:'center',align:'left'},
+				{field:'nama_bidang',title:'<b>Bidang</b>',width:200, halign:'center',align:'left'},
+				{field:'nama_timkerja',title:'<b>Jenis Tim Kerja</b>',width:200, halign:'center',align:'left'},
+			];
+		break;
+		case "rencana_perumusan":
+			judulnya = "";
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'nama_lengkap',title:'Nama Kegiatan',width:250, halign:'center',align:'left'},
+				{field:'nama_lengkap',title:'Bidang Urusan',width:250, halign:'center',align:'left'},
+			];
+		break;
+	}
+	
+	$("#"+modnya).datagrid({
+		title:judulnya,
+        height:tingginya,
+        width:lebarnya,
+        rownumbers:true,
+        iconCls:'',
+        fit:fitnya,
+        striped:true,
+        pagination:true,
+        remoteSort: false,
+        url: hostir+'datagrid-adm/'+modnya,
+		nowrap: false,
+        singleSelect:true,
+        pageSize:pagesizeboy,
+        pageList:[10,20,30,40,50,75,100,200],
+        queryParams:param,
+        columns:[
+            kolom[modnya]
+        ],
+        toolbar: '#toolbar_'+modnya,
+	});
+
+	$('.pagination-page-list').css({'display':'inline'});
+}
+
+
 function loadUrl(urls,func){	
     $("#tMain").html("").addClass("loading");
 	
@@ -272,6 +341,23 @@ function ajxamsterfrm(objid, func){
     });
 }
 
+function sbmbyk(type){
+	switch(type){
+		case "pembentukan_tim":
+			ajxamsterfrm('pembentukan_tim', function(resp){
+				if(resp == 1){
+					alert('Data Tersimpan');
+					loadUrl(hostir+'pembentukan-tim-kerja');
+				}else{
+					alert(resp);
+					console.log(resp);
+					loadUrl(hostir+'pembentukan-tim-kerja');
+				}
+			});
+		break;
+	}
+}
+
 function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){  
     switch(type){
 		/*Wahyu*/		
@@ -280,6 +366,17 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 			$.post(hostir+'form-pembentukan-tim', { 'editstatus':'add' }, function(respo){
 				$("#div_"+urlnya).html(respo).removeClass("loading");
 			 });
+		break;
+		case "edit_pembentukan_tim":
+			var rows = $('#pembentukan_tim').datagrid('getSelected');
+			if(rows){
+				$("#div_"+urlnya).html("").addClass("loading");
+				$.post(hostir+'form-pembentukan-tim', { 'editstatus':'edit', 'id':rows.id }, function(respo){
+					$("#div_"+urlnya).html(respo).removeClass("loading");
+				});
+			}else{
+				$.messager.alert('Warning','Pilih Data Yang Akan Diedit.','warning');
+			}
 		break;
 		case "tambah_rencana_perumusan":
 			$("#div_"+urlnya).html("").addClass("loading");
