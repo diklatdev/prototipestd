@@ -1,0 +1,41 @@
+<!--breadcrumbs start-->
+<div id="breadcrumbs-wrapper" class=" grey lighten-3">
+        <!-- Search for small screen -->
+        <div class="header-search-wrapper grey hide-on-large-only">
+                <i class="mdi-action-search active"></i>
+                <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
+        </div>
+  <div class="container">
+        <div class="row">
+          <div class="col s12 m12 l12">
+                <h5 class="breadcrumbs-title">SUB BIDANG & FUNGSI KERJA URUSAN PEMERINTAHAN</h5>
+                <ol class="breadcrumb">
+                        <li><a href="urusan.shtml">Daftar Bidang Fungsi Kerja</a></li>
+                        <li><a href="urusantambah.shtml">Tambah Bidang Fungsi Kerja</a></li>
+                </ol>
+          </div>
+        </div>
+  </div>
+</div>
+<!--breadcrumbs end-->
+
+<!--start container-->
+<div class="container">
+    <div class="section">
+
+    <!--Form Advance-->          
+      <div class="row">
+            <div class="col s12">
+                <h4 class="header col s12 m9">{$row.nama_bidang}</h4>
+                <h4 class="header s12 m3">{$row.inisial}</h4>
+            </div>
+            <div class="divider"></div>
+            <div class="col s12">
+                    {if isset($id_where)}{assign var="p1" value=$id_where}{else}{assign var="p1" value=""}{/if}
+                    {if isset($id_where2)}{assign var="p2" value=$id_where2}{else}{assign var="p2" value=""}{/if}
+                    {include file='modul-lv/template/grid.html' tipe_grid={$tipe} tinggi='55px'}
+            </div>
+      </div>						  
+
+    </div>
+</div>

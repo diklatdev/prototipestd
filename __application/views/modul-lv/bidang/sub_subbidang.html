@@ -1,0 +1,145 @@
+<div id="breadcrumbs-wrapper" class=" grey lighten-3">
+    <!-- Search for small screen -->
+    <div class="header-search-wrapper grey hide-on-large-only">
+            <i class="mdi-action-search active"></i>
+            <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
+    </div>
+<div class="container">
+    <div class="row">
+      <div class="col s12 m12 l12">
+            <h5 class="breadcrumbs-title">SUB SUB BIDANG & FUNGSI KERJA URUSAN PEMERINTAHAN</h5>
+            <ol class="breadcrumb">
+                    <li><a href="urusan.shtml">Daftar SUB SUB BIDANG & FUNGSI KERJA</a></li>
+                    <li><a href="urusantambah.shtml">Tambah SUB SUB BIDANG & FUNGSI KERJA</a></li>
+            </ol>
+      </div>
+    </div>
+</div>
+</div>
+<!--start container-->
+<div class="container">
+	<div class="section">
+		<div class="row">
+			<div class="col s12 m12 l12">
+				<div class="card-panel">
+					<div class="row">					
+							
+                                            <div id="responsive-table">
+                                                    <div class="row">
+                                                            <div class="col s12">
+                                                                    <table class="responsive-table" style='width:98%;'>
+                                                                    <thead>
+                                                                            <tr>
+                                                                                    <th data-field="name" width='85%'>Pemerintahan Pusat</th>
+                                                                                    <th data-field="status" style='text-align:center !important;'>Action</th>
+                                                                            </tr>
+                                                                    </thead>
+                                                                    <tbody id='oye'>
+                                                                        {foreach from=$data_pusat item=row}
+                                                                        <tr>
+                                                                            <td>
+                                                                                {$row.nama_sub_subbidang}
+                                                                            </td>
+                                                                            <td style='text-align:center !important;'>
+                                                                                    <a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', '{$row.id}');" ><i class="mdi-content-add-box tiny"></i></a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        {/foreach}
+<!--                                                                        <tr>
+                                                                            <td>
+                                                                                    <input name='nama[]' type='text' style='width:90%;'>
+                                                                            </td>
+                                                                            <td style='text-align:center !important;'>
+                                                                                    <a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', '1');" ><i class="mdi-content-add-box tiny"></i></a>
+                                                                            </td>
+                                                                        </tr>-->
+                                                                    </tbody>
+                                                                    </table>
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                    </div>
+                                    <br><br>
+                                    <div class="row">					
+							
+                                            <div id="responsive-table">
+                                                    <div class="row">
+                                                            <div class="col s12">
+                                                                    <table class="responsive-table" style='width:98%;'>
+                                                                    <thead>
+                                                                            <tr>
+                                                                                    <th data-field="name" width='85%'>Pemerintahan Daerah Provinsi</th>
+                                                                                    <th data-field="status" style='text-align:center !important;'>Action</th>
+                                                                            </tr>
+                                                                    </thead>
+                                                                    <tbody id='oye'>
+                                                                        {foreach from=$data_prov item=row}
+                                                                        <tr>
+                                                                            <td>
+                                                                                {$row.nama_sub_subbidang}
+                                                                            </td>
+                                                                            <td style='text-align:center !important;'>
+                                                                                    <a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', '{$row.id}');" ><i class="mdi-content-add-box tiny"></i></a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        {/foreach}
+<!--                                                                            <tr>
+                                                                                    <td>
+                                                                                            <input name='nama[]' type='text' style='width:90%;'>
+                                                                                    </td>
+                                                                                    <td style='text-align:center !important;'>
+                                                                                            <a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', '1');" ><i class="mdi-content-add-box tiny"></i></a>
+                                                                                    </td>
+                                                                            </tr>-->
+                                                                    </tbody>
+                                                                    </table>
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                    </div>
+                                    <br><br>
+                                    <div class="row">					
+							
+                                            <div id="responsive-table">
+                                                    <div class="row">
+                                                            <div class="col s12">
+                                                                    <table class="responsive-table" style='width:98%;'>
+                                                                    <thead>
+                                                                            <tr>
+                                                                                    <th data-field="name" width='85%'>Pemerintahan Daerah Kab/Kota</th>
+                                                                                    <th data-field="status" style='text-align:center !important;'>Action</th>
+                                                                            </tr>
+                                                                    </thead>
+                                                                    <tbody id='oye'>
+                                                                        {foreach from=$data_kab item=row}
+                                                                        <tr>
+                                                                            <td>
+                                                                                {$row.nama_sub_subbidang}
+                                                                            </td>
+                                                                            <td style='text-align:center !important;'>
+                                                                                    <a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', '{$row.id}');" ><i class="mdi-content-add-box tiny"></i></a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        {/foreach}
+<!--                                                                            <tr>
+                                                                                    <td>
+                                                                                            <input name='nama[]' type='text' style='width:90%;'>
+                                                                                    </td>
+                                                                                    <td style='text-align:center !important;'>
+                                                                                            <a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', '1');" ><i class="mdi-content-add-box tiny"></i></a>
+                                                                                    </td>
+                                                                            </tr>-->
+                                                                    </tbody>
+                                                                    </table>
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                    </div>
+                                    <br><br>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
