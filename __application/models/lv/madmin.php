@@ -113,6 +113,9 @@ class madmin extends SHIPMENT_Model{
                             . "LEFT JOIN idx_bidang B ON B.id = A.idx_bidang_id "
                             . "WHERE A.idx_bidang_id = $p1";
                     break;
+                    case "pemetaan_fungsi":
+                         $sql = 'SELECT A.* FROM idx_bidang A';
+                    break;
 		}
 		
 		return $this->lib->jsondata($sql, $type);

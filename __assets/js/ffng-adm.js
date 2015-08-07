@@ -33,7 +33,7 @@ function fillCmb(url, SelID, value, value2, value3, value4){
 	});
 }
 
-function genGrid(modnya, lebarnya, tingginya, p1, p2){
+function genGrid(modnya, lebarnya, tingginya, p1='', p2=''){
 	if(lebarnya == undefined){
 		lebarnya = getClientWidth-230;
 	}
@@ -181,6 +181,21 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                     },
                 ];                
             break;
+            case "pemetaan_fungsi":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [	
+                    {field:'nama_bidang',title:'<b>Bidang & Fungsi Kerja</b>',width:850, halign:'left',align:'left'},
+                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a class="btn-floating btn-small waves-effect waves-light green" href="#" onclick=\'\loadUrl_adds("fishbone_view","'+hostir+'fishbone_view","tMain","'+value+'")\'\><i class="mdi-action-settings"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-action-book"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light blue"><i class="mdi-action-assignment"></i></a>';
+                        }
+                    },
+                    ];
+            break;
             
 		case "pembentukan_tim":
 			judulnya = "";
@@ -201,14 +216,6 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
 			kolom[modnya] = [	
 				{field:'nama_lengkap',title:'Nama Kegiatan',width:250, halign:'center',align:'left'},
 				{field:'nama_lengkap',title:'Bidang Urusan',width:250, halign:'center',align:'left'},
-			];
-		break;
-		case "pemetaan_fungsi":
-			judulnya = "";
-			fitnya = true;
-			pagesizeboy = 50;
-			kolom[modnya] = [	
-				{field:'nama_lengkap',title:'Bidang & Fungsi Kerja',width:300, halign:'center',align:'left'},
 			];
 		break;
 	}
@@ -418,6 +425,12 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
         case "level-komp-kunci":
             $("#"+domnya).html("").addClass("loading");
             $.post(urlnya, { 'id_komp_kunci' : p1}, function(resp){
+		$("#"+domnya).html(resp).removeClass("loading");
+            });
+        break;
+        case "fishbone_view":
+            $("#"+domnya).html("").addClass("loading");
+            $.post(urlnya, { 'id_bidang' : p1}, function(resp){
 		$("#"+domnya).html(resp).removeClass("loading");
             });
         break;

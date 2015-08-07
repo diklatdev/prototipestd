@@ -14,7 +14,6 @@ $route['submit-pembentukan-tim'] = "why/modul_admin/simpansavedbx/pembentukan_ti
 $route['rencana-perumusan'] = "why/modul_admin/getdisplay/rencana_perumusan";
 $route['form-rencana-perumusan'] = "why/modul_admin/getdisplay/form_rencana_perumusan";
 
-$route['pemetaan-fungsi'] = "why/modul_admin/getdisplay/pemetaan_fungsi";
 
 $route['datagrid-adm/(:any)'] = "why/modul_admin/getdatagrid/$1";
 
@@ -34,6 +33,10 @@ $route['sub-bidang'] = "lv/modul_admin/getdisplay/datagridview/sub_bidang";
 $route['sub-subbidang'] = "lv/modul_admin/getdisplay/sub_subbidang";
 $route['detil-komp-manaj'] = "lv/modul_admin/getdisplay/detil_komp_manaj";
 $route['level-komp-kunci'] = "lv/modul_admin/getdisplay/level_komp_kunci";
+
+$route['pemetaan-fungsi'] = "lv/modul_admin/getdisplay/datagridview/pemetaan_fungsi";
+$route['fishbone'] = "lv/modul_admin/display_fisbone/data";
+$route['fishbone_view'] = "lv/modul_admin/display_fisbone/view";
 
 $route['form-kementrian_grid'] = "lv/modul_admin/getdisplay/kementrian_grid/form";
 $route['form-bidang'] = "lv/modul_admin/getdisplay/datagridview/bidang_urusan";

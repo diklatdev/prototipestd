@@ -12,8 +12,10 @@
 <!--breadcrumbs end-->
 
 	<div class="container">
-		<div class="section">				
-			{include file='modul-why/template/grid.html' tipe_grid={$type} tinggi='40px'}
+		<div class="section">		
+                    {if isset($id_where)}{assign var="p1" value=$id_where}{else}{assign var="p1" value=""}{/if}
+                    {if isset($id_where2)}{assign var="p2" value=$id_where2}{else}{assign var="p2" value=""}{/if}		
+                    {include file='modul-lv/template/grid.html' tipe_grid={$tipe} tinggi='0px'}
 		</div>
 	</div>
 	

@@ -88,6 +88,10 @@ class modul_admin extends SHIPMENT_Controller{
                             $content = "modul-lv/bidang/sub_bidang.html";
                             $this->smarty->assign('tipe',$p1);  
                             $this->smarty->assign('id_where', $id_bidang);
+                        break;		
+                        case "pemetaan_fungsi":
+                            $content = "modul-lv/pemetaan-fungsi/main.html";
+                            $this->smarty->assign('tipe',$p1); 
                         break;
                             
                     }
@@ -122,10 +126,26 @@ class modul_admin extends SHIPMENT_Controller{
                     $this->smarty->assign('detil', $sql_detail);
                     $content = "modul-lv/kompetensi_kunci/tabel_level.html";                    
                 break;
+                case "fishbone":
+                                     
+                break;
             }
             $this->smarty->assign('type', $type);
             $this->smarty->display($content);
 	}
+        
+        function display_fisbone($type){
+            switch ($type){
+                case "data":
+                    $content = "modul-lv/pemetaan-fungsi/fishbone.html";
+                break;
+                case "view":
+                    $content = "modul-lv/pemetaan-fungsi/fishbone_view.html";
+                break;
+                    
+            }  
+            $this->smarty->display($content);   
+        }
 	
 	function getdatagrid($type, $p1 = '', $p2 = ''){
 		echo $this->madmin->get_data_grid($type, $p1, $p2);

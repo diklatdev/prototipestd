@@ -90,10 +90,6 @@ class modul_admin extends SHIPMENT_Controller{
 				$this->smarty->assign('idx_tim_verifikasi_perumus', $this->lib->fillcombo('idx_tim_verifikasi_perumus', 'return', ($editstatus == 'edit' ? "buat" : "") ));
 				$this->smarty->assign('idx_tim_komite_perumus', $this->lib->fillcombo('idx_tim_komite_perumus', 'return', ($editstatus == 'edit' ? "buat" : "") ));
 			break;
-			
-			case "pemetaan_fungsi":
-				$content = "modul-why/pemetaan-fungsi/main.html";
-			break;
 		}
 		
 		$this->smarty->assign('type', $type);
