@@ -280,8 +280,8 @@ function genGrid2(modnya, lebarnya, tingginya, p1, p2){
 			fitnya = true;
 			pagesizeboy = 50;
 			kolom[modnya] = [	
-				{field:'nama_lengkap',title:'Nama Kegiatan',width:250, halign:'center',align:'left'},
-				{field:'nama_lengkap',title:'Bidang Urusan',width:250, halign:'center',align:'left'},
+				{field:'nama_kegiatan',title:'<b>Nama Kegiatan</b>',width:250, halign:'center',align:'left'},
+				{field:'nama_bidang',title:'<b>Bidang Urusan</b>',width:300, halign:'center',align:'left'},
 			];
 		break;
 	}
@@ -353,12 +353,28 @@ function sbmbyk(type){
 		case "pembentukan_tim":
 			ajxamsterfrm('pembentukan_tim', function(resp){
 				if(resp == 1){
-					alert('Data Tersimpan');
+					//alert('Data Tersimpan');
+					$.messager.alert('Sukses','Data Tersimpan','info');
 					loadUrl(hostir+'pembentukan-tim-kerja');
 				}else{
-					alert(resp);
+					//alert(resp);
+					$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
 					console.log(resp);
 					loadUrl(hostir+'pembentukan-tim-kerja');
+				}
+			});
+		break;
+		case "rencana_perumusan":
+			ajxamsterfrm('rencana_perumusan', function(resp){
+				if(resp == 1){
+					//alert('Data Tersimpan');
+					$.messager.alert('Sukses','Data Tersimpan','info');
+					loadUrl(hostir+'rencana-perumusan');
+				}else{
+					//alert(resp);
+					$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
+					console.log(resp);
+					loadUrl(hostir+'rencana-perumusan');
 				}
 			});
 		break;
@@ -383,7 +399,27 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 				});
 			}else{
 				$.messager.alert('Warning','Pilih Data Yang Akan Diedit.','warning');
+			}		
+		break;
+		case "hapus_pembentukan_tim":
+			var rows = $('#pembentukan_tim').datagrid('getSelected');
+			if(rows){
+				$.messager.confirm('Confirm','Anda Yakin Akan Menghapus Data Ini?',function(r){
+					if(r){
+						$.post(hostir+'hapus-pembentukan-tim', { 'editstatus':'delete', 'id':rows.id }, function(respo){
+							if(respo == 1){
+								$.messager.alert('Sukses','Data Sudah Terhapus','info');
+							}else{
+								$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
+							}
+							$('#pembentukan_tim').datagrid('reload');
+						});
+					}
+				});
+			}else{
+				$.messager.alert('Warning','Pilih Data Yang Akan Diedit.','warning');
 			}
+			
 		break;
 		case "tambah_rencana_perumusan":
 			$("#div_"+urlnya).html("").addClass("loading");
@@ -391,6 +427,38 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 				$("#div_"+urlnya).html(respo).removeClass("loading");
 			 });
 		break;
+		case "edit_rencana_perumusan":
+			var rows = $('#rencana_perumusan').datagrid('getSelected');
+			if(rows){
+				$("#div_"+urlnya).html("").addClass("loading");
+				$.post(hostir+'form-rencana-perumusan', { 'editstatus':'edit', 'id':rows.id }, function(respo){
+					$("#div_"+urlnya).html(respo).removeClass("loading");
+				});
+			}else{
+				$.messager.alert('Warning','Pilih Data Yang Akan Diedit.','warning');
+			}		
+		break;
+		case "hapus_rencana_perumusan":
+			var rows = $('#rencana_perumusan').datagrid('getSelected');
+			if(rows){
+				$.messager.confirm('Confirm','Anda Yakin Akan Menghapus Data Ini?',function(r){
+					if(r){
+						$.post(hostir+'hapus-rencana-perumusan', { 'editstatus':'delete', 'id':rows.id }, function(respo){
+							if(respo == 1){
+								$.messager.alert('Sukses','Data Sudah Terhapus','info');
+							}else{
+								$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
+							}
+							$('#rencana_perumusan').datagrid('reload');
+						});
+					}
+				});
+			}else{
+				$.messager.alert('Warning','Pilih Data Yang Akan Diedit.','warning');
+			}
+			
+		break;
+		
 	/*Levi*/
         case "kementrian_grid":  
             $("#"+domnya).html("").addClass("loading");
