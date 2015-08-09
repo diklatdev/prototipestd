@@ -84,11 +84,51 @@ class modul_admin extends SHIPMENT_Controller{
 				$editstatus = $this->input->post('editstatus');
 				$content = "modul-why/rencana-perumusan/form.html";
 				
+				if($editstatus == 'edit'){
+					$id = $this->input->post('id');
+					$data = $this->db->get_where('tbl_perumusan', array('id'=>$id) )->row_array();
+					$data_subbidang = $this->db->get_where('tbl_subbidang_perumusan', array('tbl_perumusan_id'=>$id))->result_array();
+					if($data_subbidang){
+						$array_combo = array();
+						$idx = 1;
+						foreach($data_subbidang as $k => $v){
+							$this->smarty->assign('combo_'.$idx, $this->lib->fillcombo('tbl_subbidang_perumusan', 'return', $v['idx_sub_bidang_id'] ) );
+							$idx++;
+						}
+					}
+					
+					for($i = 1; $i <= 22; $i++){
+						$count = ($data['estimasi_waktu']-1);
+						$exp_cekbox = explode(":", $data['3_'.$i]);
+						$cekbox = "";
+						for($t = 0; $t <= $count; $t++){
+							if(isset($exp_cekbox[$t])){
+								if($exp_cekbox[$t] == $t){
+									$checked = "checked";
+								}else{
+									$checked = "";
+								}
+							}else{
+								$checked = "";
+							}
+							
+							$cekbox .= "<input type='checkbox' name='3_".$i."[]' value='".($t+1)."' ".$checked."> ".($t+1)." ";
+						}
+						//$exp_cekbox = "";
+						$this->smarty->assign('3_'.$i, $cekbox);
+					}
+					
+					$this->smarty->assign('data', $data);
+					$this->smarty->assign('data_subbidang', $data_subbidang);
+					$this->smarty->assign('class', "active");
+				}				
+				
 				$this->smarty->assign('editstatus', $editstatus);
-				$this->smarty->assign('idx_bidang', $this->lib->fillcombo('idx_bidang', 'return', ($editstatus == 'edit' ? "buat" : "") ));
-				$this->smarty->assign('idx_tim_kerja_perumus', $this->lib->fillcombo('idx_tim_kerja_perumus', 'return', ($editstatus == 'edit' ? "buat" : "") ));
-				$this->smarty->assign('idx_tim_verifikasi_perumus', $this->lib->fillcombo('idx_tim_verifikasi_perumus', 'return', ($editstatus == 'edit' ? "buat" : "") ));
-				$this->smarty->assign('idx_tim_komite_perumus', $this->lib->fillcombo('idx_tim_komite_perumus', 'return', ($editstatus == 'edit' ? "buat" : "") ));
+				$this->smarty->assign('idx_bidang', $this->lib->fillcombo('idx_bidang', 'return', ($editstatus == 'edit' ? $data['idx_bidang_id'] : "") ));
+				$this->smarty->assign('idx_tim_kerja_perumus', $this->lib->fillcombo('idx_tim_kerja_perumus', 'return', ($editstatus == 'edit' ? $data['tbl_tim_kerja_perumus_id'] : "") ));
+				$this->smarty->assign('idx_tim_verifikasi_perumus', $this->lib->fillcombo('idx_tim_verifikasi_perumus', 'return', ($editstatus == 'edit' ? $data['tbl_tim_kerja_verifikasi_id'] : "") ));
+				$this->smarty->assign('idx_tim_komite_perumus', $this->lib->fillcombo('idx_tim_komite_perumus', 'return', ($editstatus == 'edit' ? $data['tbl_tim_kerja_komite_id'] : "") ));
+				$this->smarty->assign('idx_kl', $this->lib->fillcombo('idx_kl', 'return', ($editstatus == 'edit' ? $data['idx_kl_id'] : "") ));
 			break;
 		}
 		
@@ -116,6 +156,13 @@ class modul_admin extends SHIPMENT_Controller{
 	
 	function getcombo($type){
 		echo $this->lib->fillcombo($type, "echo");
+	}
+	
+	function test(){
+		$str = "1";
+		$exp = explode(":", $str);
+		
+		print_r($exp);
 	}
 	
 	

@@ -4,10 +4,12 @@
 			<div class="col s12 m12 l12">
 				<div class="card-panel">
 					<div class="row">
-						<form method='post' url='{$host}' class="col s12">
+						<form id="rencana_perumusan" method='post' url='{$host}submit-rencana-perumusan' enctype="multipart/form-data" class="col s12">
+							<input type='hidden' name='editstatus' value='{$editstatus}'>
+							<input type='hidden' name='id' value="{$data.id|default:''}">							
 							<h4 class="header2">I. Identitas Program Perumusan</h4>
 							<div class="row">
-								{include file='modul-why/template/input_text.html' ukuran='besar' name='namaperumusan' label="Program Perumusan Standar Kompetensi" } 
+								{include file='modul-why/template/input_text.html' ukuran='besar' name='namaperumusan' label="Program Perumusan Standar Kompetensi" class={$class|default:''} value={$data.nama_kegiatan|default:''}} 
 							</div>
 							<div class="row">
 								{include file='modul-why/template/input_select.html' ukuran='besar' name='bidang_fungsi' label="Bidang & Fungsi Kerja Urusan Pemerintahan" option={$idx_bidang} } 
@@ -24,6 +26,7 @@
 												</tr>
 											</thead>
 											<tbody id='uye'>
+												{if $editstatus eq 'add'}
 												<tr>
 													<td>
 														<select name='subbidang[]' id='subbidang_1' class="browser-default" style='width:90%;'>
@@ -34,6 +37,27 @@
 														<a id='tombol_1' style='display:none;' href="javascript:void(0);" title='Tambah Sub Bidang' onClick="addrowtableinput('rencana_perumusan', 'uye', '1');" ><i class="mdi-content-add-box tiny"></i></a>
 													</td>
 												</tr>
+												{else}
+												{assign var=ind value=1}
+												{foreach from=$data_subbidang item=rows}
+													<tr id='row_{$ind}'>
+														<td>
+															<select name='subbidang[]' id='subbidang_1' class="browser-default" style='width:90%;'>
+																{$combo_{$ind}|default:''}
+															</select>
+														</td>
+														<td>
+															{if $ind eq 1}
+																<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('rencana_perumusan', 'uye', '1');" ><i class="mdi-content-add-box tiny"></i></a>
+															{else}
+																<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('rencana_perumusan', 'uye', '{$ind}');" ><i class="mdi-content-add-box tiny"></i></a>
+																<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('rencana_perumusan', 'uye', '{$ind}');" ><i class="mdi-content-clear tiny"></i></a>
+															{/if}	
+														</td>
+													</tr>
+													{assign var=ind value=$ind+1}
+												{/foreach}
+												{/if}
 											</tbody>
 										</table>
 									</div>
@@ -51,16 +75,16 @@
 								{include file='modul-why/template/input_select.html' ukuran='besar' name='komite_standarisasi' label="Komite Standarisasi" option={$idx_tim_komite_perumus}} 
 							</div>
 							<div class="row">
-								{include file='modul-why/template/input_text.html' ukuran='sedang' name='estimasi_wkt' label="Estimasi Waktu (bulan)" } 
+								{include file='modul-why/template/input_text.html' ukuran='sedang' name='estimasi_wkt' label="Estimasi Waktu (bulan)" class={$class|default:''} value={$data.estimasi_waktu|default:''}} 
 							</div>
 							<br/>
 							<h4 class="header2">II. Ketentuan dan Kebijakan Perumusan Standar Kompetensi</h4>
 							<div class="row">
-								{include file='modul-why/template/input_select.html' ukuran='sedang' name='kementerian_lembaga' label="Kementrian / Lembaga" } 
+								{include file='modul-why/template/input_select.html' ukuran='sedang' name='kementerian_lembaga' label="Kementrian / Lembaga" option={$idx_kl}} 
 								{include file='modul-why/template/input_select.html' ukuran='sedang' name='dirjen_eselon' label="Dirjen / Eselon 1" } 
 							</div>
 							<div class="row">
-								{include file='modul-why/template/input_text.html' ukuran='besar' name='dasar_hukum' label="Dasar Hukum" } 
+								{include file='modul-why/template/input_text.html' ukuran='besar' name='dasar_hukum' label="Dasar Hukum" class={$class|default:''} value={$data.dasar_hukum|default:''}	} 
 							</div>
 							<br/>
 							
@@ -79,19 +103,31 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;' rowspan='3'>Pimpinan</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>SK Komisi Standarisasi Kompetensi</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_1'></span>
+										<span id='3_1'>
+											{if $editstatus eq 'edit'}
+												{$3_1}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>SK Tim Perumus Standar</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_2'></span>
+										<span id='3_2'>
+											{if $editstatus eq 'edit'}
+												{$3_2}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>SK Tim Verifikasi Standar</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_3'></span>
+										<span id='3_3'>
+											{if $editstatus eq 'edit'}
+												{$3_3}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -100,7 +136,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Ketua Perumus</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Program Perumusan</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_4'></span>
+										<span id='3_4'>
+											{if $editstatus eq 'edit'}
+												{$3_4}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -109,7 +149,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Ketua Perumus</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Perumusan kegiatan dan jadwal </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_5'></span>
+										<span id='3_5'>
+											{if $editstatus eq 'edit'}
+												{$3_5}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -118,7 +162,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Daftar acuan normatif yang terkait dengan urusan pemerintahan yang disusun SKT</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_6'></span>
+										<span id='3_6'>
+											{if $editstatus eq 'edit'}
+												{$3_6}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -127,7 +175,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Peta Fungsi Pekerjaan urusan pemerintahan</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_7'></span>
+										<span id='3_7'>
+											{if $editstatus eq 'edit'}
+												{$3_7}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -136,7 +188,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Daftar Unit Kompetensi</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_8'></span>
+										<span id='3_8'>
+											{if $editstatus eq 'edit'}
+												{$3_8}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -145,7 +201,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Laporan survey tentang esesuaian daftar unit kompetensi dengan kebutuhan penyelenggaraan urusan pemerintahan </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_9'></span>
+										<span id='3_9'>
+											{if $editstatus eq 'edit'}
+												{$3_9}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -154,7 +214,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tabel pengembangan Unit Kompetensi berupa judul Unit kompetensi, elemen kompetensi dan kriteria unjuk kerja </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_10'></span>
+										<span id='3_10'>
+											{if $editstatus eq 'edit'}
+												{$3_10}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -163,7 +227,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Rancangan Unit-unit Kompetensi Teknis</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_11'></span>
+										<span id='3_11'>
+											{if $editstatus eq 'edit'}
+												{$3_11}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -172,7 +240,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Peta Jabatan dan Paket Unit Kompetensi yang harus dikuasai</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_12'></span>
+										<span id='3_12'>
+											{if $editstatus eq 'edit'}
+												{$3_12}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -181,7 +253,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus dan Pemangku Kepentingan</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Peta Jabatan dan Paket Unit Kompetensi yang harus dikuasai</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_13'></span>
+										<span id='3_13'>
+											{if $editstatus eq 'edit'}
+												{$3_13}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -190,7 +266,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Bahan RSKTUP 1</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_14'></span>
+										<span id='3_14'>
+											{if $editstatus eq 'edit'}
+												{$3_14}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -199,7 +279,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>RSKTUP 1</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_15'></span>
+										<span id='3_15'>
+											{if $editstatus eq 'edit'}
+												{$3_15}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -208,7 +292,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Verifikator Standar</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Hasil verifikasi RSKTUP 1</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_16'></span>
+										<span id='3_16'>
+											{if $editstatus eq 'edit'}
+												{$3_16}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -217,7 +305,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Hasil verifikasi RSKTUP 1</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_17'></span>
+										<span id='3_17'>
+											{if $editstatus eq 'edit'}
+												{$3_17}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -226,7 +318,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>RSKTUP 1 dan Usulan Perbaikan</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_18'></span>
+										<span id='3_18'>
+											{if $editstatus eq 'edit'}
+												{$3_18}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -235,7 +331,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Hasil perbaikan RSKTUP 1  </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_19'></span>
+										<span id='3_19'>
+											{if $editstatus eq 'edit'}
+												{$3_19}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -244,7 +344,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Verifikator Standar</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>RSKTUP 2</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_20'></span>
+										<span id='3_20'>
+											{if $editstatus eq 'edit'}
+												{$3_20}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -253,7 +357,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>RSKTUP 2 dan Usulan Perbaikan</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_21'></span>
+										<span id='3_21'>
+											{if $editstatus eq 'edit'}
+												{$3_21}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -262,7 +370,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>RSKTUP  </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='3_22'></span>
+										<span id='3_22'>
+											{if $editstatus eq 'edit'}
+												{$3_22}
+											{/if}
+										</span>
 									</td>
 								</tr>
 							</table>
@@ -363,6 +475,15 @@
 							</table>
 							
 						</form>
+						<div class="col s12 m8 l9" style='margin-top:40px;'>
+							<button class="btn cyan waves-effect waves-light " onClick="javascript:void(0);sbmbyk('rencana_perumusan');">Submit
+								<i class="mdi-content-send right"></i>
+							</button>
+							<button class="btn waves-effect waves-light " >Kembali
+								<i class="mdi-content-reply left"></i>
+							</button>
+						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -378,6 +499,14 @@
 			$('#tombol_1').css({ 'display':'inline' });
 		}
 	});
+	
+	$('#kementerian_lembaga').bind('change', function(){
+		fillCmb(hostir+'why/modul_admin/getcombo/idx_dirjen', "dirjen_eselon", "", $(this).val());
+	});
+	if(edi == 'edit'){
+		fillCmb(hostir+'why/modul_admin/getcombo/idx_dirjen', "dirjen_eselon", "{$data.idx_dirjen_id|default:''}", $('#kementerian_lembaga').val() );
+	}
+	
 	
 	$('#estimasi_wkt').bind('keyup', function(){
 		//alert('ok');

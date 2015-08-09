@@ -10,10 +10,12 @@ $route['logoutadm'] = "login/logoutadm";
 $route['pembentukan-tim-kerja'] = "why/modul_admin/getdisplay/pembentukan_tim";
 $route['form-pembentukan-tim'] = "why/modul_admin/getdisplay/form_pembentukan_tim";
 $route['submit-pembentukan-tim'] = "why/modul_admin/simpansavedbx/pembentukan_tim";
+$route['hapus-pembentukan-tim'] = "why/modul_admin/simpansavedbx/pembentukan_tim";
 
 $route['rencana-perumusan'] = "why/modul_admin/getdisplay/rencana_perumusan";
 $route['form-rencana-perumusan'] = "why/modul_admin/getdisplay/form_rencana_perumusan";
-
+$route['submit-rencana-perumusan'] = "why/modul_admin/simpansavedbx/rencana_perumusan";
+$route['hapus-rencana-perumusan'] = "why/modul_admin/simpansavedbx/rencana_perumusan";
 
 $route['datagrid-adm/(:any)'] = "why/modul_admin/getdatagrid/$1";
 
