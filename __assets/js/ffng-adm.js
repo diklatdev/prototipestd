@@ -33,7 +33,7 @@ function fillCmb(url, SelID, value, value2, value3, value4){
 	});
 }
 
-function genGrid(modnya, lebarnya, tingginya, p1='', p2=''){
+function genGrid(modnya, lebarnya, tingginya, p1, p2){
 	if(lebarnya == undefined){
 		lebarnya = getClientWidth-230;
 	}
@@ -640,7 +640,7 @@ function addrowtableinput(type, dom, p1, p2, p3, p4){
                 htmlnya += "<tr id='row_"+counter+"'>";
                 htmlnya += "	<td></td>";
                 htmlnya += "	<td> </td>";
-                htmlnya += "	<td> <input name='fungsi_dasar' id='fungsi_dasar' type='text' style='width:90%;' value='100' ></td>";
+                htmlnya += "	<td> <input name='fungsi_dasar' id='fungsi_dasar' type='text' style='width:90%;' value=''></td>";
                 htmlnya += "	<td> <select class='browser-default' name='kel_kom' id='kel_kom' style='width:90%;'>\n\
                                         <option value='1'>UMUM</option>\n\
                                         <option value='2'>INTI</option>\n\
