@@ -1,0 +1,27 @@
+<style type="text/css">
+	.datagrid-row-over td{
+		background:#D0E5F5;
+	}
+	.datagrid-row-selected td{
+		background:#FBEC88;
+		color:#000;
+	}
+</style>
+
+
+<div id="div_{$tipe_grid}" style="width:102%">
+	<div id='{$tipe_grid}'></div>
+	<div id='toolbar_{$tipe_grid}' style='padding:5px;height:{$tinggi}'>		
+            {if $tipe_grid eq 'kementrian_grid' || $tipe_grid eq 'bidang_urusan' || $tipe_grid eq 'kel_kompetensi' ||
+                $tipe_grid eq 'kompetensi_manajerial' || $tipe_grid eq 'kompetensi_kunci' || $tipe_grid eq 'bakat' || 
+                $tipe_grid eq 'list_eselon' || $tipe_grid eq 'sub_bidang'
+            }
+            <a href="#" class="btn waves-effect waves-light " onClick="loadUrl_adds('{$tipe_grid}','{$host}form-{$tipe_grid}','div_{$tipe_grid}' )">Tambah<i class="mdi-content-add right"></i></a>
+            {/if}
+	</div>
+</div>
+
+<script>
+	$('#div_{$tipe_grid}').css('height',(getClientHeight()-230));
+	genGrid('{$tipe_grid}', '', '', '{$p1}', '{$p2}');
+</script>

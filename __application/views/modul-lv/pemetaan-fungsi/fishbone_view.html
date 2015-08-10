@@ -1,17 +1,24 @@
 <div class="container">
         <div class="section">
+            <div class="row">
+                <div class="col s12 m12 l12"><ol class="breadcrumb">
+                    <li><a href="#" onclick="loadUrl('{$host}pemetaan-fungsi')">Back</a></li>
+                    <li><a href="{$host}fishbone/{$id_bidang}" target="_blank">Open in a new window</a></li>
+                </ol>
+                </div>
+            </div>
             <h5>Fishbone Pemetaan</h5>
-            <iframe scrolling="no" marginheight="0" marginwidth="0" src="{$host}fishbone" 
+            <iframe scrolling="no" marginheight="0" marginwidth="0" src="{$host}fishbone/{$id_bidang}" 
                     style="border: 1px solid #dedede;height: 500px;width: 1036px;">
 
             </iframe>
             <div class="row">
                 <div class="col s12 m12 l12"><ol class="breadcrumb">
-                    <li><a href="{$host}fishbone" target="_blank">BACK</a></li>
-                    <li><a href="{$host}fishbone" target="_blank">Open in a new window</a></li>
+                    <li><a href="#" onclick="loadUrl('{$host}pemetaan-fungsi')">Back</a></li>
+                    <li><a href="{$host}fishbone/{$id_bidang}" target="_blank">Open in a new window</a></li>
                 </ol>
                 </div>
-              </div>
+            </div>
         </div>
 </div>
 	

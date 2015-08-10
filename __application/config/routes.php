@@ -37,8 +37,13 @@ $route['detil-komp-manaj'] = "lv/modul_admin/getdisplay/detil_komp_manaj";
 $route['level-komp-kunci'] = "lv/modul_admin/getdisplay/level_komp_kunci";
 
 $route['pemetaan-fungsi'] = "lv/modul_admin/getdisplay/datagridview/pemetaan_fungsi";
-$route['fishbone'] = "lv/modul_admin/display_fisbone/data";
+$route['fishbone/(:any)'] = "lv/modul_admin/display_fisbone/data/$1";
 $route['fishbone_view'] = "lv/modul_admin/display_fisbone/view";
+$route['fungsi-dasar'] = "lv/modul_admin/getdisplay/fungsi_dasar";
+$route['submit-fungsi-dasar'] = "lv/modul_admin/simpandgnView/fungsi_dasar/sv";
+$route['unit-kompetensi'] = "lv/modul_admin/getdisplay/datagridview/unit_kompetensi";
+$route['form-kompetensi'] = "lv/modul_admin/getdisplay/form_kompetensi";
+$route["submit-unit-kompetensi"] = "lv/modul_admin/simpandgnView/unit_kompetensi";
 
 $route['form-kementrian_grid'] = "lv/modul_admin/getdisplay/kementrian_grid/form";
 $route['form-bidang'] = "lv/modul_admin/getdisplay/datagridview/bidang_urusan";
@@ -46,6 +51,9 @@ $route['form-kel-kompetensi'] = "lv/modul_admin/getdisplay/datagridview/kel_komp
 $route['form-kompetensi-manajerial'] = "lv/modul_admin/getdisplay/datagridview/kompetensi_manajerial";
 $route['form-kompetensi-kunci'] = "lv/modul_admin/getdisplay/datagridview/kompetensi_kunci";
 $route['form-bakat'] = "lv/modul_admin/getdisplay/datagridview/bakat";
+
+
+$route['json-data'] = "lv/modul_admin/json_fishbone";
 
 $route['404_override'] = '';
 

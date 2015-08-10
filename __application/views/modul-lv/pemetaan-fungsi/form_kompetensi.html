@@ -1,0 +1,158 @@
+
+
+<!--start container-->
+<div class="container">
+        <div class="section">
+
+                <!--Form Advance-->          
+                <div class="row">
+                        <div class="col s12 m12 l12">
+                          <div class="card-panel">
+                                <div class="row">
+                                  <form class="col s12">
+                                        <input name="id_fungsi_dasar" value="{$row.id_fungsi_dasar}" hidden>
+                                        <div class="row">
+                                          <div class="input-field col s3">
+                                                <input id="namaprogram" type="text" value="{$row.ini_bidang}" disabled>
+                                                <input name="ini_bidang" value="{$row.ini_bidang}" hidden>
+                                                <label for="namaprogram" class='active' disabled>Bidang</label>
+                                          </div>
+                                          <div class="input-field col s2">
+                                                <input id="namaprogram" type="text" value="{$row.ini_sub_bidang}"  disabled>
+                                                <input name="ini_sub_bidang" value="{$row.ini_sub_bidang}" hidden>
+                                                <label for="namaprogram" class='active' disabled>Sub Bidang</label>
+                                          </div>
+                                          <div class="input-field col s2">
+                                                <select class='browser-default' name='kel_kom' id='kel_kom' style='width:90%;'>
+                                                  <option value="1" {if $row.id_kel eq '1'}selected{/if}>01</option>
+                                                  <option value="2" {if $row.id_kel eq '2'}selected{/if}>02</option>
+                                                  <option value="3" {if $row.id_kel eq '3'}selected{/if}>03</option>
+                                                </select>
+                                                <label class="active">Kelompok</label>
+                                          </div> 
+                                          <div class="input-field col s3">
+                                                <input id="namaprogram" name="nomor_urut" type="text" value="{$row.no_urutan}">
+                                                <label for="namaprogram" class="active">Nomor Urut</label>
+                                          </div>
+                                          <div class="input-field col s2">
+                                                <input id="namaprogram" type="text" name="revisi" value="{$row.revisi}">
+                                                <label for="namaprogram" class='active'>Revisi</label>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="input-field col s12">
+                                                <input id="namaprogram" type="text" name="nama_bidang" value="{$row.judul_unit}">
+                                                <label for="namaprogram" class="active">Judul Unit</label>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="input-field col s12">
+                                                <textarea id="message5" class="materialize-textarea" length="120" name="deskripsi">{$row.deskripsi}</textarea>
+                                                <label for="message" class="active">Deskripsi Unit</label>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="input-field col s12"  id="btn_elemen">
+                                                Elemen Kompetensi 
+                                                <a class="btn-floating btn-small waves-effect waves-light green" href="#" onClick="addrowtableinput_lv('add-element','element_row','btn_elemen',  '0');" >
+                                                    <i class="mdi-content-add"></i>
+                                                </a>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                                <div class="col s12">
+                                                                <div id="id="responsive-table"">
+                                                                    <div class="row">
+                                                                        <div class="col s12">
+                                                                          <table class="responsive-table" style='width:98%;'>
+                                                                                <thead>
+                                                                                  <tr id="element_row">
+                                                                                        <th width="10%" class="center"></th>
+                                                                                        <th></th>
+                                                                                  </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                {if $elemen}
+                                                                                    {foreach name=elem from=$elemen key=k item=i}
+                                                                                  <tr>
+                                                                                        <td width="10%"  style="padding-left: 7px">
+                                                                                            <a><i class="mdi-content-create"></i></a>
+                                                                                            <a><i class="mdi-action-highlight-remove"></i></a>
+                                                                                        </td>
+                                                                                        <td width="90%"><b>{$i.nama_elemen}</b></td>
+                                                                                  </tr>
+                                                                                  <tr>
+                                                                                        <td width="70%" class="center" colspan="2" class="center" style="padding-left: 30px"><br>
+                                                                                            <table class="responsive-table" style="width: 98%">
+                                                                                                <thead>
+                                                                                                    <tr id="unjuk_row_{$i.id_elemen}">
+                                                                                                        <th width="90%" id="btn_unjuk">Kriteria Unjuk Kerja  
+                                                                                                            <a href="#" onClick="addrowtableinput_lv('unjuk-kerja','unjuk_row_{$i.id_elemen}','btn_unjuk',  '0', '{$i.id_elemen}');" ><i class="mdi-content-add-box tiny"></i></a>
+                                                                                                        </th>
+                                                                                                        <th>Action</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody style="width: 98%">
+                                                                                        {if $i.kuk}
+                                                                                            {foreach name=kuk from=$i.kuk item=v key=k}
+                                                                                                    <tr >
+                                                                                                        <td style="padding-left: 7px">{$v.nama}</td>
+                                                                                                        <td>
+                                                                                                            <a href="#"><i class="mdi-content-create tiny"></i></a>
+                                                                                                            <a href="#"><i class="mdi-content-clear tiny"></i></a>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                            {/foreach}
+                                                                                        {/if}
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        <br></td>
+                                                                                  </tr>
+                                                                                  {/foreach}
+                                                                                {/if}
+                                                                                </tbody>
+                                                                          </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                            </div>
+                                        </div>
+                                      <br><br>
+                                        <div class="row">
+                                          <div class="input-field col s12">
+                                                <textarea id="message5" class="materialize-textarea" length="120" name="batasan_var">{$row.batasan_variabel}</textarea>
+                                                <label for="message" class="active">Batasan Variabel</label>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="input-field col s12">
+                                                <textarea id="message5" class="materialize-textarea" length="120" name="panduan_penilaian">{$row.panduan_penilaian}</textarea>
+                                                <label for="message" class="active">Panduan Penilaian</label>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="input-field col s12">
+                                                Kompetensi Kunci <a class="btn-floating btn-small waves-effect waves-light green" href="#"><i class="mdi-content-add"></i></a>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="row">
+                                                <div class="input-field col s12">
+                                                    <a href='#' class="btn waves-effect waves-light " onclick="loadUrl_adds('unit-kompetensi','{$host}unit-kompetensi','tMain','{$row.id_bidang}')">BACK
+                                                        <i class="mdi-content-reply left"></i>
+                                                    </a>
+                                                    <a href='#' class="btn cyan waves-effect waves-light right" onclick="kumpulPost('sv-unit-kompetensi', 'tMain', '{$row.id_fungsi_dasar}')">Submit
+                                                        <i class="mdi-content-send right"></i>
+                                                  </a>
+                                                </div>
+                                          </div>
+                                        </div>
+                                  </form>
+                                </div>
+                          </div>
+                        </div>
+                </div>
+
+
+        </div>
+</div>

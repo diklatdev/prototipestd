@@ -37,7 +37,7 @@ class madmin extends SHIPMENT_Model{
 			// End User Manajemen & ACL
                         case "sub_sub2bidang":
                                $sql = "SELECT A.* FROM idx_sub_subbidang A "
-                                . "WHERE idx_sub_bidang_id = $p1 AND tingkat_pemerintahan = $p2"; 
+                                . "WHERE idx_sub_bidang_id = $p1 AND idx_tipe_pemerintahan_id = $p2"; 
                         break;
                         case "kompetensi_manajerial":
                             if ($p2 == 'detil'){
@@ -63,7 +63,15 @@ class madmin extends SHIPMENT_Model{
                                         . "WHERE idx_kompetensi_kunci_id = $p1";
                             }
                         break;
-			
+                        case "unit_kompetensi":
+                            $sql ="SELECT A.id as id_fungsi_dasar, A.idx_bidang_id as id_bidang, A.idx_sub_bidang_id as id_sub_bidang, A.idx_sub_subbidang_id as id_sub_subbidang,
+                                    A.no_urutan, A.revisi, A.judul_unit, A.deskripsi, A.batasan_variabel, A.panduan_penilaian, A.kode_unit_kompetensi,
+                                    B.inisial as ini_bidang, C.inisial as ini_sub_bidang, A.idx_kelompok_kompetensi_id as id_kel
+                                    FROM `tbl_unit_kompetensi` A
+                                    LEFT JOIN idx_bidang B ON B.id = A.idx_bidang_id
+                                    LEFT JOIN idx_sub_bidang C ON C.id = A.idx_sub_bidang_id
+                                    WHERE A.id = '$p1';";
+                        break;
 			
 		}
 		
@@ -116,6 +124,10 @@ class madmin extends SHIPMENT_Model{
                     case "pemetaan_fungsi":
                          $sql = 'SELECT A.* FROM idx_bidang A';
                     break;
+                    case "unit_kompetensi":
+                        $sql = "SELECT A.* FROM tbl_unit_kompetensi A WHERE idx_bidang_id = $p1";
+                    break;
+                    
 		}
 		
 		return $this->lib->jsondata($sql, $type);
@@ -124,6 +136,77 @@ class madmin extends SHIPMENT_Model{
 	function simpansavedatabase($type="", $post="", $p1="", $p2="", $p3=""){
 		$this->load->library('lib');
 		$this->db->trans_begin();
+                
+                switch ($type){
+                    case "fungsi_dasar":
+                            $post_bnr = array();
+                            $post_bnr['judul_unit'] = $post['fungsi_dasar'];
+                            $post_bnr['idx_kelompok_kompetensi_id'] = $post['kel_kom'];
+                            $post_bnr['idx_sub_bidang_id'] = $post['id_sub'];
+                            $post_bnr['idx_sub_subbidang_id'] = $post['id_sub2'];
+                            $post_bnr['idx_bidang_id'] = $post['id_bidang'];
+
+                            if ($p1 == 'sv'){				
+                                    $insert_reg = $this->db->insert("tbl_unit_kompetensi", $post_bnr);
+                            }elseif ($p1 == 'up'){
+                                    $insert_reg = $this->db->where("id", $post['kode']);
+                                    $insert_reg = $this->db->update("idx_tuk", $post_bnr);
+                            }
+                    break;
+                    case "unit_kompetensi":
+                        $id_fungsi_dasar = $post['id_fungsi_dasar'];
+                        $ini_bidang = $post['ini_bidang'];
+                        $ini_sub_bidang = $post['ini_sub_bidang'];
+                        $kode_kelompok = '0'.$post['kel_kom'];
+                                
+                        $post_bnr = array();
+                        $post_bnr['idx_kelompok_kompetensi_id'] = $post['kel_kom'];
+                        $post_bnr['no_urutan'] = $post['nomor_urut'];
+                        $post_bnr['revisi'] = $post['revisi'];
+                        $post_bnr['judul_unit'] = $post['nama_bidang'];
+                        $post_bnr['deskripsi'] = $post['deskripsi'];
+                        $post_bnr['batasan_variabel'] = $post['batasan_var'];
+                        $post_bnr['panduan_penilaian'] = $post['panduan_penilaian']; 
+                        $post_bnr['kode_unit_kompetensi'] = $ini_bidang.".".$ini_sub_bidang.".".$kode_kelompok.".".$post['revisi'];
+          
+                        $insert_reg = $this->db->where("id", $id_fungsi_dasar);
+                        $insert_reg = $this->db->update("tbl_unit_kompetensi", $post_bnr);
+                        
+                        if (isset($post['elemen'])){
+                            $count_el = count($post['elemen']) - 1;
+                            $post_el = array();
+                            for($i = 0; $i <= $count_el; $i++){
+                                $post_el['nama'] = $post['elemen'][$i];
+                                $post_el['tbl_unit_kompetensi_id']=$id_fungsi_dasar;
+                                $insert_el = $this->db->insert("tbl_elemen_unit_kompetensi", $post_el);
+                            }
+                        }
+                        $elemen_sql = $this->db->query("SELECT id, nama FROM tbl_elemen_unit_kompetensi "
+                                . "WHERE tbl_unit_kompetensi_id = '$id_fungsi_dasar'");
+                        $elemen_data = $elemen_sql->result_array();
+                        $elemen_num = $elemen_sql->num_rows();
+                        
+                        foreach($elemen_data as $k => $v){
+                            if (isset($post['unjuk_'.$v['id']])){
+                                
+                                $count_kuk = count($post['unjuk_'.$v['id']]) -1;
+                                //print_r ($post['unjuk_'.$v['id']]);
+                                
+                                $post_kuk = array();
+                                for($i = 0; $i <= $count_kuk; $i++){
+                                    
+                                    $post_kuk['nama'] = $post['unjuk_'.$v['id']][$i];
+                                    $post_kuk['tbl_elemen_unit_kompetensi_id'] = $v['id'];
+                                    //print_r($post_kuk);
+                                    $insert_kuk = $this->db->insert("tbl_kuk_elemen_unit_kompetensi", $post_kuk);
+                                }
+                                
+                            }
+                        }
+                        
+                        
+                    break;
+                }
 		
 		
 		

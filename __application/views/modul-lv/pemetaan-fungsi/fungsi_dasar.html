@@ -1,0 +1,151 @@
+<!--start container-->
+<div class="container">
+  <div class="section">
+
+
+        <p class="caption">{$bidang.nama_bidang}</p>
+        <div class="divider"></div>
+            <div class="row">
+                <div class="col s12 m12 l12"><ol class="breadcrumb">
+                    <li><a href="#" onclick="loadUrl('{$host}pemetaan-fungsi')">Back</a></li>
+                </ol>
+                </div>
+            </div>
+
+        <!--Bordered Table-->
+        <div id="bordered-table">
+          <div class="row">
+                <div class="col s12">
+            <form id='myForm'> 
+                  <table class="bordered">
+                        <thead>
+                          <tr>
+                                <th width="25%">Fungsi Kunci</th>
+                                <th width="25%">Fungsi Utama</th>
+                                <th width="40%">Fungsi Dasar</th>
+                                <th width="0%">Kelompok Kompetensi</th>
+                                <th width="15%">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody >
+                    {if $sub_data}
+                        {foreach from=$sub_data key=k item=i}
+                            <tr id='oye_{$i.id_sub}'>
+                                <td>{$i.nama_sub_bidang}</td>
+                                {if $i.sub_2}
+                                <td>
+                                    {foreach from=$i.sub_2 key=k item=v name=n}
+                                        {if $smarty.foreach.n.first}
+                                            {$v.nama_sub_subbidang}
+                                </td>                                            
+                                            {if $v.fungsi_dasar}
+                                                {foreach name=na from=$v.fungsi_dasar item=val}
+                                <td>
+                                                    {if $smarty.foreach.na.first} 
+                                                        {$val.judul_unit} 
+                                </td>
+                                <td>{$val.nama_kelompok_kompetensi}</td>
+                                <td>
+                                        <a class="btn-floating btn-small waves-effect waves-light green" href=".shtml"><i class="mdi-action-search"></i></a>
+<!--                                        <a class="btn-floating btn-small waves-effect waves-light orange" href=".shtml"><i class="mdi-content-create"></i></a>
+                                        <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>	-->
+                                </td>
+                                                    
+                            </tr>
+                                                    {else}
+                            <tr id='oye_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}'>
+                                <td></td>
+                                <td></td>
+                                <td>{$val.judul_unit}
+                                    {if $smarty.foreach.na.last}
+                                        <a href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'oye_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}', '1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add-box tiny"></i></a>
+                                    {/if} 
+                                </td>
+                                <td>{$val.nama_kelompok_kompetensi}</td>
+                                <td>
+                                        <a class="btn-floating btn-small waves-effect waves-light green" href=".shtml"><i class="mdi-action-search"></i></a>
+<!--                                        <a class="btn-floating btn-small waves-effect waves-light orange" href=".shtml"><i class="mdi-content-create"></i></a>
+                                        <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>	-->
+                                </td>
+                            </tr>
+                                                    {/if}
+                                                {/foreach}
+                                            {else}
+                                            
+                                            {/if}
+                                        {else}
+                            <tr id='oye_{$i.id_sub}_{$v.id_sub2}'>
+                                <td></td>
+                                <td>    {$v.nama_sub_subbidang}</td>
+                                        {if $v.fungsi_dasar}
+                                            {foreach name=na from=$v.fungsi_dasar item=val}
+                                <td>            {if $smarty.foreach.na.first}
+                                                    {$val.judul_unit}                                                   
+                                                    {if $smarty.foreach.na.total eq 1}
+                                                        <a href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'oye_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}', '1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add-box tiny"></i></a>
+                                                    {/if}
+                                </td>
+                                <td>{$val.nama_kelompok_kompetensi}</td>
+                                <td>
+                                        <a class="btn-floating btn-small waves-effect waves-light green" href=".shtml"><i class="mdi-action-search"></i></a>
+<!--                                        <a class="btn-floating btn-small waves-effect waves-light orange" href=".shtml"><i class="mdi-content-create"></i></a>
+                                        <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>	-->
+                                </td>
+                            </tr>               {else}
+                            <tr id='oye_{$i.id_sub}_{$v.id_sub2}'>
+                                <td></td>
+                                <td></td>
+                                <td>{$val.judul_unit} 
+                                    {if $smarty.foreach.na.last}
+                                        <a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('fungsi_dasar', 'oye_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}', '1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add-box tiny"></i></a>
+                                    {/if}    
+                                </td>
+                                <td>{$val.nama_kelompok_kompetensi}</td>
+                                <td>
+                                        <a class="btn-floating btn-small waves-effect waves-light green" href=".shtml"><i class="mdi-action-search"></i></a>
+<!--                                        <a class="btn-floating btn-small waves-effect waves-light orange" href=".shtml"><i class="mdi-content-create"></i></a>
+                                        <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>	-->
+                                </td>
+                            </tr>
+                                                {/if}
+                                            {/foreach}
+                                        {else}
+                                <td> 
+                                    <a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('fungsi_dasar', 'oye_{$i.id_sub}_{$v.id_sub2}', '1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add-box tiny"></i></a>
+                                </td>
+                                        {/if}
+                                        {/if}
+                                    {/foreach}
+                                {else}
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                        <a class="btn-floating btn-small waves-effect waves-light green" href=".shtml"><i class="mdi-action-search"></i></a>
+<!--                                        <a class="btn-floating btn-small waves-effect waves-light orange" href=".shtml"><i class="mdi-content-create"></i></a>
+                                        <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>	-->
+                                </td>
+                                {/if}
+
+
+                          </tr>
+                        {/foreach}
+                    {else}
+                          <tr>
+                                <td>Data Sub Bidang dan Fungsi Dasar Belum Tersedia</td>
+                          </tr>
+                    {/if}
+
+
+                        </tbody>
+                  </table>
+            </form>
+                </div>
+          </div>
+        </div>
+
+
+
+  </div>
+</div>
+<!--end container-->
