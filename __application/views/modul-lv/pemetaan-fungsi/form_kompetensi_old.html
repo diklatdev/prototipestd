@@ -9,8 +9,8 @@
                         <div class="col s12 m12 l12">
                           <div class="card-panel">
                                 <div class="row">
-                                  <form class="col s12" id="form_komp">
-                                        <input name="id_fungsi_dasar" value="{$row.id_fungsi_dasar}" hidden id="id_fung_das">
+                                  <form class="col s12">
+                                        <input name="id_fungsi_dasar" value="{$row.id_fungsi_dasar}" hidden>
                                         <div class="row">
                                           <div class="input-field col s3">
                                                 <input id="namaprogram" type="text" value="{$row.ini_bidang}" disabled>
@@ -32,7 +32,7 @@
                                           </div> 
                                           <div class="input-field col s3">
                                                 <input id="namaprogram" type="text" value="{$no_urut}" disabled>
-                                                <input name="nomor_urut" value="{$no_urut}" type="hidden">
+                                                <input name="no_urut" value="{$no_urut}" type="hidden">
                                                 <label for="namaprogram" class="active">Nomor Urut</label>
                                           </div>
                                           <div class="input-field col s2">
@@ -67,30 +67,25 @@
                                             <div class="col s12">
                                                  {if $elemen}
                                                     {foreach name=elem from=$elemen key=k item=i}
-                                                <ul class="collection with-header" id="li_elemen_{$i.id_elemen}">
-                                                    <li  class="collection-header grey" id="ele_id_{$i.id_elemen}">
+                                                <ul class="collection with-header">
+                                                    <li  class="collection-header grey">
                                                         <div>
-                                                        <font style="font-size:1.3rem" id="txtel_{$i.id_elemen}">{$i.nama_elemen}</font>
-                                                            <a href="javascript:void(0)" class="secondary-content" onclick="addrowtableinput_lv('edit_elemen','ele_id_{$i.id_elemen}','','','{$i.id_elemen}')">
-                                                                <i class="mdi-content-create tiny"></i> </a> 
-                                                            <a href="javascript:void(0)" class="secondary-content" onclick="addrowtableinput_lv('del_elemen','li_elemen_{$i.id_elemen}','','id_fung_das','{$i.id_elemen}')">
-                                                                <i class="mdi-content-clear tiny"></i> 
-                                                            </a> 
+                                                        <font style="font-size:1.3rem">
+                                                            {$i.nama_elemen}
+                                                            <a href="#!" class="secondary-content"><i class="mdi-content-create tiny"></i> </a> 
+                                                            <a href="#!" class="secondary-content"><i class="mdi-content-clear tiny"></i> </a>  
+                                                        </font>
                                                         
                                                         </div>
                                                     </li>
                                                     <li class="collection-item  teal lighten-2">Kriteria Unjuk Kerja</li>
                                                     {if $i.kuk}
                                                         {foreach name=kuk from=$i.kuk item=v key=k}                                                                                                    
-                                                    <li class="collection-item" id="li_kuk_{$v.id}">
+                                                    <li class="collection-item">
                                                         <div>
-                                                            <font id="txt_{$v.id}">{$v.nama}</font> 
-                                                            <a href="javascript:void(0)" class="secondary-content" onclick="addrowtableinput_lv('edit_kuk','li_kuk_{$v.id}','','','{$v.id}')">
-                                                                <i class="mdi-content-create tiny"></i> 
-                                                            </a> 
-                                                            <a href="javascript:void(0)" class="secondary-content" onclick="addrowtableinput_lv('del_kuk','li_kuk_{$v.id}','','id_fung_das','{$v.id}')">
-                                                                <i class="mdi-content-clear tiny"></i> 
-                                                            </a>  
+                                                            {$v.nama} 
+                                                            <a href="#!" class="secondary-content"><i class="mdi-content-create tiny"></i> </a> 
+                                                            <a href="#!" class="secondary-content"><i class="mdi-content-clear tiny"></i> </a>  
                                                         </div>                          
                                                     </li>
                                                         {/foreach}
@@ -105,6 +100,64 @@
                                                     {/foreach}
                                                 {/if}
                                                 <br>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                                <div class="col s12">
+                                                                <div id="id="responsive-table"">
+                                                                    <div class="row">
+                                                                        <div class="col s12">
+                                                                          <table class="responsive-table" style='width:98%;'>
+                                                                                <thead>
+                                                                                  <tr id="element_row">
+                                                                                        <th width="10%" class="center"></th>
+                                                                                        <th></th>
+                                                                                  </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                {if $elemen}
+                                                                                    {foreach name=elem from=$elemen key=k item=i}
+                                                                                  <tr>
+                                                                                        <td width="10%"  style="padding-left: 7px">
+                                                                                            <a><i class="mdi-content-create"></i></a>
+                                                                                            <a><i class="mdi-action-highlight-remove"></i></a>
+                                                                                        </td>
+                                                                                        <td width="90%"><b>{$i.nama_elemen}</b></td>
+                                                                                  </tr>
+                                                                                  <tr>
+                                                                                        <td width="70%" class="center" colspan="2" class="center" style="padding-left: 30px"><br>
+                                                                                            <table class="responsive-table" style="width: 98%">
+                                                                                                <thead>
+                                                                                                    <tr id="unjuk_row_{$i.id_elemen}">
+                                                                                                        <th width="90%" id="btn_unjuk">Kriteria Unjuk Kerja  
+                                                                                                            <a href="#" onClick="addrowtableinput_lv('unjuk-kerja','unjuk_row_{$i.id_elemen}','btn_unjuk',  '0', '{$i.id_elemen}');" ><i class="mdi-content-add-box tiny"></i></a>
+                                                                                                        </th>
+                                                                                                        <th>Action</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody style="width: 98%">
+                                                                                        {if $i.kuk}
+                                                                                            {foreach name=kuk from=$i.kuk item=v key=k}
+                                                                                                    <tr >
+                                                                                                        <td style="padding-left: 7px">{$v.nama}</td>
+                                                                                                        <td>
+                                                                                                            <a href="#"><i class="mdi-content-create tiny"></i></a>
+                                                                                                            <a href="#"><i class="mdi-content-clear tiny"></i></a>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                            {/foreach}
+                                                                                        {/if}
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        <br></td>
+                                                                                  </tr>
+                                                                                  {/foreach}
+                                                                                {/if}
+                                                                                </tbody>
+                                                                          </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                             </div>
                                         </div>
                                       <br><br>
@@ -122,45 +175,8 @@
                                         </div>
                                         <div class="row">
                                           <div class="input-field col s12">
-                                                Kompetensi Kunci 
-                                                <!--<a class="btn-floating btn-small waves-effect waves-light green" href="#"><i class="mdi-content-add"></i></a>-->
+                                                Kompetensi Kunci <a class="btn-floating btn-small waves-effect waves-light green" href="#"><i class="mdi-content-add"></i></a>
                                           </div>
-                                            <br/>
-                                            <div id="responsive-table">
-                                              <div class="row">
-                                                    <div class="col s12">
-                                                    <table class="responsive-table" style='width:100%'>
-                                                      <thead>
-                                                            <tr>
-                                                                    <th>Kompetensi Kunci</th>
-                                                                    <th>Level </th>
-                                                                    <th width="10%">Action</th>
-                                                            </tr>
-                                                      </thead>
-                                                            <tbody>
-                                                            {foreach from=$kompetensi_kunci item=rows}    
-                                                                <tr id="komkunci_{$rows.id}">
-                                                                    <td>{$rows.kom_kunci}</td>
-                                                                    <td>{$rows.level}</td>
-                                                                    <td>
-                                                                        <a href="javascript:void(0)" onclick="addrowtableinput_lv('del_lev_kk','komkunci_{$rows.id}','','id_fung_das','{$rows.id}')">
-                                                                        <i class="mdi-content-clear tiny"></i>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                            {/foreach}
-                                                            <tr id="dasar_row">
-                                                              <td></td>
-                                                              <td></td>
-                                                              <td id = "btn_add_dasar">
-                                                                    <a href='javascript:void(0)' onclick="addrowtableinput_lv('add_komp_kunci','dasar_row','', '0');"><i class='mdi-content-add-box tiny right'></i></a>
-                                                              </td>
-                                                            </tr>
-                                                      </tbody>
-                                                    </table>
-                                                    </div>
-                                              </div>
-                                            </div>
                                         </div>
                                         <div class="row">
                                           <div class="row">

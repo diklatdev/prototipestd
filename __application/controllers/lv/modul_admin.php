@@ -99,7 +99,10 @@ class modul_admin extends SHIPMENT_Controller{
                             $this->smarty->assign('tipe',$p1); 
                             $this->smarty->assign('id_where', $id_bidang);                            
                         break;
-                            
+                        case "skema_sertifikasi":
+                            $content = "modul-lv/skema_sertifikasi/main.html";
+                            $this->smarty->assign('tipe',$p1);                             
+                        break;                            
                     }
                 break; 
                 case 'kementrian_grid':
@@ -113,6 +116,7 @@ class modul_admin extends SHIPMENT_Controller{
                     $this->smarty->assign('data_pusat',$sql_pusat);
                     $this->smarty->assign('data_prov',$sql_prov);
                     $this->smarty->assign('data_kab',$sql_kab);
+                    $this->smarty->assign('id_sub_bidang', $id_sub2bidang);
                     $content = "modul-lv/bidang/sub_subbidang.html";
                 break;
                 case 'detil_komp_manaj':
@@ -134,6 +138,7 @@ class modul_admin extends SHIPMENT_Controller{
                 break;
                 case "fungsi_dasar":
                     $id_bidang = $this->input->post('id_bidang');
+                    $this->smarty->assign('id_bidang', $id_bidang);
                     
                     $sql = $this->db->query("SELECT * FROM idx_bidang WHERE id = $id_bidang")->row_array();
                     $sql2 = $this->db->query("SELECT id as id_sub, nama_sub_bidang "
@@ -170,6 +175,31 @@ class modul_admin extends SHIPMENT_Controller{
                     $id_kompetensi = $this->input->post("id_unit_kompetensi");
                     $data = $this->madmin->get_data("unit_kompetensi","row_array",$id_kompetensi);
                     $this->smarty->assign("row",$data);    
+                    $no_urut = $data['no_urutan'];
+                    
+                      
+                    if (!$no_urut){
+                        
+                        $urut = $this->db->query("SELECT MAX(no_urutan) as no_urut FROM tbl_unit_kompetensi "
+                                . "WHERE idx_bidang_id = '".$data['id_bidang']."'")->row_array();
+                        if (!$urut){
+                            $no_urut = '001';
+                        }else{
+                            $nol = '';
+                            $num = strlen($urut['no_urut']);
+                            if ($num = 1 && $urut['no_urut'] != 9){
+                                $no_urut = $urut['no_urut']+1;
+                                $nol = '00';
+                            }elseif($num = 2 && $urut['no_urut'] != 99){
+                                $no_urut = $urut['no_urut']+1;
+                                $nol = '0';
+                            }else{
+                                $no_urut = $urut['no_urut']+1;
+                            }
+                            $no_urut = $nol.$no_urut;
+                        }                        
+                    }
+                    $this->smarty->assign('no_urut', $no_urut);
                     
                     $elemen = $this->db->query("SELECT * FROM tbl_elemen_unit_kompetensi "
                             . "WHERE tbl_unit_kompetensi_id = $id_kompetensi")->result_array();
@@ -183,13 +213,87 @@ class modul_admin extends SHIPMENT_Controller{
                         $elem[$k]["kuk"] = $unjuk;
                     }
                     $this->smarty->assign('elemen', $elem);
-                                        
+                    
+                    $kom_kunci_uk = $this->madmin->get_data('kom_kunci_uk','result_array',$id_kompetensi);
+                    $this->smarty->assign('kompetensi_kunci', $kom_kunci_uk); 
+                    
                     $content = "modul-lv/pemetaan-fungsi/form_kompetensi.html";
                 break;
+                case "skema_sertifikasi":
+                    switch($p1){
+                        case "form":
+                            $bkl =$this->madmin->get_data('list_bkl','result_array');
+                            $this->smarty->assign('bkl', $bkl);
+                            $pangkat =$this->madmin->get_data('list_pangkat','result_array');
+                            $this->smarty->assign('pangkat', $pangkat);
+                            $content = "modul-lv/skema_sertifikasi/form_skema.html";
+                        break;
+                    }
+                break;
+                case "edit_skema_sertifikasi":
+                    $id_bkl = $this->input->post('id_bkl');
+                    $data = $this->madmin->get_data('skema_sert', 'row_array', $id_bkl);
+                    $this->smarty->assign('data',$data);
+                    $bkl =$this->madmin->get_data('list_bkl','result_array');
+                    $this->smarty->assign('bkl', $bkl);
+                    $pangkat =$this->madmin->get_data('list_pangkat','result_array');
+                    $this->smarty->assign('pangkat', $pangkat);
+                    $sub_bkl = $this->madmin->get_data('sub_bkl', 'result_array',$data['idx_bkl_id'], $data['jenis_bkl']);
+                    $this->smarty->assign('sub_bkl', $sub_bkl);
+                    
+                    $unit_komp = $this->madmin->get_data('skesert_unit_kompetensi', 'result_array', $id_bkl);
+                    $this->smarty->assign('unit_kompt', $unit_komp);
+                    $syarat_dasar = $this->madmin->get_data('skesert_prsayarat_dasar', 'result_array', $id_bkl);
+                    $this->smarty->assign('syarat_dasar', $syarat_dasar);
+                    $this->smarty->assign('id_bkl', $id_bkl);
+                    
+                    $content = "modul-lv/skema_sertifikasi/form_skema_edit.html";
+                break;
+                        
             }
             $this->smarty->assign('type', $type);
             $this->smarty->display($content);
 	}
+        
+        function display_flek($type){
+            switch ($type){
+                case "select_unit":
+                    $id_bidang = $this->input->post('id_bidang');
+                    $counter = $this->input->post("counter");
+                    $query = "SELECT * FROM tbl_unit_kompetensi WHERE idx_bidang_id = '$id_bidang'";
+                    $unit_kompt = $this->db->query($query)->result_array();
+                    $this->smarty->assign('unit', $unit_kompt);
+                    $this->smarty->assign('counter', $counter);
+                    $this->smarty->assign('id_bidang', $id_bidang);
+                    $content = "modul-lv/skema_sertifikasi/select_input.html";
+                break;
+                case "select_sub":
+                    $id_bkl = $this->input->post('id_bkl');
+                    $id_bkl = explode('_', $id_bkl);
+                    $id = $id_bkl[0];
+                    $tipe_bkl = $id_bkl[1];
+                    $sub_bkl = $this->madmin->get_data('sub_bkl','result_array', $id, $tipe_bkl);
+                    $this->smarty->assign('sub_bkl', $sub_bkl);
+                    $content = "modul-lv/skema_sertifikasi/select_sub_bkl.html";
+                break;
+                case "select_kompt_kunci":
+                    $counter = $this->input->post("counter");
+                    $query = "SELECT * FROM idx_kompetensi_kunci";
+                    $kompt_kunci = $this->db->query($query)->result_array();
+                    $this->smarty->assign('kom_kunci', $kompt_kunci);
+                    $this->smarty->assign('counter', $counter);
+                    $content = "modul-lv/pemetaan-fungsi/select_komp_kunci.html";
+                break;
+                case "select_level_kk":
+                    $id_komp_kunci = $this->input->post('id_kom_kunci');
+                    $sql = "SELECT * FROM idx_level_kompetensi_kunci WHERE idx_kompetensi_kunci_id = $id_komp_kunci";
+                    $level_kk = $this->db->query($sql)->result_array();
+                    $this->smarty->assign('level_kk', $level_kk);
+                    $content = "modul-lv/pemetaan-fungsi/select_level_kk.html";
+                break;
+            }
+            $this->smarty->display($content);
+        }
         
         function display_fisbone($type, $p=''){
             switch ($type){
@@ -208,13 +312,13 @@ class modul_admin extends SHIPMENT_Controller{
         }
         
         function json_fishbone($p){
-            $sql = $this->db->query("SELECT inisial as name FROM idx_bidang WHERE id = $p")->row_array();
-            $sql2 = $this->db->query("SELECT id,nama_sub_bidang as name "
+            $sql = $this->db->query("SELECT IF (LENGTH(nama_bidang) > 30,CONCAT(LEFT(nama_bidang, 30),'...'),nama_bidang) as name FROM idx_bidang WHERE id = $p")->row_array();
+            $sql2 = $this->db->query("SELECT id, IF (LENGTH(nama_sub_bidang ) > 60,CONCAT(LEFT(nama_sub_bidang , 60),'...'),nama_sub_bidang ) as name "
                     . "FROM idx_sub_bidang WHERE idx_bidang_id = $p")->result_array();
             $child2 = '';
                 
             foreach ($sql2 as $k => $v){ 
-                $sql3 = $this->db->query("SELECT nama_sub_subbidang as name "
+                $sql3 = $this->db->query("SELECT IF (LENGTH(nama_sub_subbidang ) > 40,CONCAT(LEFT(nama_sub_subbidang , 40),'...'),nama_sub_subbidang ) as name "
                         . "FROM idx_sub_subbidang WHERE idx_sub_bidang_id = ".$v['id']."")->result_array();
                 
                 $child2[$k]["name"] = $v["name"];
@@ -243,7 +347,7 @@ class modul_admin extends SHIPMENT_Controller{
             echo $this->madmin->simpansavedatabase($type, $post, $p1);
             $html = "";
             switch($type){
-                case "fungsi_dasar":
+               /* case "fungsi_dasar":
                     //$sql = "@last_id := SELECT LAST_INSERT_ID();";
                     $sql = "SELECT id, judul_unit, "
                         . "CASE idx_kelompok_kompetensi_id "
@@ -261,8 +365,11 @@ class modul_admin extends SHIPMENT_Controller{
                         . "     <a class='btn-floating btn-small waves-effect waves-light orange' href='.shtml'><i class='mdi-content-create'></i></a>"
                         . "     <a class='btn-floating btn-small waves-effect waves-light '><i class='mdi-content-clear'></i></a>	"
                         . "</td>";
-                break; 
+                break; */
+                case "fungsi_dasar":
                 case "unit_kompetensi":
+                case "delete_fd";
+                case "delete_skema";
                 break;
             }
             $this->smarty->display("string:" . $html);

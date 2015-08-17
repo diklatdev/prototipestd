@@ -44,6 +44,17 @@ $route['submit-fungsi-dasar'] = "lv/modul_admin/simpandgnView/fungsi_dasar/sv";
 $route['unit-kompetensi'] = "lv/modul_admin/getdisplay/datagridview/unit_kompetensi";
 $route['form-kompetensi'] = "lv/modul_admin/getdisplay/form_kompetensi";
 $route["submit-unit-kompetensi"] = "lv/modul_admin/simpandgnView/unit_kompetensi";
+$route['skema-sertifikasi'] = "lv/modul_admin/getdisplay/datagridview/skema_sertifikasi";
+$route['form-skema_sertifikasi'] = "lv/modul_admin/getdisplay/skema_sertifikasi/form";
+$route["select-unit-skema"] = "lv/modul_admin/display_flek/select_unit";
+$route["select_sub_bkl"] = "lv/modul_admin/display_flek/select_sub";
+$route["submit-skema-sertifikasi"] = "lv/modul_admin/simpandgnView/skema_sertifikasi/sv";
+$route["edit-skema-kompetensi"] = "lv/modul_admin/getdisplay/edit_skema_sertifikasi";
+$route["submit-skema-sertifikasi"] = "lv/modul_admin/simpandgnView/skema_sertifikasi/up";
+$route["delete-fd"] = "lv/modul_admin/simpandgnView/delete_fd";
+$route["select-kompt-kunci"] = "lv/modul_admin/display_flek/select_kompt_kunci";
+$route["select_level_kk"] = "lv/modul_admin/display_flek/select_level_kk";
+$route["delete-skema"] = "lv/modul_admin/simpandgnView/delete_skema";
 
 $route['form-kementrian_grid'] = "lv/modul_admin/getdisplay/kementrian_grid/form";
 $route['form-bidang'] = "lv/modul_admin/getdisplay/datagridview/bidang_urusan";

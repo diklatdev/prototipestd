@@ -1,0 +1,13 @@
+ <tr id='row_{$counter}'> 
+     <td colspan=2>
+        <select name='unit_id[]' class='browser-default' width='50%'> 
+            <option>-- Pilih Unit Kompetensi --</option>
+        {foreach from=$unit item =row}
+            <option value='{$row.id}'>{$row.judul_unit}</option> 
+         {/foreach}
+         </select>
+     </td>
+     <td>
+         <a href='javascript:void(0);' title='Cancel' onClick="deleterowtableinput_lv('unit_skema', 'oye', 'btn_unit', '{$counter}', '{$id_bidang}')"> <i class='mdi-content-clear tiny right'></i></a>
+     </td>
+</tr>

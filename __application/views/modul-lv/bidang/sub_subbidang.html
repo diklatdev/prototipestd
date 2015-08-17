@@ -9,8 +9,9 @@
       <div class="col s12 m12 l12">
             <h5 class="breadcrumbs-title">SUB SUB BIDANG & FUNGSI KERJA URUSAN PEMERINTAHAN</h5>
             <ol class="breadcrumb">
-                    <li><a href="urusan.shtml">Daftar SUB SUB BIDANG & FUNGSI KERJA</a></li>
-                    <li><a href="urusantambah.shtml">Tambah SUB SUB BIDANG & FUNGSI KERJA</a></li>
+                    <li><a href="#" onclick="loadUrl('{$host}bidang')">Bidang & Fungsi Kerja</a></li>
+                    <li><a href="#" onclick="loadUrl_adds('sub-bidang', '{$host}sub-bidang', 'tMain','{$id_sub_bidang}')">Sub Bidang & Fungsi Kerja</a></li>
+                    <li><a href="#">Sub Sub Bidang & Fungsi Kerja</a></li>
             </ol>
       </div>
     </div>
@@ -31,7 +32,7 @@
                                                                     <thead>
                                                                             <tr>
                                                                                     <th data-field="name" width='85%'>Pemerintahan Pusat</th>
-                                                                                    <th data-field="status" style='text-align:center !important;'>Action</th>
+                                                                                    <!--<th data-field="status" style='text-align:center !important;'>Action</th>-->
                                                                             </tr>
                                                                     </thead>
                                                                     <tbody id='oye'>
@@ -40,9 +41,9 @@
                                                                             <td>
                                                                                 {$row.nama_sub_subbidang}
                                                                             </td>
-                                                                            <td style='text-align:center !important;'>
+<!--                                                                            <td style='text-align:center !important;'>
                                                                                     <a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', '{$row.id}');" ><i class="mdi-content-add-box tiny"></i></a>
-                                                                            </td>
+                                                                            </td>-->
                                                                         </tr>
                                                                         {/foreach}
 <!--                                                                        <tr>
@@ -69,7 +70,7 @@
                                                                     <thead>
                                                                             <tr>
                                                                                     <th data-field="name" width='85%'>Pemerintahan Daerah Provinsi</th>
-                                                                                    <th data-field="status" style='text-align:center !important;'>Action</th>
+                                                                                    <!--<th data-field="status" style='text-align:center !important;'>Action</th>-->
                                                                             </tr>
                                                                     </thead>
                                                                     <tbody id='oye'>
@@ -78,9 +79,9 @@
                                                                             <td>
                                                                                 {$row.nama_sub_subbidang}
                                                                             </td>
-                                                                            <td style='text-align:center !important;'>
+<!--                                                                            <td style='text-align:center !important;'>
                                                                                     <a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', '{$row.id}');" ><i class="mdi-content-add-box tiny"></i></a>
-                                                                            </td>
+                                                                            </td>-->
                                                                         </tr>
                                                                         {/foreach}
 <!--                                                                            <tr>
@@ -107,7 +108,7 @@
                                                                     <thead>
                                                                             <tr>
                                                                                     <th data-field="name" width='85%'>Pemerintahan Daerah Kab/Kota</th>
-                                                                                    <th data-field="status" style='text-align:center !important;'>Action</th>
+                                                                                    <!--<th data-field="status" style='text-align:center !important;'>Action</th>-->
                                                                             </tr>
                                                                     </thead>
                                                                     <tbody id='oye'>
@@ -116,9 +117,9 @@
                                                                             <td>
                                                                                 {$row.nama_sub_subbidang}
                                                                             </td>
-                                                                            <td style='text-align:center !important;'>
+<!--                                                                            <td style='text-align:center !important;'>
                                                                                     <a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', '{$row.id}');" ><i class="mdi-content-add-box tiny"></i></a>
-                                                                            </td>
+                                                                            </td>-->
                                                                         </tr>
                                                                         {/foreach}
 <!--                                                                            <tr>

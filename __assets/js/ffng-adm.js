@@ -95,14 +95,14 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                 fitnya = true;
                 pagesizeboy = 50;
                 kolom[modnya] = [
-                    {field:'nama_kelompok_kompetensi',title:'<b>Kelompok Kompetensi</b>',width:700, halign:'left',align:'left'},
+                    {field:'nama_kelompok_kompetensi',title:'<b>Kelompok Kompetensi</b>',width:850, halign:'left',align:'left'},
                     {field:'inisial',title:'<b>Inisial</b>', halign:'left',width:150, align:'left'},
-                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
-                        formatter: function(value,row,index){
-                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>';/*\n\
-                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';*/
-                        }
-                    },
+//                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+//                        formatter: function(value,row,index){
+//                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>';/*\n\
+//                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';*/
+//                        }
+//                    },
                 ];                
             break;
             case"kompetensi_manajerial":
@@ -142,13 +142,13 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                 fitnya = true;
                 pagesizeboy = 50;
                 kolom[modnya] = [
-                    {field:'nama_bakat',title:'<b>Bakat</b>',width:850, halign:'left',align:'left'},
-                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
-                        formatter: function(value,row,index){
-                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>';/*\n\
-                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';*/
-                        }
-                    },
+                    {field:'nama_bakat',title:'<b>Bakat</b>',width:1000, halign:'left',align:'left'},
+//                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+//                        formatter: function(value,row,index){
+//                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>';/*\n\
+//                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';*/
+//                        }
+//                    },
                 ];                
             break;
             case"list_eselon":
@@ -156,14 +156,14 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                 fitnya = true;
                 pagesizeboy = 50;
                 kolom[modnya] = [
-                    {field:'nama_dirjen',title:'<b>ES-1</b>',width:700, halign:'left',align:'left'},
+                    {field:'nama_dirjen',title:'<b>ES-1</b>',width:850, halign:'left',align:'left'},
                     {field:'inisial',title:'<b>Inisial</b>',width:150, halign:'left',align:'left'},
-                    {field:'id_eselon', title:'<b>Action</b>', halign:'center', width:150,align:'center',
-                        formatter: function(value,row,index){
-                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
-                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';
-                        }
-                    },
+//                    {field:'id_eselon', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+//                        formatter: function(value,row,index){
+//                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+//                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';
+//                        }
+//                    },
                 ];                
             break;
             case"sub_bidang":
@@ -210,6 +210,25 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                         }
                     },
                     ];
+            break;
+            case"skema_sertifikasi":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [
+                    {field:'nama_bkl',title:'<b>Bidang Sertifikasi</b>',width:300, halign:'left',align:'left'},
+                    {field:'nama_sub_bkl',title:'<b>Sub Bidang</b>', halign:'left',width:275, align:'left'},
+                    {field:'pekerjaan',title:'<b>Judul</b>', halign:'left',width:275, align:'left'},
+                    {field:'skema',title:'<b>Skema</b>', halign:'left',width:75, align:'left'},
+                    {field:'id', title:'<b>Action</b>', halign:'center', width:75,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'\loadUrl_adds("edit-skema-kompetensi","'+hostir+'edit-skema-kompetensi","tMain","'+value+'")\'\><i class="mdi-content-create"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light" href="javascript:void(0)" onclick=\'kumpulPost("delete_skema","tMain", "'+value+'")\' >\n\
+                                    <i class="mdi-content-clear"></i>\n\
+                                </a>';
+                        }
+                    },
+                ];
             break;
             
 		case "pembentukan_tim":
@@ -535,6 +554,34 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 		$("#"+domnya).html(resp).removeClass("loading");
             });
         break;
+        case "skema_sertifikasi":
+            $("#"+domnya).html("").addClass("loading");
+            $.post(urlnya, {}, function(resp){
+		$("#"+domnya).html(resp).removeClass("loading");
+            });
+        break;   
+        case "select_sub_bkl":
+            var id_bkl = $('#bkl').val().split('_');
+            var html_unit = "";
+            html_unit = "<a href='#' onclick=\"addrowtableinput_lv('add_skema_unit','unit_row','btn_add', '0', '"+id_bkl[0]+"');\"><i class='mdi-content-add-box tiny right'></i></a>";            
+            $.post(urlnya, {'id_bkl':$('#bkl').val()}, function(resp){
+		$("#"+domnya).html(resp);
+                $("#btn_add").html(html_unit);
+            });            
+        break;
+        case "edit-skema-kompetensi":
+            $("#"+domnya).html("").addClass("loading");
+            $.post(urlnya, { 'id_bkl' : p1}, function(resp){
+		$("#"+domnya).html(resp).removeClass("loading");
+            });
+        break;  
+        case "select_level_kk":
+            var id_kom_kunci = $('#komp_kunci_'+p1).val();
+            
+            $.post(urlnya, {'id_kom_kunci':id_kom_kunci}, function(resp){
+		$("#"+domnya).html(resp);
+            });            
+        break;
         
     }
     return false;
@@ -543,9 +590,24 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 
 function kumpulPost($type, domnya, p1, p2, p3, p4){
     switch($type){
+        case "delete_fd":
+            $.post(hostir+"delete-fd",{'id_fd':p1},function(rspp){
+               if (rspp == 1){
+                   alert('Data berhasil Dihapus');
+                    loadUrl_adds('fungsi-dasar', hostir+'fungsi-dasar','tMain',p2 );
+               } else{
+                   alert(rspp);
+               }
+            });
+        break;
         case "add_fd":	 		
             $.post(hostir+"submit-fungsi-dasar", $('form').serialize(),function (rspp){
-                $("#"+domnya).html(rspp); 		
+                if (rspp == 1){
+                    alert('Data berhasil Disimpan');
+                    loadUrl_adds('fungsi-dasar', hostir+'fungsi-dasar','tMain',p1 );
+                }else{
+                    alert('Penyimpanan gagal! :'+rspp);
+                }		
             });
         break;
         case "sv-unit-kompetensi":
@@ -558,6 +620,36 @@ function kumpulPost($type, domnya, p1, p2, p3, p4){
                     alert("Data Gagal Disimpan");
                 }
             });
+        break;
+        case "save_skema_sert":		
+            $.post(hostir+"submit-skema-sertifikasi", $('form').serialize(),function (rspp){
+                if (rspp == 1){
+                    alert('Data berhasil Disimpan');
+                    loadUrl('skema-sertifikasi');
+                }else{
+                    alert("Data Gagal Disimpan : "+rspp);
+                }		
+            });            
+        break;
+        case "update_skema_sert":
+            $.post(hostir+"update-skema-sertifikasi", $('form').serialize(),function (rspp){
+                if (rspp == 1){
+                    alert('Data berhasil Diperbaharui');
+                    loadUrl('skema-sertifikasi');
+                }else{
+                    alert("Data Gagal Disimpan : "+rspp);
+                }		
+            });
+        break;
+        case "delete_skema":
+            if (confirm('Apakah Anda Akan Menghapus Skema Ini?')) {
+                $.post(hostir+"delete-skema", {'id_skema':p1}, function(rspp){
+                    loadUrl('skema-sertifikasi');
+                });
+             }else{
+                 loadUrl('skema-sertifikasi');
+             }
+        break;
     }
 	
 }
@@ -567,31 +659,30 @@ function addrowtableinput_lv(type, dom, dom_link, p1, p2, p3, p4){
             case "unjuk-kerja":
                 var counter = parseInt(p1)+1;
                 var htmlnya = "";
-                htmlnya += "<tr id='rows_"+counter+"'>";
-                htmlnya += "	<td colspan = '2'> <input name=unjuk_"+p2+"[] id='unjuk_"+p2+"_"+counter+"' type='text' style='width:90%;' value='' >";
-//                htmlnya += "	<td style='text-align:center !important;'>";			
+                htmlnya += "<li class='collection-item' id='li_id_"+counter+"'>";
+                htmlnya += "    <div>";
+                htmlnya += "        <input name=unjuk_"+p2+"[] id='unjuk_"+p2+"_"+counter+"' type='text' style='width:98%;' value='' >";
                 htmlnya += "		<a href=\"javascript:void(0);\" title='Cancel' onClick=\"deleterowtableinput_lv('unjuk_kerja', 'oye', 'btn_unjuk', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";
-                htmlnya += "	</td>";	                
-                htmlnya += "</tr>";
+                htmlnya += "	</div>";	                
+                htmlnya += "</li>";
                 
                 var html_link = "";
                 html_link +="Kriteria Unjuk Kerja  "; 
                 html_link +="<a href='#' onClick=\"addrowtableinput_lv('unjuk-kerja','unjuk_row_"+counter+"','btn_unjuk',  '"+counter+"');\" ><i class=\"mdi-content-add-box tiny\"></i></a>"
                 
-                $('#'+dom).after(htmlnya);
-                $('#'+dom_link).html(html_link);
+                $('#'+dom).before(htmlnya);
+                //$('#'+dom_link).html(html_link);
             break
             case "add-element":
                 var counter = parseInt(p1)+1;
                 var htmlnya = "";
-                htmlnya += "<tr id='row_"+counter+"'>";
-                htmlnya += "	<td style='text-align:center !important;'>";			
-                htmlnya += "		<a href=\"javascript:void(0);\" title='Cancel' onClick=\"deleterowtableinput_lv('add_elemen', 'oye', 'btn_elemen', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";			
-//                htmlnya += "		<a href=\"javascript:void(0);\" title='Simpan' onClick=\"kumpulPost('add_fd','row_"+counter+"') \"><i class=\"mdi-action-done tiny\"></i></a>";			
-                htmlnya += "	</td>";	
-                
-                htmlnya += "	<td> <input name='elemen[]' id='element_"+counter+"' type='text' style='width:90%;' value='' ></td>";
-                htmlnya += "</tr>";
+                htmlnya += "<div class='row' id='row_"+counter+"'>";
+                htmlnya += "	<div class='input-field col s12'>";			
+                htmlnya += "        <input name='elemen[]' id='element_"+counter+"' type='text' style='width:90%;' value='' >";			
+                htmlnya += "        <a href=\"javascript:void(0);\" title='Cancel' onClick=\"deleterowtableinput_lv('add_elemen', 'oye', 'btn_elemen', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";			
+                htmlnya += "        <label for='element_"+counter+"' class='active'>Elemen Kompetensi</label>";
+                htmlnya += "	</div>";                
+                htmlnya += "</div>";
                 
                 var html_link = "";
                 html_link +="Elemen Kompetensi "; 
@@ -599,9 +690,105 @@ function addrowtableinput_lv(type, dom, dom_link, p1, p2, p3, p4){
                 html_link +="<i class=\"mdi-content-add\"></i>"
                 html_link +="</a>"
 
-                $('#'+dom).before(htmlnya);
-                $('#'+dom_link).html(html_link);
+                $('#'+dom).after(htmlnya);
+//                $('#'+dom_link).html(html_link);
             break
+            case "add_skema_unit":
+                var counter = parseInt(p1)+1;
+                var htmlnya = "";                
+                
+                var html_link = "";
+                html_link +="<a href='#' onclick=\"addrowtableinput_lv('add_skema_unit','unit_row','btn_add', '"+counter+"', '"+p2+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
+                                
+                $.post(hostir+"select-unit-skema", {'id_bidang':p2, 'counter':counter},function (rspp){  
+                    htmlnya = rspp;
+                    $('#'+dom).after(htmlnya);
+                    $('#'+dom_link).html(html_link);		
+                });
+            break;
+            case "add_skema_dasar":
+                var counter = parseInt(p1)+1;
+                var htmlnya = "";                
+                
+                var html_link = "";
+                html_link +="<a href='#' onclick=\"addrowtableinput_lv('add_skema_dasar','dasar_row','btn_add_dasar', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
+                    
+                htmlnya += "<tr id='dasar_row_"+counter+"'>";                
+                htmlnya += "	<td> <input name='dasar[]' id='dasar_"+counter+"' type='text' style='width:90%;' value='' ></td>";
+                htmlnya += "	<td> <input name='bukti[]' id='bukti_"+counter+"' type='text' style='width:90%;' value='' ></td>";
+                htmlnya += "	<td style='text-align:center !important;'>";			
+                htmlnya += "		<a href=\"javascript:void(0);\" title='Cancel' onClick=\"deleterowtableinput_lv('dasar_skema', 'oye', 'btn_dasar', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";			
+//                htmlnya += "		<a href=\"javascript:void(0);\" title='Simpan' onClick=\"kumpulPost('add_fd','row_"+counter+"') \"><i class=\"mdi-action-done tiny\"></i></a>";			
+                htmlnya += "	</td>";	
+                htmlnya += "</tr>";
+                
+                $('#'+dom).after(htmlnya);
+                $('#'+dom_link).html(html_link);	            
+            break;
+        case "edit_kuk":
+            var htmlnya = "";
+            var text_con = $('#txt_'+p2).text();
+            
+            htmlnya += "<div>";
+            htmlnya += "    <input name='editkuk_"+p2+"[]' id='editkuk"+p2+"' type='text' style='width:98%;' value='"+text_con+"' >";
+            htmlnya += "    <a href=\"javascript:void(0);\" title='Cancel' onClick=\"deleterowtableinput_lv('edit_kuk', 'li_kuk_"+p2+"', '', '"+p2+"', '"+text_con+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";
+            htmlnya += "</div>";
+            
+            $('#'+dom).html(htmlnya);
+            
+        break;
+        case "edit_elemen":
+            var htmlnya = "";
+            var text_con = $('#txtel_'+p2).text();
+            
+            htmlnya += "<div>";
+            htmlnya += "    <input class='white' name='editelemen_"+p2+"[]' id='editelemen_"+p2+"' type='text' style='width:98%;' value='"+text_con+"' >";
+            htmlnya += "    <a href=\"javascript:void(0);\" title='Cancel' onClick=\"deleterowtableinput_lv('edit_elemen', 'ele_id_"+p2+"', '', '"+p2+"', '"+text_con+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";
+            htmlnya += "</div>";
+            
+            $('#'+dom).html(htmlnya);
+            
+        break;
+        case "del_kuk":
+            var html = "";
+            var dominput = p1;
+            
+            html += "<input name='del_kuk[]' id='del_kuk_"+p2+"' value='"+p2+"' type='hidden'>";
+            
+            $('#'+dom).remove();
+            $('#'+dominput).after(html);
+        break;   
+        case "del_elemen":
+            var html = "";
+            var dominput = p1;
+            
+            html += "<input name='del_elemen[]' id='del_elemen_"+p2+"' value='"+p2+"' type='hidden'>";
+            
+            $('#'+dom).remove();
+            $('#'+dominput).after(html);
+        break;  
+        case "add_komp_kunci":
+            var counter = parseInt(p1)+1;
+            var htmlnya = "";                
+
+            var html_link = "";
+            html_link +="<a href='#' onclick=\"addrowtableinput_lv('add_skema_unit','unit_row','btn_add', '"+counter+"', '"+p2+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
+
+            $.post(hostir+"select-kompt-kunci", {'counter':counter},function (rspp){  
+                htmlnya = rspp;
+                $('#'+dom).after(htmlnya);
+                //$('#'+dom_link).html(html_link);		
+            });
+        break;
+        case "del_lev_kk":
+            var html = "";
+            var dominput = p1;
+            
+            html += "<input name='del_lev_kk[]' id='del_lev_kk_"+p2+"' value='"+p2+"' type='hidden'>";
+            
+            $('#'+dom).remove();
+            $('#'+dominput).after(html);
+        break;
     }
 }
 
@@ -623,36 +810,80 @@ function deleterowtableinput_lv(type, dom, dom_link, p1, p2, p3){
                     html_link +="Kriteria Unjuk Kerja  "; 
                     html_link +="<a href='#' onClick=\"addrowtableinput_lv('unjuk-kerja','unjuk_row','btn_unjuk',  '0');\" ><i class=\"mdi-content-add-box tiny\"></i></a>"
                     */
-                    $('#rows_'+p1).remove();
+                    $('#li_id_'+p1).remove();
                     //$('#'+dom_link).html(html_link);
                 break;
 		case "rencana_perumusan":
 			$('#row_'+p1).remove();
 		break;
+                case "unit_skema":
+                    $('#row_'+p1).remove();
+                break;
+                case "dasar_skema":
+                    $('#dasar_row_'+p1).remove();
+                break;
+                case "del_unit_skesert":
+                    var htmldel = "";
+                    htmldel += "<input name='del_unit_id[]' value='"+p1+"' type='hidden'>";
+                    
+                    $('#unitrow_'+p1).remove();
+                    $('#unit_row').after(htmldel);
+                break;
+                case "del_syarat_skesert":
+                    var htmldel = "";
+                    htmldel += "<input name='del_dasar_id[]' value='"+p1+"' type='hidden'>";
+                    
+                    $('#dasarrow_'+p1).remove();
+                    $('#dasar_row').after(htmldel);
+                break;
+                case "edit_kuk":
+                    var htmlnya = "";
+
+                    htmlnya += "<div>";
+                    htmlnya += "     <font id='txt_"+p1+"'>"+p2+"</font> ";
+                    htmlnya += "    <a href='javascript:void(0)' class='secondary-content' onclick=\"addrowtableinput_lv('edit_kuk','li_kuk_"+p1+"','','','"+p1+"')\">";
+                    htmlnya += "        <i class='mdi-content-create tiny'></i></a>";
+                    htmlnya += "    <a href='javascript:void(0)' class='secondary-content' onclick=\"addrowtableinput_lv('del_kuk','li_kuk_"+p1+"','','id_fung_das','"+p1+"')\">";
+                    htmlnya += "        <i class='mdi-content-clear tiny'></i></a>";
+                    htmlnya += "</div>";
+                    
+                    $('#'+dom).html(htmlnya);
+                break;
+                case "edit_elemen":
+                    var htmlnya = "";
+
+                    htmlnya += "<div>";
+                    htmlnya += "     <font style=\"font-size:1.3rem\" id='txtel_"+p1+"' id='txt_"+p1+"'>"+p2+"</font> ";
+                    htmlnya += "    <a href='javascript:void(0)' class='secondary-content' onclick=\"addrowtableinput_lv('edit_elemen','ele_id_"+p1+"','','','"+p1+"')\">";
+                    htmlnya += "        <i class='mdi-content-create tiny'></i></a>";
+                    htmlnya += "    <a href='javascript:void(0)' class='secondary-content' onclick=\"addrowtableinput_lv('del_elemen','li_elemen_"+p1+"','id_fung_das','"+p1+"')\">";
+                    htmlnya += "        <i class='mdi-content-clear tiny'></i></a>";
+                    htmlnya += "</div>";
+                    
+                    $('#'+dom).html(htmlnya);
+                break;
 	}
 }
 
 function addrowtableinput(type, dom, p1, p2, p3, p4){
+        //p1 counter, p2 sub_bidang, p3 sub2bidang
 	switch(type){
             case "fungsi_dasar":
 		var counter = parseInt(p1)+1;
                 var htmlnya = "";
-                htmlnya += "<tr id='row_"+counter+"'>";
+                htmlnya += "<tr id='row_"+counter+"_"+p1+"_"+p2+"_"+p3+"'>";
                 htmlnya += "	<td></td>";
                 htmlnya += "	<td> </td>";
-                htmlnya += "	<td> <input name='fungsi_dasar' id='fungsi_dasar' type='text' style='width:90%;' value=''></td>";
-                htmlnya += "	<td> <select class='browser-default' name='kel_kom' id='kel_kom' style='width:90%;'>\n\
+                htmlnya += "	<td> <input name='fd_"+p2+"_"+p3+"[]' id='fungsi_dasar' type='text' style='width:90%;' value=''></td>";
+                htmlnya += "	<td> <select class='browser-default' name='kel_"+p2+"_"+p3+"[]' id='kel_kom' style='width:90%;'>\n\
                                         <option value='1'>UMUM</option>\n\
                                         <option value='2'>INTI</option>\n\
                                         <option value='3'>PILIHAN</option>\n\
                                     </select> \n\
-                                <input name='id_sub' value='"+p2+"' type='hidden'>\n\
-                                <input name='id_sub2' value='"+p3+"' type='hidden'>\n\
-                                <input name='id_bidang' value='"+p4+"' type='hidden'>\n\
                                 </td>";
                 htmlnya += "	<td style='text-align:center !important;'>";			
-                htmlnya += "		<a href=\"javascript:void(0);\" title='Cancel Fungsi Dasar' onClick=\"deleterowtableinput('pembentukan_tim', 'oye', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";			
-                htmlnya += "		<a href=\"javascript:void(0);\" title='Simpan Fungsi Dasar' onClick=\"kumpulPost('add_fd','row_"+counter+"') \"><i class=\"mdi-action-done tiny\"></i></a>";			
+                htmlnya += "		<a href=\"javascript:void(0);\" title='Cancel Fungsi Dasar' onClick=\"deleterowtableinput('pembentukan_tim', 'oye', '"+counter+"_"+p1+"_"+p2+"_"+p3+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";			
+//                htmlnya += "		<a href=\"javascript:void(0);\" title='Simpan Fungsi Dasar' onClick=\"kumpulPost('add_fd','row_"+counter+"') \"><i class=\"mdi-action-done tiny\"></i></a>";			
                 htmlnya += "	</td>";	
                 htmlnya += "</tr>";	
 

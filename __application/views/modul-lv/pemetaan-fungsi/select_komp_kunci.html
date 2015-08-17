@@ -1,0 +1,20 @@
+ <tr id='row_{$counter}'> 
+     <td>
+        <select name='komp_kunci[]' class='browser-default' width='50%' id='komp_kunci_{$counter}'
+                onchange="loadUrl_adds('select_level_kk','{$host}select_level_kk', 'level_k_{$counter}', '{$counter}')"> 
+            <option>-- Pilih Kompetensi Kunci--</option>
+        {foreach from=$kom_kunci item =row}
+            <option value='{$row.id}'>{$row.nama}</option> 
+         {/foreach}
+         </select>
+     </td>
+     <td>
+         <select name="level_kom_kunci[]" class="browser-default" width='50%' id='level_k_{$counter}'>
+             <option> --Pilih Level--</option>
+         </select>
+     </td>
+         
+     <td>
+         <a href='javascript:void(0);' title='Cancel' onClick="deleterowtableinput_lv('unit_skema', 'oye', 'btn_unit', '{$counter}')"> <i class='mdi-content-clear tiny right'></i></a>
+     </td>
+</tr>

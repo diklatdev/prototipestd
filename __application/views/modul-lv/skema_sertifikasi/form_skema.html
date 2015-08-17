@@ -1,0 +1,135 @@
+<!-- START CONTENT -->
+
+<!--start container-->
+<div class="container">
+        <div class="section">
+
+                <!--Form Advance-->          
+                <div class="row">
+                        <div class="col s12 m12 l12">
+                          <div class="card-panel">
+                                <div class="row">
+                                  <form class="col s12" id="skema_sert_form">
+
+                                        <div class="row">
+                                          <div class="input-field col s12">
+                                                <select class="browser-default" style="width:100%;" name='bkl' id="bkl" onchange="loadUrl_adds('select_sub_bkl','{$host}select_sub_bkl', 'select_sub')">
+                                                  <option value=""> Pilih Bidang Fungsi kerja - K/L</option>
+                                                  {foreach from=$bkl item=row}
+                                                  <option value="{$row.id}">{$row.nama}</option>
+                                                  {/foreach}
+                                                </select>
+                                                <label class='active'>Bidang</label>
+                                          </div> 
+                                        </div>
+                                        <div class="row">
+                                          <div class="input-field col s12">
+                                                <select class="browser-default" style="width:100%;" id="select_sub" name="sub_bkl">
+                                                  <option value="" >Pilih Sub Bidang - K/L</option>
+                                                </select>
+                                                <label class='active'>Sektor</label>
+                                          </div> 
+                                        </div>
+                                        <div class="row">
+                                          <div class="input-field col s12">
+                                                <textarea id="namaprogram" class="materialize-textarea" length="120" name="pekerjaan" ></textarea>
+                                                <label for="namaprogram" class='active'>Pekerjaan</label>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="input-field col s12 m6">
+                                                <select class="browser-default" style="width:100%;" name="skema_sert">
+                                                  <option value="">Pilih Skema Sertifikasi</option>
+                                                  <option value="1">Klaster</option>
+                                                  <option value="2">Jabatan</option>
+                                                  <option value="3">KKNI</option>
+                                                </select>
+                                                <label class='active'>Skema</label>
+                                          </div>
+
+                                          <div class="input-field col s12 m6">
+                                                <select class="browser-default" style="width:100%;" name="pangkat_jabatan">
+                                                  <option value="" selected>Pilih Pangkat /Jenjang Jabatan</option>
+                                                  {foreach from=$pangkat item=row}
+                                                  <option value="{$row.id}">{$row.jenjang}</option>
+                                                  {/foreach}
+                                                </select>
+                                                <label class='active'>Pangkat / Jenjang Jabatan</label>
+                                          </div> 
+                                        </div>
+
+                                        <br/>
+                                        <br/>
+                                        <div id="responsive-table">
+                                          <div class="row">
+                                                <div class="col s12">
+                                                <table class="responsive-table" style='width:100%'>
+                                                  <thead>
+                                                        <tr>
+                                                                <th>Kode Unit Kompetensi</th>
+                                                                <th>Judul</th>
+                                                                <th>Action</th>
+                                                        </tr>
+                                                  </thead>
+                                                        <tbody>
+                                                        <tr id="unit_row">
+                                                          <td></td>
+                                                          <td></td>
+                                                          <td id="btn_add">
+                                                                
+                                                          </td>
+                                                        </tr>
+                                                  </tbody>
+                                                </table>
+                                                </div>
+                                          </div>
+                                        </div>
+
+                                        <br/>
+                                        <br/>
+                                        <div id="responsive-table">
+                                          <div class="row">
+                                                <div class="col s12">
+                                                <table class="responsive-table" style='width:100%'>
+                                                  <thead>
+                                                        <tr>
+                                                                <th>Prasyarat Dasar</th>
+                                                                <th>Bukti </th>
+                                                                <th>Action</th>
+                                                        </tr>
+                                                  </thead>
+                                                        <tbody>
+                                                        <tr id="dasar_row">
+                                                          <td></td>
+                                                          <td></td>
+                                                          <td id = "btn_add_dasar">
+                                                                <a href='#' onclick="addrowtableinput_lv('add_skema_dasar','dasar_row','btn_add_dasar', '0');"><i class='mdi-content-add-box tiny right'></i></a>
+                                                          </td>
+                                                        </tr>
+                                                  </tbody>
+                                                </table>
+                                                </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="row">
+                                          <div class="row">
+                                                <div class="input-field col s12">
+                                                    <a class="btn cyan waves-effect waves-light right" href="#" onclick="kumpulPost('update_skema_sert','tMain')">Submit
+                                                        <i class="mdi-content-send right"></i>
+                                                    </a>
+                                                    <a class="btn waves-effect waves-light left" href="#" onclick="loadUrl('{$host}skema-sertifikasi')">Kembali
+                                                        <i class="mdi-content-reply left"></i>
+                                                    </a>
+                                                </div>
+                                          </div>
+                                        </div>
+                                  </form>
+                                </div>
+                          </div>
+                        </div>
+                </div>
+
+
+        </div>
+</div>
