@@ -30,17 +30,17 @@
 										<table class="responsive-table" style='width:98%;'>
 										<thead>
 											<tr>
-												<th data-field="id" style='text-align:center !important;'>No</th>
 												<th data-field="name" style='text-align:center !important;'>Nama</th>
 												<th data-field="price" style='text-align:center !important;'>Jabatan di Lembaga</th>
 												<th data-field="total" style='text-align:center !important;'>Jabatan di Tim</th>
+												<th data-field="total" style='text-align:center !important;'>User Aplikasi</th>
+												<th data-field="total" style='text-align:center !important;'>Email</th>
 												<th data-field="status" style='text-align:center !important;'>Action</th>
 											</tr>
 										</thead>
-										<tbody id='oye'>
+										<tbody >
 											{if $editstatus eq 'add'}
-												<tr>
-													<td>1</td>
+												<tr id='oye'>
 													<td>
 														<input name='nama[]' type='text' style='width:90%;'>
 													</td>
@@ -49,18 +49,38 @@
 													</td>
 													<td>
 														<select name='jabatan_tim_kerja[]' id='jbtankerja_1' class="browser-default" style='width:90%;'>
-															<option value=""> -- Choose -- </option>
+															<option value=""> -- Pilih -- </option>
 														</select>
 													</td>
+													<td>
+														<select name='isuser[]' id='isuser_1' class="browser-default" style='width:90%;'>
+															<option value=""> -- Pilih -- </option>
+															<option value="Y"> Ya </option>
+															<option value="N"> Tidak </option>
+														</select>
+													</td>													
+													<td>
+														<input name='email[]' type='text' style='width:90%;'>
+													</td>
 													<td style='text-align:center !important;'>
-														<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', '1');" ><i class="mdi-content-add-box tiny"></i></a>
+														-
+													</td>
+												</tr>
+												<tr>
+													<td colspan='5'></td>
+													<td id='btn_dsr' style='text-align:center !important;'>
+														<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', 'btn_dsr', 1);" ><i class="mdi-content-add-box tiny"></i></a>
 													</td>
 												</tr>
 											{else}
 												{assign var=ind value=1}
 												{foreach from=$data_anggota item=rows}
-													<tr id='row_{$ind}'>
-														<td>{$ind}</td>
+													{if $ind eq 1}
+														{assign var=idnya value='oye'}
+													{else}
+														{assign var=idnya value='oye_{$ind}'}
+													{/if}
+													<tr id='{$idnya}'>
 														<td>
 															<input name='nama[]' type='text' value="{$rows.nama|default:''}" style='width:90%;'>
 														</td>
@@ -72,13 +92,26 @@
 																{$combo_{$ind}|default:''}
 															</select>
 														</td>
+														<td>
+															<select name='isuser[]' id='isuser_1' class="browser-default" style='width:90%;'>
+																{$combo_isuser_{$ind}|default:''}
+															</select>
+														</td>													
+														<td>
+															<input name='email[]' value="{$rows.email|default:''}" type='text' style='width:90%;'>
+														</td>
 														<td style='text-align:center !important;'>
 															{if $ind eq 1}
-																<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', '1');" ><i class="mdi-content-add-box tiny"></i></a>
+																-
 															{else}
-																<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', '{$ind}');" ><i class="mdi-content-add-box tiny"></i></a>
 																<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('pembentukan_tim', 'oye', '{$ind}');" ><i class="mdi-content-clear tiny"></i></a>
 															{/if}	
+														</td>
+													</tr>
+													<tr>
+														<td colspan='5'></td>
+														<td id='btn_dsr' style='text-align:center !important;'>
+															<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', 'btn_dsr', 1);" ><i class="mdi-content-add-box tiny"></i></a>
 														</td>
 													</tr>
 													{assign var=ind value=$ind+1}
@@ -110,6 +143,7 @@
 
 <script>
 	var edi = "{$editstatus}";
+	
 	$('#kementerian').bind('change', function(){
 		fillCmb(hostir+'why/modul_admin/getcombo/idx_dirjen', "dirjen", "", $(this).val() );
 	});
@@ -118,5 +152,8 @@
 		fillCmb(hostir+'why/modul_admin/getcombo/idx_dirjen', "dirjen", "{$data.idx_dirjen_id|default:''}", $('#kementerian').val() );
 	}else if(edi == 'add'){
 		fillCmb(hostir+'why/modul_admin/getcombo/idx_jabatan_tim_kerja', "jbtankerja_1" );
+		fillCmb(hostir+'why/modul_admin/getcombo/ya_tidak', "isuser_1" );
 	}
+	
+	
 </script>

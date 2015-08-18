@@ -70,9 +70,12 @@ class lib {
 	function randomString($length,$parameter="") {
         $str = "";
 		$rangehuruf = range('A','Z');
+		$rangehuruf_kecil = range('a','z');
 		$rangeangka = range('0','9');
 		if($parameter == 'reg'){
 			$characters = array_merge($rangeangka);
+		}elseif($parameter == 'huruf'){
+			$characters = array_merge($rangehuruf_kecil);
 		}else{
 			$characters = array_merge($rangehuruf, $rangeangka);
 		}
@@ -96,86 +99,54 @@ class lib {
 	//end Class CutString
 	
 	//Class Kirim Email
-	function kirimemail($type="", $email="", $p1="", $p2="", $p3=""){
+	function kirimemail($email_content="", $subject="", $email_address="", $email_cc="", $attachment=""){
 		$ci =& get_instance();
+		$ci->load->library('My_PHPMailer');
 		
-		$config = Array(
-              'protocol' => 'smtp',
-              'smtp_host' => 'students.paramadina.ac.id',
-              'smtp_port' => 25,
-              'smtp_user' => 'orangbaik@students.paramadina.ac.id', // change it to yours
-              'smtp_pass' => 'S@l4mb3l@k4ng', // change it to yours
-              'mailtype' => 'html',
-              'charset' => 'iso-8859-1',
-              'wordwrap' => TRUE
-        );   
-		
-		$ci->load->library('email', $config);
-		$ci->load->library('smarty');
-		$html = "";
-		$subject = "";
-		switch($type){
-			case "email_registrasi":
-				$ci->smarty->assign('username', $p1);
-				$ci->smarty->assign('password', $p2);
-				$html = $ci->smarty->fetch('modul-portal/template_email.html');
-				$subject = "Registrasi Sistem Informasi Sertifikasi dan Penilaian Kementerian Dalam Negeri";
-			break;
-			case "email_voucher":
-				$html = "
-					<table width='100%'>
-						<tr>
-							<td style='background-color:#124162;font-size:18px;color:#fff;'>
-								Lembaga Sertifikasi Profesi Pemerintahan Daerah - Kementerian Dalam Negeri
-							</td>
-						</tr>
-						<tr>
-							<td style='background-color:#ECECEC;font-size:16px;color:#fff;'>
-								Voucher APBN Sertifikasi
-							</td>
-						</tr>
-						<tr>
-							<td style='background-color:#ECECEC;font-size:16px;color:#fff;'>
-								Kode Voucher : <b>".$p1."</b> <br/>
-								Tanggal Terbit : <b>".$p2."</b> <br/>
-							</td>
-						</tr>
-						<tr>
-							<td align='center' style='background-color:#124162;font-size:12px;color:#fff;'>
-								Sistem Informasi Penilaian Kompetensi & Sertifikasi Pemerintahan Dalam Negeri
-							</td>
-						</tr>
-					</table>
-				";
-				$subject = "Distribusi Voucher APBN Sertifikasi Profesi Pemerintahan Daerah - Kementerian Dalam Negeri";
-			break;
+		try{
+			$mail = new PHPMailer();
+			$email_body = $email_content;
+			
+			if($ci->config->item('SMTP')) $mail->IsSMTP();
+			$mail->SMTPAuth   = $ci->config->item('SMTPAuth');       
+			$mail->SMTPSecure = "ssl";
+			$mail->Port       = $ci->config->item('Port');                    
+			$mail->Host       = $ci->config->item('Host'); 
+			$mail->Username   = $ci->config->item('Username');     
+			$mail->Password   = $ci->config->item('Password');            
+
+			$mail->AddReplyTo($ci->config->item('EmaiFrom'),$ci->config->item('EmaiFromName'));
+			$mail->SetFrom    = $ci->config->item('EmaiFrom');
+			$mail->FromName   = $ci->config->item('EmaiFromName');			
+			
+			$mail->AddAddress($email_address);
+			if($email_cc){
+				foreach($email_cc as $k){
+					$mail->AddCC($k);
+				}
+			}
+			
+			$mail->Subject   = $subject;
+			$mail->AltBody   = "To view the message, please use an HTML compatible email viewer!"; 
+			$mail->WordWrap  = 100; 
+			$mail->MsgHTML($email_body);
+			$mail->IsHTML(true);
+			if($attachment){
+				foreach($attachment as $s){
+					$mail->AddAttachment($s);
+				}
+			}			
+			$mail->SMTPDebug=1;
+			
+			if($mail->Send()){
+				return 1;
+			}else{
+				return 0;
+			}
+			
+		} catch (phpmailerException $e) {
+			return 0;
 		}
-		
-		/*
-		$config = array(
-			"protocol"	=>"smtp"
-			,"mailtype" => "html"
-			,"smtp_host" => "smtp.gmail.com"
-			,"smtp_user" => "triwahyunugros@gmail.com"
-			,"smtp_pass" => "ms6713saa"
-			,"smtp_port" => 465
-		);
-		*/
-		
-		//$ci->email->initialize($config);
-		$ci->email->from("lsp@kemendagri.go.id", "LSP PEMDA - KEMENDAGRI");
-		$ci->email->cc("triwahyunugros@gmail.com");
-		$ci->email->cc("rahmadsyalevi@gmail.com");		
-		$ci->email->to($email);
-		$ci->email->subject($subject);
-		$ci->email->message($html);
-		$ci->email->set_newline("\r\n");
-		if($ci->email->send())
-			//echo "<h3> SUKSES EMAIL ke $email </h3>";
-			return 1;
-		else
-			//echo $this->email->print_debugger();
-			return $ci->email->print_debugger();
 	}	
 	//End Class KirimEmail
 	
@@ -195,6 +166,28 @@ class lib {
 		$sql = $sql . " LIMIT $start, $limit";
 					
 		$data = $ci->db->query($sql)->result_array();  
+		
+		if($type == 'peta_jabatan'){
+			$sql2 = "
+				SELECT *
+				FROM idx_kl
+				WHERE id IN (1,2,3)
+			";
+			$data2 = $ci->db->query($sql2)->result_array();
+			
+			foreach($data as $k => $v){
+				$data[$k]['jenis_bkl'] = 'B';
+			}
+			
+			$idx = count($data);
+			foreach($data2 as $z => $r){
+				$data[$idx]['id'] = $r['id'];
+				$data[$idx]['nama_bidang'] = $r['nama_kl'];
+				$data[$idx]['jenis_bkl'] = 'K';
+				$idx++;
+			}
+			
+		}
 				
 		if($data){
 		   $responce = new stdClass();
@@ -235,6 +228,13 @@ class lib {
 				$data = array(
 					'0' => array('id'=>'1','txt'=>'Active'),
 					'1' => array('id'=>'0','txt'=>'Inactive'),
+				);
+			break;
+			case "ya_tidak":
+				$optTemp = '';
+				$data = array(
+					'0' => array('id'=>'Y','txt'=>'Ya'),
+					'1' => array('id'=>'N','txt'=>'Tidak'),
 				);
 			break;
 			default:

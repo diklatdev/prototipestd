@@ -17,6 +17,14 @@ $route['form-rencana-perumusan'] = "why/modul_admin/getdisplay/form_rencana_peru
 $route['submit-rencana-perumusan'] = "why/modul_admin/simpansavedbx/rencana_perumusan";
 $route['hapus-rencana-perumusan'] = "why/modul_admin/simpansavedbx/rencana_perumusan";
 
+$route['peta-jabatan'] = "why/modul_admin/getdisplay/peta_jabatan";
+$route['detail-peta-jabatan'] = "why/modul_admin/getdisplay/detail_peta_jabatan";
+$route['form-detail-peta-jabatan'] = "why/modul_admin/getdisplay/form_detail_peta_jabatan";
+$route['get-kode-unit-kompetensi'] = "why/modul_admin/getdisplay/get_kode_kompetensi";
+$route['submit-detail-peta-jabatan'] = "why/modul_admin/simpansavedbx/detail_peta_jabatan";
+$route['hapus-detail-peta-jabatan'] = "why/modul_admin/simpansavedbx/detail_peta_jabatan";
+
+
 $route['datagrid-adm/(:any)'] = "why/modul_admin/getdatagrid/$1";
 
 

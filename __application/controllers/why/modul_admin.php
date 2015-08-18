@@ -61,6 +61,7 @@ class modul_admin extends SHIPMENT_Controller{
 						$idx = 1;
 						foreach($data_anggota as $k => $v){
 							$this->smarty->assign('combo_'.$idx, $this->lib->fillcombo('idx_jabatan_tim_kerja', 'return', $v['idx_jabatan_tim_kerja_id'] ) );
+							$this->smarty->assign('combo_isuser_'.$idx, $this->lib->fillcombo('ya_tidak', 'return', $v['is_user'] ) );
 							$idx++;
 						}
 					}
@@ -130,6 +131,107 @@ class modul_admin extends SHIPMENT_Controller{
 				$this->smarty->assign('idx_tim_komite_perumus', $this->lib->fillcombo('idx_tim_komite_perumus', 'return', ($editstatus == 'edit' ? $data['tbl_tim_kerja_komite_id'] : "") ));
 				$this->smarty->assign('idx_kl', $this->lib->fillcombo('idx_kl', 'return', ($editstatus == 'edit' ? $data['idx_kl_id'] : "") ));
 			break;
+			
+			case "peta_jabatan":
+				$content = "modul-why/peta-jabatan/main.html";
+				$this->smarty->assign('breadcumb', "PETA JABATAN");
+			break;
+			case "detail_peta_jabatan":
+				$tipologi = $this->input->post('tipgi');
+				$jenis_bkl = $this->input->post('jns_bkl');
+				$id_bkl = $this->input->post('idx_kbl');
+				$label_bkl = $this->input->post('lbl');
+				
+				if($jenis_bkl == 'B'){
+					$label_bkl = $label_bkl." - TIPOLOGI ".$tipologi;
+				}
+				
+				$content = "modul-why/peta-jabatan/main.html";
+				$this->smarty->assign('breadcumb', $label_bkl);
+				$this->smarty->assign('tipologi', $tipologi);
+				$this->smarty->assign('jenis_bkl', $jenis_bkl);
+				$this->smarty->assign('id_bkl', $id_bkl);
+			break;
+			case "form_detail_peta_jabatan":
+				$editstatus = $this->input->post('editstatus');
+				$tipologi = $this->input->post('tipgi');
+				$jenis_bkl = $this->input->post('jns_bkl');
+				$id_bkl = $this->input->post('idx_kbl');
+				$tipologi_id = $this->db->get_where('idx_tipologi', array('inisial'=>$tipologi) )->row_array();
+				
+				if($editstatus == 'edit'){
+					$id = $this->input->post('idxny');
+					$data = $this->db->get_where('tbl_peta_jabatan', array('id'=>$id) )->row_array();
+					
+					$data_manajerial = $this->madmin->get_data('level_kompetensi_manajerial', 'result_array', $id);   //$this->db->get_where('tbl_petjab_level_kompetensi_manajerial', array('tbl_peta_jabatan_id'=>$id))->result_array();
+					if($data_manajerial){
+						$idx = 1;
+						foreach($data_manajerial as $k => $v){
+							$this->smarty->assign('combo_level_kompetensi_manajerial_'.$idx, $this->lib->fillcombo('idx_level_kompetensi_manajerial', 'return', $v['idx_level_kompetensi_manajerial'], $v['idx_kompetensi_manajerial_id'] ) );
+							$this->smarty->assign('combo_kompetensi_manajerial_'.$idx, $this->lib->fillcombo('idx_kompetensi_manajerial', 'return', $v['idx_kompetensi_manajerial_id'] ) );
+							$idx++;
+						}
+					}else{
+						$this->smarty->assign('sts_data_manajerial', 'T');
+					}
+					
+					$data_teknis = $this->madmin->get_data('kompetensi_teknis', 'result_array', $id);   //$this->db->get_where('tbl_petjab_kompetensi_teknis', array('tbl_peta_jabatan_id'=>$id))->result_array();
+					if($data_teknis){
+						$idxx = 1;
+						foreach($data_teknis as $k => $v){
+							$this->smarty->assign('combo_unit_kompetensi_'.$idxx, $this->lib->fillcombo('tbl_unit_kompetensi', 'return', $v['tbl_unit_kompetensi_id'] ) );
+							$idxx++;
+						}
+					}else{
+						$this->smarty->assign('sts_data_teknis', 'T');
+					}
+					
+					$data_bakat = $this->db->get_where('tbl_petjab_bakat', array('tbl_peta_jabatan_id'=>$id))->result_array();
+					if($data_bakat){
+						$idxxx = 1;
+						foreach($data_bakat as $k => $v){
+							$this->smarty->assign('combo_bakat_'.$idxxx, $this->lib->fillcombo('idx_bakat', 'return', $v['idx_bakat_id'] ) );
+							$idxxx++;
+						}
+					}else{
+						$this->smarty->assign('sts_data_bakat', 'T');
+					}
+					
+					$data_prasyarat = $this->db->get_where('tbl_petjab_prasyarat_dasar', array('tbl_peta_jabatan_id'=>$id))->result_array();
+					if($data_prasyarat){
+					
+					}else{
+						$this->smarty->assign('sts_data_prasyarat', 'T');
+					}
+					
+					
+					$this->smarty->assign('data', $data);
+					$this->smarty->assign('class', "active");
+
+					$this->smarty->assign('data_manajerial', $data_manajerial);
+					$this->smarty->assign('data_teknis', $data_teknis);
+					$this->smarty->assign('data_bakat', $data_bakat);
+					$this->smarty->assign('data_prasyarat', $data_prasyarat);
+						
+				}
+				
+				$content = "modul-why/peta-jabatan/form-detail-peta-jabatan.html";
+				$this->smarty->assign('editstatus', $editstatus);
+				$this->smarty->assign('tipologi_id', $tipologi_id['id']);
+				$this->smarty->assign('jenis_bkl', $jenis_bkl);
+				$this->smarty->assign('id_bkl', $id_bkl);		
+				
+				$this->smarty->assign('atasan_langsung_id', $this->lib->fillcombo('tbl_peta_jabatan', 'return', ($editstatus == 'edit' ? $data['atasan_langsung_id'] : "") ));
+				$this->smarty->assign('idx_pangkat_kknipdn_id', $this->lib->fillcombo('idx_pangkat_kknipdn', 'return', ($editstatus == 'edit' ? $data['idx_pangkat_kknipdn_id'] : "") ));
+				$this->smarty->assign('idx_pendidikan_kknipdn_id', $this->lib->fillcombo('idx_pendidikan_kknipdn', 'return', ($editstatus == 'edit' ? $data['idx_pendidikan_kknipdn_id'] : "") ));
+			break;
+			case "get_kode_kompetensi":
+				$id_komp = $this->input->post('idxn');
+				$unit_kompetensi = $this->db->get_where('tbl_unit_kompetensi', array('id'=>$id_komp) )->row_array();
+				echo $unit_kompetensi['kode_unit_kompetensi'];
+				exit;
+			break;
+
 		}
 		
 		$this->smarty->assign('type', $type);

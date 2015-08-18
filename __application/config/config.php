@@ -43,6 +43,17 @@ $config['time_reference'] = 'local';
 $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
+//php meler
+$config["SMTPAuth"]				= TRUE;
+$config["SMTP"]					= TRUE;
+$config["Port"]					= 465;
+$config["Host"]					= 'smtp.gmail.com';
+//$config["Host"]				= 'smtp.googlemail.com';
+$config["Username"]				= 'triwahyunugros@gmail.com';
+$config["Password"]				= 'ms6713saa';
+$config["EmaiFrom"]				= 'lsp-pemda@kemendagri.go.id';
+$config["EmaiFromName"]			= 'LSP-PEMDA KEMENTERIAN DALAM NEGERI';
+//end phpmeler
 
 
 /* End of file config.php */

@@ -34,6 +34,22 @@ class madmin extends SHIPMENT_Model{
 					WHERE nama_submodule <> 'Main Menu'
 				";
 			break;
+			case "level_kompetensi_manajerial":
+				$sql = "
+					SELECT A.*, B.idx_kompetensi_manajerial_id
+					FROM tbl_petjab_level_kompetensi_manajerial A
+					LEFT JOIN idx_level_kompetensi_manajerial B ON A.idx_level_kompetensi_manajerial = B.id
+					WHERE A.tbl_peta_jabatan_id = '".$p1."'
+				";
+			break;
+			case "kompetensi_teknis":
+				$sql = "
+					SELECT A.*, B.kode_unit_kompetensi
+					FROM tbl_petjab_kompetensi_teknis A
+					LEFT JOIN tbl_unit_kompetensi B ON A.tbl_unit_kompetensi_id = B.id 
+					WHERE A.tbl_peta_jabatan_id = '".$p1."'
+				";
+			break;
 			// End User Manajemen & ACL
 			
 			
@@ -50,6 +66,7 @@ class madmin extends SHIPMENT_Model{
 	function get_data_grid($type="", $p1="", $p2=""){
 		$this->load->library('lib');
 		$where = "";
+		$join = "";
 		
 		switch($type){
 			case "pembentukan_tim":
@@ -67,6 +84,34 @@ class madmin extends SHIPMENT_Model{
 					SELECT A.*, B.nama_bidang
 					FROM tbl_perumusan A
 					LEFT JOIN idx_bidang B ON A.idx_bidang_id = B.id
+				";
+			break;
+			case "peta_jabatan":
+				$sql = "
+					SELECT *
+					FROM idx_bidang
+					WHERE id IN ('1','2','3')
+				";
+			break;
+			case "detail_peta_jabatan":
+				$tipologi = $this->input->post('tipgi');
+				$jenis_bkl = $this->input->post('jns_bkl');
+				$id_bkl = $this->input->post('idx_kbl');
+				
+				/*
+				if($jenis_bkl == 'B'){
+					$join .= " LEFT JOIN idx_bidang C ON  LEFT JOIN idx_tipologi B ON A.idx_tipologi_id = B.id";
+				}
+				*/
+				
+				$id_tipologi = $this->db->get_where('idx_tipologi', array('inisial'=>$tipologi) )->row_array();
+				$sql = "
+					SELECT A.*
+					FROM tbl_peta_jabatan A
+					WHERE 1=1 
+					AND A.idx_tipologi_id = '".$id_tipologi['id']."' 
+					AND A.jenis_bkl = '".$jenis_bkl."' 
+					AND A.idx_bkl_id = '".$id_bkl."' 
 				";
 			break;
 		}
@@ -144,6 +189,54 @@ class madmin extends SHIPMENT_Model{
 				$tabel = "tbl_subbidang_perumusan A";
 				$join .= " LEFT JOIN idx_sub_bidang B ON A.idx_sub_bidang_id = B.id ";
 			break;
+			
+			case "tbl_peta_jabatan" :
+				$select = "id, nama_jabatan as txt";
+				$tabel = "tbl_peta_jabatan";
+			break;
+			case "idx_pendidikan_kknipdn" :
+				$select = "id, jenjang as txt";
+				$tabel = "idx_jenjang_kknipdn";
+				$where .= " AND idx_tipe_kknipdn_id = '1' OR idx_tipe_kknipdn_id = '2' ";
+			break;
+			case "idx_pangkat_kknipdn" :
+				$select = "id, jenjang as txt";
+				$tabel = "idx_jenjang_kknipdn";
+				$where .= " AND idx_tipe_kknipdn_id = '3' OR idx_tipe_kknipdn_id = '4' OR idx_tipe_kknipdn_id = '5' OR idx_tipe_kknipdn_id = '6' OR idx_tipe_kknipdn_id = '7' OR idx_tipe_kknipdn_id = '8' ";
+			break;
+			
+			case "idx_kompetensi_manajerial":
+				$select = "id, nama_kompetensi_manajerial as txt";
+				$tabel = "idx_kompetensi_manajerial";
+			break;
+			case "idx_level_kompetensi_manajerial":
+				$param = $this->input->post('v2');
+				if($param){
+					$parameter = $param;
+				}else{
+					$parameter = $p2;
+				}
+				$select = "
+					id, level as txt
+				";
+				$tabel = "idx_level_kompetensi_manajerial";				
+				$where .= "
+					AND idx_kompetensi_manajerial_id = '".$parameter."'
+				";
+			break;
+			case "tbl_unit_kompetensi":
+				$select = "
+					id, judul_unit as txt
+				";
+				$where .= "
+					AND kode_unit_kompetensi IS NOT NULL
+				";
+			break;
+			case "idx_bakat":
+				$select = "
+					id, nama_bakat as txt
+				";
+			break;
 		}
 		
 		$sql = "
@@ -158,6 +251,8 @@ class madmin extends SHIPMENT_Model{
 	
 	function simpansavedatabase($type="", $post="", $p1="", $p2="", $p3=""){
 		$this->load->library('lib');
+		$this->load->library('encrypt');
+		
 		$this->db->trans_begin();
 		$this->db->trans_strict(TRUE);
 		$post_bnr = array();
@@ -186,7 +281,7 @@ class madmin extends SHIPMENT_Model{
 					if($post['editstatus'] == 'add'){
 						$get_id = $this->db->get_where('tbl_tim_kerja', array('kode_gen'=>$kode_gen))->row_array();
 						$tbl_tim_kerja_id = $get_id['id'];
-					}elseif($post['editstatus'] == 'edit'){	
+					}elseif($post['editstatus'] == 'edit' || $post['editstatus'] == 'delete'){	
 						$tbl_tim_kerja_id = $post['id'];
 						$this->db->delete('tbl_anggota_tim_kerja', array('tbl_tim_kerja_id'=>$tbl_tim_kerja_id));
 					}
@@ -196,16 +291,55 @@ class madmin extends SHIPMENT_Model{
 					}else{
 						$count = count($post['nama'])-1;
 						$array_insert_batch = array();
+						$array_insert_user = array();
 						for($i = 0; $i <= $count; $i++){
+							//blok program insert to tbl_user
+							if($post['isuser'][$i] == 'Y'){
+								if($post['email'] != ''){
+									$password_asli = $this->lib->randomString(5, 'huruf');
+									$password = $this->encrypt->encode($password_asli);
+									$array_user = array(
+										'username' => $post['email'][$i],
+										'password' => $password,
+										'real_name' => $post['nama'][$i],
+										'level_admin' => $post['jabatan_tim_kerja'][$i],
+										'email' => $post['email'][$i],
+										'aktif' => 1,
+									);
+									$isusernya = 'Y';
+									array_push($array_insert_user, $array_user);
+									
+									$konten = "
+										Data user anda dalam aplikasi Sistem Informasi SK3APDN <br/>
+										Username : ".$post['email'][$i]." <br/>
+										Password : ".$password_asli." <br/>
+										Demikian yang bisa disampaikan <br/>
+										Terima Kasih.
+									";
+									$subjek = "Notifikasi Email User Aplikasi Sistem Informasi SK3APDN";
+									
+									$this->lib->kirimemail($konten, $subjek, $post['email'][$i]);
+								}else{
+									$isusernya = 'N';
+								}
+							}else{
+								$isusernya = 'N';
+							}
+							
+							//blok program insert to tbl_tim_kerja
 							$array_insert = array(
 								'tbl_tim_kerja_id' => $tbl_tim_kerja_id,
 								'idx_jabatan_tim_kerja_id' => $post['jabatan_tim_kerja'][$i],
 								'jabatan' =>  $post['jabatan'][$i],
+								'is_user' => $isusernya,
+								'email' =>  $post['email'][$i],
 								'nama' =>  $post['nama'][$i],
 							);
 							array_push($array_insert_batch, $array_insert);
+							
 						}
 						$this->db->insert_batch("tbl_anggota_tim_kerja", $array_insert_batch);
+						$this->db->insert_batch("tbl_user_admin", $array_insert_user);
 					}
 				}
 			break;
@@ -308,6 +442,123 @@ class madmin extends SHIPMENT_Model{
 					}
 				}
 				
+			break;
+			case "detail_peta_jabatan":
+				if($post['editstatus'] != 'delete'){
+					$kode_gen = strtoupper($this->lib->randomString(5));
+					$post_bnr['idx_tipologi_id'] 	= $post['tipid'];
+					$post_bnr['jenis_bkl'] 		= $post['jnsbk'];
+					$post_bnr['idx_bkl_id'] 	= $post['idxbk'];
+					
+					$post_bnr['nama_jabatan'] 	= $post['namajabatan'];
+					$post_bnr['tugas'] 	= $post['tgs'];
+					$post_bnr['uraian_tugas'] 	= $post['uraiantugas'];
+					$post_bnr['target_capaian_pekerjaan'] 	= $post['targetcapaian'];
+					$post_bnr['resiko_pekerjaan'] 	= $post['resikopekerjaan'];
+					$post_bnr['bahan_kerja'] 	= $post['bahankerja'];
+					$post_bnr['peralatan_kerja'] 	= $post['peralatankerja'];
+					$post_bnr['pelaksanaan_kerja'] 	= $post['pelaksanaankerja'];
+					$post_bnr['kondisi_fisik'] 	= $post['kondisifisik'];
+					$post_bnr['atasan_langsung_id'] 	= $post['atasanlangsung'];
+					$post_bnr['idx_pangkat_kknipdn_id'] 	= $post['pangkatjenjangjabatan'];
+					$post_bnr['idx_pendidikan_kknipdn_id'] 	= $post['pendidikanformal'];
+					
+					$post_bnr['kode_gen'] 			= $kode_gen;
+				}
+				
+				if($post['editstatus'] == 'add'){
+					$execute = $this->db->insert('tbl_peta_jabatan', $post_bnr);
+				}elseif($post['editstatus'] == 'edit'){
+					$execute = $this->db->update('tbl_peta_jabatan', $post_bnr, array('id'=>$post['id']) );
+				}elseif($post['editstatus'] == 'delete'){
+					$execute = $this->db->delete('tbl_peta_jabatan', array('id'=>$post['id']) );
+				}
+			
+				if($execute){
+					if($post['editstatus'] == 'add'){
+						$get_id = $this->db->get_where('tbl_peta_jabatan', array('kode_gen'=>$kode_gen))->row_array();
+						$tbl_petjab_id = $get_id['id'];
+						
+						$array_skema = array(
+							'tbl_peta_jabatan_id' => $tbl_petjab_id,
+							'jenis_bkl' => $post['jnsbk'],
+							'idx_bkl_id' => $post['idxbk'],
+							'pekerjaan' => $post['tgs'],
+							'idx_jenjang_kknipdn_id' => $post['pangkatjenjangjabatan']
+						);
+						
+						$this->db->insert('tbl_skema_sertifikasi', $array_skema);
+					}elseif($post['editstatus'] == 'edit' || $post['editstatus'] == 'delete'){	
+						$tbl_petjab_id = $post['id'];
+						
+						$this->db->delete("tbl_petjab_level_kompetensi_manajerial", array('tbl_peta_jabatan_id'=>$post['id']) );
+						$this->db->delete("tbl_petjab_kompetensi_teknis", array('tbl_peta_jabatan_id'=>$post['id']) );
+						$this->db->delete("tbl_petjab_bakat", array('tbl_peta_jabatan_id'=>$post['id']) );
+						$this->db->delete("tbl_petjab_prasyarat_dasar", array('tbl_peta_jabatan_id'=>$post['id']) );						
+						
+						if($post['editstatus'] == 'edit'){
+							$array_skema = array(
+								'jenis_bkl' => $post['jnsbk'],
+								'idx_bkl_id' => $post['idxbk'],
+								'pekerjaan' => $post['tgs'],
+								'idx_jenjang_kknipdn_id' => $post['pangkatjenjangjabatan']
+							);
+							$this->db->update('tbl_skema_sertifikasi', $array_skema, array('tbl_peta_jabatan_id' => $tbl_petjab_id) );
+						}elseif($post['editstatus'] == 'delete'){
+							$this->db->delete("tbl_skema_sertifikasi", array('tbl_peta_jabatan_id'=>$post['id']) );						
+						}
+					}
+					
+					if($post['editstatus'] == 'add' || $post['editstatus'] == 'edit'){
+						$count_manajerial = count($post['levelkompetensimanajerial'])-1;
+						$count_teknis = count($post['unit_kompetensi'])-1;
+						$count_bakat = count($post['bakat'])-1;
+						$count_prasyarat = count($post['prasyarat_dasar'])-1;
+						
+						$array_manajerial_batch = array();
+						for($i = 0; $i <= $count_manajerial; $i++){
+							$array_manajerial_insert = array(
+								'tbl_peta_jabatan_id' => $tbl_petjab_id,
+								'idx_level_kompetensi_manajerial' => $post['levelkompetensimanajerial'][$i],
+							);
+							array_push($array_manajerial_batch, $array_manajerial_insert);
+						}
+						
+						$array_teknis_batch = array();
+						for($ii = 0; $ii <= $count_teknis; $ii++){
+							$array_teknis_insert = array(
+								'tbl_peta_jabatan_id' => $tbl_petjab_id,
+								'tbl_unit_kompetensi_id' => $post['unit_kompetensi'][$ii],
+							);
+							array_push($array_teknis_batch, $array_teknis_insert);
+						}
+						
+						$array_bakat_batch = array();
+						for($iii = 0; $iii <= $count_bakat; $iii++){
+							$array_bakat_insert = array(
+								'tbl_peta_jabatan_id' => $tbl_petjab_id,
+								'idx_bakat_id' => $post['bakat'][$iii],
+							);
+							array_push($array_bakat_batch, $array_bakat_insert);
+						}
+						
+						$array_prasyarat_batch = array();
+						for($iiii = 0; $iiii <= $count_prasyarat; $iiii++){
+							$array_prasyarat_insert = array(
+								'tbl_peta_jabatan_id' => $tbl_petjab_id,
+								'prasyarat_dasar' => $post['prasyarat_dasar'][$iiii],
+								'bukti' => $post['bukti'][$iiii],
+							);
+							array_push($array_prasyarat_batch, $array_prasyarat_insert);
+						}
+						
+						$this->db->insert_batch("tbl_petjab_level_kompetensi_manajerial", $array_manajerial_batch);
+						$this->db->insert_batch("tbl_petjab_kompetensi_teknis", $array_teknis_batch);
+						$this->db->insert_batch("tbl_petjab_bakat", $array_bakat_batch);
+						$this->db->insert_batch("tbl_petjab_prasyarat_dasar", $array_prasyarat_batch);
+					}
+					
+				}
 			break;
 		}
 		

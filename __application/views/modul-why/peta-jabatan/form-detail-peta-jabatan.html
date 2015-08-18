@@ -1,0 +1,463 @@
+<div class="container">
+	<div class="section">
+		<div class="row">
+			<div class="col s12 m12 l12">
+				<div class="card-panel">
+					<div class="row">
+						<form id="detail_petjab" method='post' url='{$host}submit-detail-peta-jabatan' enctype="multipart/form-data" class="col s12">
+							<input type='hidden' name='editstatus' value='{$editstatus}'>
+							<input type='hidden' name='id' value="{$data.id|default:''}">
+							<input type='hidden' name='tipid' value="{$tipologi_id|default:''}">
+							<input type='hidden' name='jnsbk' value="{$jenis_bkl|default:''}">
+							<input type='hidden' name='idxbk' value="{$id_bkl|default:''}">
+							<h4 class="header2">I. Detail Jabatan</h4>
+							<div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='besar' name='namajabatan' label="Nama Jabatan" class={$class|default:''} value={$data.nama_jabatan|default:''}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='besar' name='tgs' label="Tugas" class={$class|default:''} value={$data.tugas|default:''}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/textarea.html' ukuran='besar' name='uraiantugas' label="Uraian Tugas" class={$class|default:''} value={$data.uraian_tugas|default:''}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/textarea.html' ukuran='besar' name='targetcapaian' label="Target Capaian Pekerjaan" class={$class|default:''} value={$data.target_capaian_pekerjaan|default:''}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/textarea.html' ukuran='besar' name='resikopekerjaan' label="Resiko Pekerjaan" class={$class|default:''} value={$data.resiko_pekerjaan|default:''}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/textarea.html' ukuran='besar' name='bahankerja' label="Bahan Kerja" class={$class|default:''} value={$data.bahan_kerja|default:''}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/textarea.html' ukuran='besar' name='peralatankerja' label="Peralatan Kerja" class={$class|default:''} value={$data.peralatan_kerja|default:''}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/textarea.html' ukuran='besar' name='pelaksanaankerja' label="Pelaksanaan Kerja" class={$class|default:''} value={$data.pelaksanaan_kerja|default:''}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/textarea.html' ukuran='besar' name='kondisifisik' label="Kondisi Fisik" class={$class|default:''} value={$data.kondisi_fisik|default:''}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/input_select.html' ukuran='besar' name='atasanlangsung' label="Atasan Langsung" option={$atasan_langsung_id}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/input_select.html' ukuran='besar' name='pangkatjenjangjabatan' label="Pangkat / Jenjang Jabatan" option={$idx_pangkat_kknipdn_id}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/input_select.html' ukuran='besar' name='pendidikanformal' label="Pendidikan Formal Minimum" option={$idx_pendidikan_kknipdn_id}} 
+							</div>
+							
+							<h4 class="header2">II. Kompetensi Managerial</h4>
+							<div id="responsive-table">
+								<div class="row">
+									<div class="col s12">
+										<table class="responsive-table" style='width:70%;'>
+											<thead>
+												<tr>
+													<th data-field="name" style='text-align:center !important;'>Unit Kompetensi</th>
+													<th data-field="price" style='text-align:center !important;'>Level</th>
+													<th data-field="status" style='text-align:center !important;'>Action</th>
+												</tr>
+											</thead>
+											<tbody >
+												{if $editstatus eq 'add'}
+													<tr id='ahaide'>
+														<td>
+															<select  id='kompetensi_manajerial_1' class="browser-default" style='width:90%;'>
+															</select>
+														</td>
+														<td>
+															<select name='levelkompetensimanajerial[]' id='levelkompetensimanajerial_1' class="browser-default" style='width:90%;'>
+															</select>
+														</td>
+														<td style='text-align:center !important;'>
+															-
+														</td>
+													</tr>
+													<tr>
+														<td colspan='2'>&nbsp;</td>
+														<td id='btn_ahaide' style='text-align:center !important;'>
+															<a href="javascript:void(0);" title='Tambah Kompetensi Manajerial' onClick="addrowtableinput('kompetensi_manajerial', 'ahaide', 'btn_ahaide', 1);" ><i class="mdi-content-add-box tiny"></i></a>
+														</td>
+													</tr>
+												{elseif $editstatus eq 'edit'}
+													{if $data_manajerial}
+														{assign var=ind value=1}
+														{foreach from=$data_manajerial item=rows}
+															{if $ind eq 1}
+																{assign var=idnya value='ahaide'}
+															{else}
+																{assign var=idnya value="ahaide_{$ind}"}
+															{/if}
+															<tr id='{$idnya}'>
+																<td>
+																	<select  id='kompetensi_manajerial_1' class="browser-default" style='width:90%;'>
+																		{$combo_kompetensi_manajerial_{$ind}|default:''}
+																	</select>
+																</td>
+																<td>
+																	<select name='levelkompetensimanajerial[]' id='levelkompetensimanajerial_{$ind}' class="browser-default" style='width:90%;'>
+																		{$combo_level_kompetensi_manajerial_{$ind}|default:''}
+																	</select>
+																</td>
+																<td style='text-align:center !important;'>
+																	{if $ind eq 1}
+																		-
+																	{else}
+																		<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('kompetensi_manajerial', 'ahaide_{$ind}', '{$ind}');"><i class="mdi-content-clear tiny"></i></a>
+																	{/if}
+																</td>
+															</tr>
+															{assign var=ind value=$ind+1}
+														{/foreach}
+													{else}
+														{assign var=ind value=1}
+														<tr id='ahaide'>
+															<td>
+																<select  id='kompetensi_manajerial_1' class="browser-default" style='width:90%;'>
+																</select>
+															</td>
+															<td>
+																<select name='levelkompetensimanajerial[]' id='levelkompetensimanajerial_1' class="browser-default" style='width:90%;'>
+																</select>
+															</td>
+															<td style='text-align:center !important;'>
+																-
+															</td>
+														</tr>
+													{/if}
+													<tr>
+														<td colspan='2'>&nbsp;</td>
+														<td id='btn_ahaide' style='text-align:center !important;'>
+															<a href="javascript:void(0);" title='Tambah Kompetensi Manajerial' onClick="addrowtableinput('kompetensi_manajerial', 'ahaide', 'btn_ahaide', {$ind});" ><i class="mdi-content-add-box tiny"></i></a>
+														</td>
+													</tr>
+												{/if}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							
+							<h4 class="header2">III. Kompetensi Teknis</h4>
+							<div id="responsive-table">
+								<div class="row">
+									<div class="col s12">
+										<table class="responsive-table" style='width:70%;'>
+											<thead>
+												<tr>
+													<th data-field="name" style='text-align:center !important;'>Unit Kompetensi</th>
+													<th data-field="price" style='text-align:center !important;'>Kode</th>
+													<th data-field="status" style='text-align:center !important;'>Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												{if $editstatus eq 'add'}
+													<tr id='ohoi'>
+														<td>
+															<select  id='unit_kompetensi_1' name='unit_kompetensi[]' class="browser-default" style='width:90%;'>
+															</select>
+														</td>
+														<td>
+															<span id='kode_unit_kompetensi_1'></span>
+														</td>
+														<td style='text-align:center !important;'>
+															-
+														</td>
+													</tr>
+													<tr>
+														<td colspan='2'>&nbsp;</td>
+														<td id='btn_ohoi' style='text-align:center !important;'>
+															<a href="javascript:void(0);" title='Tambah Kompetensi Teknis' onClick="addrowtableinput('kompetensi_teknis', 'ohoi', 'btn_ohoi', 1);" ><i class="mdi-content-add-box tiny"></i></a>
+														</td>
+													</tr>
+												{elseif $editstatus eq 'edit'}
+													{if $data_teknis}
+														{assign var=inds value=1}
+														{foreach from=$data_teknis item=rowsss}
+															{if $inds eq 1}
+																{assign var=idnya value='ohoi'}
+															{else}
+																{assign var=idnya value="ohoi_{$inds}" }
+															{/if}
+															<tr id='{$idnya}'>
+																<td>
+																	<select  id='unit_kompetensi_{$inds}' name='unit_kompetensi[]' class="browser-default" style='width:90%;'>
+																		{$combo_unit_kompetensi_{$inds}|default:''}
+																	</select>
+																</td>
+																<td>
+																	<span id='kode_unit_kompetensi_{$inds}'>
+																		{$rowsss.kode_unit_kompetensi}
+																	</span>
+																</td>
+																<td style='text-align:center !important;'>
+																	{if $inds eq 1}
+																		-
+																	{else}
+																		<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('kompetensi_teknis', 'ohoi_{$inds}', '{$inds}');"><i class="mdi-content-clear tiny"></i></a>
+																	{/if}
+																</td>
+															</tr>
+															{assign var=inds value=$inds+1}
+														{/foreach}
+													{else}
+														{assign var=inds value=1}
+														<tr id='ohoi'>
+															<td>
+																<select  id='unit_kompetensi_1' name='unit_kompetensi[]' class="browser-default" style='width:90%;'>
+																</select>
+															</td>
+															<td>
+																<span id='kode_unit_kompetensi_1'></span>
+															</td>
+															<td style='text-align:center !important;'>
+																-
+															</td>
+														</tr>
+													{/if}
+													<tr>
+														<td colspan='2'>&nbsp;</td>
+														<td id='btn_ohoi' style='text-align:center !important;'>
+															<a href="javascript:void(0);" title='Tambah Kompetensi Teknis' onClick="addrowtableinput('kompetensi_teknis', 'ohoi', 'btn_ohoi', {$inds});" ><i class="mdi-content-add-box tiny"></i></a>
+														</td>
+													</tr>
+												{/if}											
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							
+							<h4 class="header2">IV. Parameter Bakat</h4>
+							<div id="responsive-table">
+								<div class="row">
+									<div class="col s12">
+										<table class="responsive-table" style='width:50%;'>
+											<thead>
+												<tr>
+													<th data-field="name" style='text-align:center !important;'>Bakat</th>
+													<th data-field="status" style='text-align:center !important;'>Action</th>
+												</tr>
+											</thead>
+											<tbody >
+												{if $editstatus eq 'add'}
+													<tr id='ihii'>
+														<td>
+															<select  id='bakat_1' name='bakat[]' class="browser-default" style='width:90%;'>
+															</select>
+														</td>
+														<td style='text-align:center !important;'>
+															-
+														</td>
+													</tr>
+													<tr>
+														<td>&nbsp;</td>
+														<td id='btn_ihii' style='text-align:center !important;'>
+															<a href="javascript:void(0);" title='Tambah Bakat' onClick="addrowtableinput('bakat', 'ihii', 'btn_ihii', 1);" ><i class="mdi-content-add-box tiny"></i></a>
+														</td>
+													</tr>
+												{elseif $editstatus eq 'edit'}
+													{if $data_bakat}
+														{assign var=indss value=1}
+														{foreach from=$data_bakat item=rowssssss}
+															{if $indss eq 1}
+																{assign var=idnya value='ihii'}
+															{else}
+																{assign var=idnya value="ihii_{$indss}"}
+															{/if}
+															<tr id='{$idnya}'>
+																<td>
+																	<select  id='bakat_{$indss}' name='bakat[]' class="browser-default" style='width:90%;'>
+																		{$combo_bakat_{$indss}|default:''}
+																	</select>
+																</td>
+																<td style='text-align:center !important;'>
+																	{if $indss eq 1}
+																		-
+																	{else}
+																		<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('bakat', 'ihii_{$indss}', '{$indss}');"><i class="mdi-content-clear tiny"></i></a>
+																	{/if}
+																</td>
+															</tr>
+															{assign var=indss value=$indss+1}
+														{/foreach}
+													{else}
+														{assign var=indss value=1}
+														<tr id='ihii'>
+															<td>
+																<select  id='bakat_1' name='bakat[]' class="browser-default" style='width:90%;'>
+																</select>
+															</td>
+															<td style='text-align:center !important;'>
+																-
+															</td>
+														</tr>
+													{/if}
+													<tr>
+														<td>&nbsp;</td>
+														<td id='btn_ihii' style='text-align:center !important;'>
+															<a href="javascript:void(0);" title='Tambah Bakat' onClick="addrowtableinput('bakat', 'ihii', 'btn_ihii', {$indss});" ><i class="mdi-content-add-box tiny"></i></a>
+														</td>
+													</tr>
+												{/if}														
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							
+							<h4 class="header2">V. Parameter Prasyarat Dasar</h4>
+							<div id="responsive-table">
+								<div class="row">
+									<div class="col s12">
+										<table class="responsive-table" style='width:70%;'>
+											<thead>
+												<tr>
+													<th data-field="name" style='text-align:center !important;'>Prasyarat Dasar</th>
+													<th data-field="name" style='text-align:center !important;'>Bukti</th>
+													<th data-field="status" style='text-align:center !important;'>Action</th>
+												</tr>
+											</thead>
+											<tbody >
+												{if $editstatus eq 'add'}
+													<tr id='ocii'>
+														<td>
+															<input name='prasyarat_dasar[]' type='text' style='width:90%;'>
+														</td>
+														<td>
+															<input name='bukti[]' type='text' style='width:90%;'>
+														</td>
+														<td style='text-align:center !important;'>
+															-
+														</td>
+													</tr>
+													<tr>
+														<td colspan='2'>&nbsp;</td>
+														<td id='btn_ocii' style='text-align:center !important;'>
+															<a href="javascript:void(0);" title='Tambah Prasyarat Dasar' onClick="addrowtableinput('prasyarat_dasar', 'ocii', 'btn_ocii', 1);" ><i class="mdi-content-add-box tiny"></i></a>
+														</td>
+													</tr>
+												{elseif $editstatus eq 'edit'}
+													{if $data_prasyarat}
+														{assign var=indsss value=1}
+														{foreach from=$data_prasyarat item=riwss}
+															{if $indsss eq 1}
+																{assign var=idnya value='ocii'}
+															{else}
+																{assign var=idnya value="ocii_{$indsss}"}
+															{/if}
+															<tr id='{$idnya}'>
+																<td>
+																<input name='prasyarat_dasar[]' value="{$riwss.prasyarat_dasar|default:''}" type='text' style='width:90%;'>
+																</td>
+																<td>
+																	<input name='bukti[]' value="{$riwss.bukti|default:''}" type='text' style='width:90%;'>
+																</td>
+																<td style='text-align:center !important;'>
+																	{if $ind eq 1}
+																		-
+																	{else}
+																		<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('prasyarat_dasar', 'ocii_{$indsss}', '{$indsss}');"><i class="mdi-content-clear tiny"></i></a>
+																	{/if}
+																</td>
+															</tr>
+															{assign var=indsss value=$indsss+1}
+														{/foreach}
+													{else}
+														{assign var=indsss value=1}
+														<tr id='ocii'>
+															<td>
+																<input name='prasyarat_dasar[]' type='text' style='width:90%;'>
+															</td>
+															<td>
+																<input name='bukti[]' type='text' style='width:90%;'>
+															</td>
+															<td style='text-align:center !important;'>
+																-
+															</td>
+														</tr>
+													{/if}
+													<tr>
+														<td colspan='2'>&nbsp;</td>
+														<td id='btn_ocii' style='text-align:center !important;'>
+															<a href="javascript:void(0);" title='Tambah Prasyarat Dasar' onClick="addrowtableinput('prasyarat_dasar', 'ocii', 'btn_ocii', {$indsss});" ><i class="mdi-content-add-box tiny"></i></a>
+														</td>
+													</tr>
+												{/if}														
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</form>
+						
+						<div class="col s12 m8 l9" style='margin-top:40px;'>
+							<button class="btn cyan waves-effect waves-light " onClick="javascript:void(0);sbmbyk('peta_jabatan');">Submit
+								<i class="mdi-content-send right"></i>
+							</button>
+							<button class="btn waves-effect waves-light " >Kembali
+								<i class="mdi-content-reply left"></i>
+							</button>
+						</div>						
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var edi = "{$editstatus}";
+	var data_manajerial = "{$sts_data_manajerial|default:''}";
+	var data_teknis = "{$sts_data_teknis|default:''}";
+	var data_bakat = "{$sts_data_bakat|default:''}";
+	
+	if(data_manajerial == 'T'){
+		fillCmb(hostir+'why/modul_admin/getcombo/idx_kompetensi_manajerial', "kompetensi_manajerial_1" );
+		$('#kompetensi_manajerial_1').bind('change', function(){
+			fillCmb(hostir+'why/modul_admin/getcombo/idx_level_kompetensi_manajerial', "levelkompetensimanajerial_1", '', $(this).val() );
+		});
+	}
+	
+	if(data_teknis == 'T'){
+		fillCmb(hostir+'why/modul_admin/getcombo/tbl_unit_kompetensi', "unit_kompetensi_1" );
+		$('#unit_kompetensi_1').bind('change', function(){
+			$.post(hostir+'get-kode-unit-kompetensi', { 'idxn':$(this).val() } , function(crespo){
+				if(crespo == null){
+					$('#kode_unit_kompetensi_1').html('-');
+				}else{
+					$('#kode_unit_kompetensi_1').html(crespo);
+				}
+			});
+		});		
+	}
+	
+	if(data_bakat == 'T'){
+		fillCmb(hostir+'why/modul_admin/getcombo/idx_bakat', "bakat_1" );
+	}
+	
+	
+	
+	if(edi == 'add'){
+		fillCmb(hostir+'why/modul_admin/getcombo/idx_kompetensi_manajerial', "kompetensi_manajerial_1" );
+		$('#kompetensi_manajerial_1').bind('change', function(){
+			fillCmb(hostir+'why/modul_admin/getcombo/idx_level_kompetensi_manajerial', "levelkompetensimanajerial_1", '', $(this).val() );
+		});
+		
+		fillCmb(hostir+'why/modul_admin/getcombo/tbl_unit_kompetensi', "unit_kompetensi_1" );
+		$('#unit_kompetensi_1').bind('change', function(){
+			$.post(hostir+'get-kode-unit-kompetensi', { 'idxn':$(this).val() } , function(crespo){
+				if(crespo == null){
+					$('#kode_unit_kompetensi_1').html('-');
+				}else{
+					$('#kode_unit_kompetensi_1').html(crespo);
+				}
+			});
+		});		
+		
+		fillCmb(hostir+'why/modul_admin/getcombo/idx_bakat', "bakat_1" );
+	}
+</script>

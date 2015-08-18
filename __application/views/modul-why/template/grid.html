@@ -8,7 +8,6 @@
 	}
 </style>
 
-
 <div id="div_{$tipe_grid}" style="width:102%">
 	<div id='{$tipe_grid}'></div>
 	<div id='toolbar_{$tipe_grid}' style='padding:5px;height:{$tinggi}'>
@@ -25,10 +24,28 @@
 			{include file='modul-why/template/button.html' id="hapus_{$tipe_grid}" gridnya={$tipe_grid} tipe='easyui-button' label='Hapus' class='icon-cancel'}
 		{/if}
 		
+		{if $tipe_grid eq 'detail_peta_jabatan'}
+			{if $tipologi eq 'DS' || $tipologi eq 'KEL' || $tipologi eq 'KEC' || $tipologi eq 'JFT' || $tipologi eq 'JFU'}
+				{include file='modul-why/template/button.html' id="tambah_{$tipe_grid}" gridnya={$tipe_grid} tipe='easyui-button' label='Tambah' class='icon-add'}
+			{/if}
+			
+			{include file='modul-why/template/button.html' id="kembali_{$tipe_grid}" gridnya={$tipe_grid} tipe='easyui-button' label='Kembali' class='icon-undo' float='right'}
+		{/if}
+		
 	</div>
 </div>
 
 <script>
+	var tipe_grid = "{$tipe_grid}";
+	
+	if(tipe_grid == 'detail_peta_jabatan'){
+		var breadcumb = "{$breadcumb|default:''}";
+		var tipologi = "{$tipologi|default:''}";
+		var jenis_bkl = "{$jenis_bkl|default:''}";
+		var id_bkl = {$id_bkl|default:0};
+		var kubil = {$id_bkl|default:0};
+	}
+	
 	$('#div_{$tipe_grid}').css('height',(getClientHeight()-230));
 	genGrid2('{$tipe_grid}');
 </script>
