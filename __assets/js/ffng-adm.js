@@ -318,6 +318,54 @@ function genGrid2(modnya, lebarnya, tingginya, p1, p2){
 				{field:'nama_bidang',title:'<b>Bidang Urusan</b>',width:300, halign:'center',align:'left'},
 			];
 		break;
+		case "peta_jabatan":
+			judulnya = "";
+			fitnya = true;
+			pagesizeboy = 50;
+			kolom[modnya] = [	
+				{field:'nama_bidang',title:'<b>Bidang Fungsi Kerja Urusan Pemerintahan - K/L</b>',width:400, halign:'center',align:'left'},
+				{field:'jenis_bkl',title:'<b>Tipologi</b>',width:500, halign:'center', align:'left',
+					formatter: function(value,row,index){
+						var buttonhtml = "";
+						if(row.jenis_bkl == 'B'){
+							buttonhtml = '<a href="javascript:void(0);" onClick="loadUrl_adds(\'det-petjab\', \''+hostir+'\detail-peta-jabatan\', \'tMain\', \'A\', \''+row.jenis_bkl+'\', \''+row.id+'\', \''+row.nama_bidang+'\' );" class="btn waves-effect waves-light indigo">A</a> &nbsp;';
+							buttonhtml += '<a href="javascript:void(0);" onClick="loadUrl_adds(\'det-petjab\', \''+hostir+'\detail-peta-jabatan\', \'tMain\', \'B\', \''+row.jenis_bkl+'\', \''+row.id+'\', \''+row.nama_bidang+'\' );" class="btn waves-effect waves-light green">B</a> &nbsp;';
+							buttonhtml += '<a href="javascript:void(0);" onClick="loadUrl_adds(\'det-petjab\', \''+hostir+'\detail-peta-jabatan\', \'tMain\', \'C\', \''+row.jenis_bkl+'\', \''+row.id+'\', \''+row.nama_bidang+'\' );" class="btn waves-effect waves-light orange">C</a> &nbsp;';
+							buttonhtml += '<a href="javascript:void(0);" onClick="loadUrl_adds(\'det-petjab\', \''+hostir+'\detail-peta-jabatan\', \'tMain\', \'DS\', \''+row.jenis_bkl+'\', \''+row.id+'\', \''+row.nama_bidang+'\' );" class="btn waves-effect waves-light indigo">DS</a> &nbsp;';
+							buttonhtml += '<a href="javascript:void(0);" onClick="loadUrl_adds(\'det-petjab\', \''+hostir+'\detail-peta-jabatan\', \'tMain\', \'KEL\', \''+row.jenis_bkl+'\', \''+row.id+'\', \''+row.nama_bidang+'\' );" class="btn waves-effect waves-light green">KEL</a> &nbsp;';
+							buttonhtml += '<a href="javascript:void(0);" onClick="loadUrl_adds(\'det-petjab\', \''+hostir+'\detail-peta-jabatan\', \'tMain\', \'KEC\', \''+row.jenis_bkl+'\', \''+row.id+'\', \''+row.nama_bidang+'\' );" class="btn waves-effect waves-light orange">KEC</a> &nbsp;';
+						}else if(row.jenis_bkl == 'K'){
+							buttonhtml = '<a href="javascript:void(0);" onClick="loadUrl_adds(\'det-petjab\', \''+hostir+'\detail-peta-jabatan\', \'tMain\', \'JFT\', \''+row.jenis_bkl+'\', \''+row.id+'\', \''+row.nama_bidang+'\' );" class="btn waves-effect waves-light grey">JFT</a> &nbsp;';
+							buttonhtml += '<a href="javascript:void(0);" onClick="loadUrl_adds(\'det-petjab\', \''+hostir+'\detail-peta-jabatan\', \'tMain\', \'JFU\', \''+row.jenis_bkl+'\', \''+row.id+'\', \''+row.nama_bidang+'\' );" class="btn waves-effect waves-light purple">JFU</a> &nbsp;';
+						}
+						
+						return buttonhtml;
+					}
+				},
+			];
+		break;
+		case "detail_peta_jabatan":
+			judulnya = "";
+			fitnya = true;
+			pagesizeboy = 50;
+			
+			param['tipgi'] = tipologi;
+			param['jns_bkl'] = jenis_bkl;
+			param['idx_kbl'] = id_bkl;
+			kolom[modnya] = [	
+				{field:'nama_jabatan',title:'<b>Nama Jabatan</b>',width:250, halign:'center',align:'left'},
+				{field:'tugas',title:'<b>Tugas</b>',width:300, halign:'center',align:'left'},
+				{field:'id',title:'<b>Action</b>',width:100, halign:'center',align:'center',
+					formatter: function(value,row,index){
+						var buttonhtml = "";
+						buttonhtml = '<a href="javascript:void(0);" onClick="loadUrl_adds(\'edit_detail_peta_jabatan\', \'detail_peta_jabatan\', \'\', \''+row.id+'\')" class="btn-floating waves-effect waves-light orange"><i class="mdi-content-create"></i></a> &nbsp;';
+						buttonhtml += '<a href="javascript:void(0);" onClick="loadUrl_adds(\'hapus_detail_peta_jabatan\', \''+row.id+'\' );" class="btn-floating waves-effect waves-light"  ><i class="mdi-content-clear"></i></a> &nbsp;';
+						return buttonhtml;
+					}
+				
+				},
+			];
+		break;
 	}
 	
 	$("#"+modnya).datagrid({
@@ -412,6 +460,22 @@ function sbmbyk(type){
 				}
 			});
 		break;
+		case "peta_jabatan":
+			ajxamsterfrm('detail_petjab', function(resp){
+				if(resp == 1){
+					//alert('Data Tersimpan');
+					//loadUrl(hostir+'rencana-perumusan');
+					$.messager.alert('Sukses','Data Tersimpan','info');
+					loadUrl_adds('det-petjab', hostir+'detail-peta-jabatan', 'tMain', tipologi, jenis_bkl, kubil, breadcumb);					
+				}else{
+					//alert(resp);
+					//loadUrl(hostir+'rencana-perumusan');
+					$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
+					console.log(resp);
+					loadUrl_adds('det-petjab', hostir+'detail-peta-jabatan', 'tMain', tipologi, jenis_bkl, kubil, breadcumb);					
+				}
+			});
+		break;
 	}
 }
 
@@ -491,6 +555,41 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 				$.messager.alert('Warning','Pilih Data Yang Akan Diedit.','warning');
 			}
 			
+		break;
+		case "det-petjab":
+			$("#"+domnya).html("").addClass("loading");
+			$.post(urlnya, { 'tipgi':p1, 'jns_bkl':p2, 'idx_kbl':p3, 'lbl':p4 }, function(respo){
+				$("#"+domnya).html(respo).removeClass("loading");
+			});
+		break;
+		case "tambah_detail_peta_jabatan":
+			$("#div_"+urlnya).html("").addClass("loading");
+			$.post(hostir+'form-detail-peta-jabatan', { 'editstatus':'add', 'tipgi':tipologi, 'jns_bkl':jenis_bkl, 'idx_kbl':kubil }, function(respo){
+				$("#div_"+urlnya).html(respo).removeClass("loading");
+			 });
+		break;
+		case "edit_detail_peta_jabatan":			
+			$("#div_detail_peta_jabatan").html("").addClass("loading");
+			$.post(hostir+'form-detail-peta-jabatan', { 'editstatus':'edit', 'idxny':p1, 'tipgi':tipologi, 'jns_bkl':jenis_bkl, 'idx_kbl':kubil }, function(respo){
+				$("#div_detail_peta_jabatan").html(respo).removeClass("loading");
+			 });
+		break;
+		case "hapus_detail_peta_jabatan":
+			$.messager.confirm('Confirm','Anda Yakin Akan Menghapus Data Ini?',function(r){
+				if(r){
+					$.post(hostir+'hapus-detail-peta-jabatan', { 'editstatus':'delete', 'id':urlnya }, function(respo){
+						if(respo == 1){
+							$.messager.alert('Sukses','Data Sudah Terhapus','info');
+						}else{
+							$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
+						}
+						$('#detail_peta_jabatan').datagrid('reload');
+					});
+				}
+			});
+		break;
+		case "kembali_detail_peta_jabatan":
+			loadUrl(hostir+'peta-jabatan');
 		break;
 		
 	/*Levi*/
@@ -865,11 +964,11 @@ function deleterowtableinput_lv(type, dom, dom_link, p1, p2, p3){
 	}
 }
 
-function addrowtableinput(type, dom, p1, p2, p3, p4){
+function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
         //p1 counter, p2 sub_bidang, p3 sub2bidang
 	switch(type){
             case "fungsi_dasar":
-		var counter = parseInt(p1)+1;
+				var counter = parseInt(p1)+1;
                 var htmlnya = "";
                 htmlnya += "<tr id='row_"+counter+"_"+p1+"_"+p2+"_"+p3+"'>";
                 htmlnya += "	<td></td>";
@@ -892,21 +991,26 @@ function addrowtableinput(type, dom, p1, p2, p3, p4){
             break;
 		case "pembentukan_tim":
 			var counter = parseInt(p1)+1;
-			
+			var html_link = "";
 			var htmlnya = "";
-			htmlnya += "<tr id='row_"+counter+"'>";
-			htmlnya += "	<td>"+counter+"</td>";
+			
+			htmlnya += "<tr id='oye_"+counter+"'>";
 			htmlnya += "	<td> <input name='nama[]' type='text' style='width:90%;'>  </td>";
 			htmlnya += "	<td> <input name='jabatan[]' type='text' style='width:90%;'>  </td>";
 			htmlnya += "	<td> <select class='browser-default' name='jabatan_tim_kerja[]' id='jbtankerja_"+counter+"' style='width:90%;'></select> </td>";
+			htmlnya += "	<td> <select class='browser-default' name='isuser[]' id='isuser_"+counter+"' style='width:90%;'></select> </td>";
+			htmlnya += "	<td> <input name='email[]' type='text' style='width:90%;'>  </td>";
 			htmlnya += "	<td style='text-align:center !important;'>";			
-			htmlnya += "		<a href=\"javascript:void(0);\" title='Tambah Anggota' onClick=\"addrowtableinput('pembentukan_tim', 'oye', '"+counter+"');\" ><i class=\"mdi-content-add-box tiny\"></i></a>";			
-			htmlnya += "		<a href=\"javascript:void(0);\" title='Hapus Anggota' onClick=\"deleterowtableinput('pembentukan_tim', 'oye', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";			
+			htmlnya += "		<a href=\"javascript:void(0);\" title='Hapus Anggota' onClick=\"deleterowtableinput('pembentukan_tim', 'oye_"+counter+"', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";			
 			htmlnya += "	</td>";			
 			htmlnya += "</tr>";
 			
-			$('#'+dom).append(htmlnya);
+            html_link +="<a href='#' onclick=\"addrowtableinput('pembentukan_tim', 'oye', 'btn_dsr', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
+			
+			$('#'+dom).after(htmlnya);
+			$('#'+dom_linked).html(html_link);
 			fillCmb(hostir+'why/modul_admin/getcombo/idx_jabatan_tim_kerja', "jbtankerja_"+counter );
+			fillCmb(hostir+'why/modul_admin/getcombo/ya_tidak', "isuser_"+counter );
 		break;
 		case "rencana_perumusan":
 			var counter = parseInt(p1)+1;
@@ -925,6 +1029,94 @@ function addrowtableinput(type, dom, p1, p2, p3, p4){
 			$('#'+dom).append(htmlnya);
 			fillCmb(hostir+'why/modul_admin/getcombo/idx_sub_bidang', "subbidang_"+counter, "", $('#bidang_fungsi').val() );
 		break;
+		case "kompetensi_manajerial":
+			var counter = parseInt(p1)+1;
+			var html_link = "";
+			var htmlnya = "";
+			
+			htmlnya += "<tr id='ahaide_"+counter+"'>";
+			htmlnya += "	<td> <select class='browser-default' id='kompetensi_manajerial_"+counter+"' style='width:90%;'></select> </td>";
+			htmlnya += "	<td> <select class='browser-default' name='levelkompetensimanajerial[]' id='levelkompetensimanajerial_"+counter+"' style='width:90%;'></select> </td>";
+			htmlnya += "	<td style='text-align:center !important;'>";			
+			htmlnya += "		<a href=\"javascript:void(0);\" title='Hapus Anggota' onClick=\"deleterowtableinput('kompetensi_manajerial', 'ahaide_"+counter+"', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";			
+			htmlnya += "	</td>";			
+			htmlnya += "</tr>";
+			
+			html_link +="<a href='#' onclick=\"addrowtableinput('kompetensi_manajerial', 'ahaide', 'btn_ahaide', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
+			$('#'+dom).after(htmlnya);
+			$('#'+dom_linked).html(html_link);
+			
+			fillCmb(hostir+'why/modul_admin/getcombo/idx_kompetensi_manajerial', "kompetensi_manajerial_"+counter );
+			$('#kompetensi_manajerial_'+counter).bind('change', function(){
+				fillCmb(hostir+'why/modul_admin/getcombo/idx_level_kompetensi_manajerial', "levelkompetensimanajerial_"+counter, '', $(this).val() );
+			});
+			//fillCmb(hostir+'why/modul_admin/getcombo/ya_tidak', "isuser_"+counter );
+		break;
+		case "kompetensi_teknis":
+			var counter = parseInt(p1)+1;
+			var html_link = "";
+			var htmlnya = "";
+			
+			htmlnya += "<tr id='ohoi_"+counter+"'>";
+			htmlnya += "	<td> <select class='browser-default' name='unit_kompetensi[]' id='unit_kompetensi_"+counter+"' style='width:90%;'></select> </td>";
+			htmlnya += "	<td> <span id='kode_unit_kompetensi_"+counter+"'></span> </td>";
+			htmlnya += "	<td style='text-align:center !important;'>";			
+			htmlnya += "		<a href=\"javascript:void(0);\" title='Hapus Anggota' onClick=\"deleterowtableinput('kompetensi_teknis', 'ohoi_"+counter+"', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";			
+			htmlnya += "	</td>";			
+			htmlnya += "</tr>";
+			
+			html_link +="<a href='#' onclick=\"addrowtableinput('kompetensi_teknis', 'ohoi', 'btn_ohoi', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
+			
+			$('#'+dom).after(htmlnya);
+			$('#'+dom_linked).html(html_link);
+			
+			fillCmb(hostir+'why/modul_admin/getcombo/tbl_unit_kompetensi', "unit_kompetensi_"+counter );
+			$('#unit_kompetensi_'+counter).bind('change', function(){
+				$.post(hostir+'get-kode-unit-kompetensi', { 'idxn':$(this).val() } , function(crespo){
+					if(crespo == null){
+						$('#kode_unit_kompetensi_'+counter).html('-');
+					}else{
+						$('#kode_unit_kompetensi_'+counter).html(crespo);
+					}
+				});
+			});
+		break;
+		case "bakat":
+			var counter = parseInt(p1)+1;
+			var html_link = "";
+			var htmlnya = "";
+			
+			htmlnya += "<tr id='ihii_"+counter+"'>";
+			htmlnya += "	<td> <select class='browser-default' name='bakat[]' id='bakat_"+counter+"' style='width:90%;'></select> </td>";
+			htmlnya += "	<td style='text-align:center !important;'>";			
+			htmlnya += "		<a href=\"javascript:void(0);\" title='Hapus Anggota' onClick=\"deleterowtableinput('bakat', 'ihii_"+counter+"', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";			
+			htmlnya += "	</td>";			
+			htmlnya += "</tr>";
+			
+			html_link +="<a href='#' onclick=\"addrowtableinput('bakat', 'ihii', 'btn_ihii', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
+			
+			$('#'+dom).after(htmlnya);
+			$('#'+dom_linked).html(html_link);
+			fillCmb(hostir+'why/modul_admin/getcombo/idx_bakat', "bakat_"+counter );
+		break;
+		case "prasyarat_dasar":
+			var counter = parseInt(p1)+1;
+			var html_link = "";
+			var htmlnya = "";
+			
+			htmlnya += "<tr id='ocii_"+counter+"'>";
+			htmlnya += "	<td> <input name='prasyarat_dasar[]' type='text' style='width:90%;'> </td>";
+			htmlnya += "	<td> <input name='bukti[]' type='text' style='width:90%;'> </td>";
+			htmlnya += "	<td style='text-align:center !important;'>";			
+			htmlnya += "		<a href=\"javascript:void(0);\" title='Hapus Anggota' onClick=\"deleterowtableinput('prasyarat_dasar', 'ocii_"+counter+"', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";			
+			htmlnya += "	</td>";			
+			htmlnya += "</tr>";
+			
+			html_link +="<a href='#' onclick=\"addrowtableinput('prasyarat_dasar', 'ocii', 'btn_ocii', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
+			
+			$('#'+dom).after(htmlnya);
+			$('#'+dom_linked).html(html_link);
+		break;
 	}
 }
 
@@ -932,7 +1124,11 @@ function deleterowtableinput(type, dom, p1, p2, p3){
 	switch(type){
 		case "pembentukan_tim":
 		case "rencana_perumusan":
-			$('#row_'+p1).remove();
+		case "kompetensi_manajerial":
+		case "kompetensi_teknis":
+		case "bakat":
+		case "prasyarat_dasar":
+			$('#'+dom).remove();
 		break;
 	}
 }
