@@ -278,70 +278,161 @@ class madmin extends SHIPMENT_Model{
 				}
 				
 				if($execute){
-					if($post['editstatus'] == 'add'){
-						$get_id = $this->db->get_where('tbl_tim_kerja', array('kode_gen'=>$kode_gen))->row_array();
-						$tbl_tim_kerja_id = $get_id['id'];
-					}elseif($post['editstatus'] == 'edit' || $post['editstatus'] == 'delete'){	
-						$tbl_tim_kerja_id = $post['id'];
-						$this->db->delete('tbl_anggota_tim_kerja', array('tbl_tim_kerja_id'=>$tbl_tim_kerja_id));
-					}
 					
 					if($post['editstatus'] == 'delete'){
 						$this->db->delete('tbl_anggota_tim_kerja', array( 'tbl_tim_kerja_id'=>$post['id']) );
-					}else{
+					}elseif($post['editstatus'] == 'edit'){
+						$tbl_tim_kerja_id = $post['id'];
 						$count = count($post['nama'])-1;
-						$array_insert_batch = array();
-						$array_insert_user = array();
+						$cek_data = $this->db->get_where('tbl_anggota_tim_kerja', array('tbl_tim_kerja_id'=>$tbl_tim_kerja_id) )->result_array();
+						
 						for($i = 0; $i <= $count; $i++){
-							//blok program insert to tbl_user
-							if($post['isuser'][$i] == 'Y'){
-								if($post['email'] != ''){
-									$password_asli = $this->lib->randomString(5, 'huruf');
-									$password = $this->encrypt->encode($password_asli);
-									$array_user = array(
-										'username' => $post['email'][$i],
-										'password' => $password,
-										'real_name' => $post['nama'][$i],
-										'level_admin' => $post['jabatan_tim_kerja'][$i],
-										'email' => $post['email'][$i],
-										'aktif' => 1,
+							if(isset($post['idx_tim'][$i])){
+								if($cek_data[$i]['id'] == $post['idx_tim'][$i]){
+									$array_update = array(
+										'tbl_tim_kerja_id' => $tbl_tim_kerja_id,
+										'idx_jabatan_tim_kerja_id' => $post['jabatan_tim_kerja'][$i],
+										'jabatan' =>  $post['jabatan'][$i],
+										'is_user' => $post['isuser'][$i],
+										'email' =>  $post['email'][$i],
+										'nama' =>  $post['nama'][$i],
 									);
-									$isusernya = 'Y';
-									array_push($array_insert_user, $array_user);
-									
-									$konten = "
-										Data user anda dalam aplikasi Sistem Informasi SK3APDN <br/>
-										Username : ".$post['email'][$i]." <br/>
-										Password : ".$password_asli." <br/>
-										Demikian yang bisa disampaikan <br/>
-										Terima Kasih.
-									";
-									$subjek = "Notifikasi Email User Aplikasi Sistem Informasi SK3APDN";
-									
-									$this->lib->kirimemail($konten, $subjek, $post['email'][$i]);
-								}else{
-									$isusernya = 'N';
+									$this->db->update('tbl_anggota_tim_kerja', array('id'=>$post['idx_tim'][$i]), array('id'=>$post['idx_tim'][$i]) );
 								}
 							}else{
-								$isusernya = 'N';
+								$array_insert = array(
+									'tbl_tim_kerja_id' => $tbl_tim_kerja_id,
+									'idx_jabatan_tim_kerja_id' => $post['jabatan_tim_kerja'][$i],
+									'jabatan' =>  $post['jabatan'][$i],
+									'is_user' => $post['isuser'][$i],
+									'email' =>  $post['email'][$i],
+									'nama' =>  $post['nama'][$i],
+								);
+								$insertnya = $this->db->insert("tbl_anggota_tim_kerja", $array_insert);
+								
+								if($post['isuser'][$i] == 'Y'){
+									$cek_user = $this->db->get_where('tbl_user_admin', array('username'=>$post['email'][$i]) )->row_array();
+									if(!$cek_user){
+										if($post['email'][$i] != ''){
+											$id_anggota_tim_kerja = $this->db->get_where('tbl_anggota_tim_kerja', array('email'=>$post['email'][$i]))->row_array();
+											$password_asli = $this->lib->randomString(5, 'huruf');
+											$password = $this->encrypt->encode($password_asli);
+											$array_user = array(
+												'username' => $post['email'][$i],
+												'password' => $password,
+												'real_name' => $post['nama'][$i],
+												'level_admin' => $post['jabatan_tim_kerja'][$i],
+												'email' => $post['email'][$i],
+												'aktif' => 1,
+												'tbl_anggota_tim_kerja_id' => $id_anggota_tim_kerja['id']
+											);
+											
+											$konten = "
+												Data user anda dalam aplikasi Sistem Informasi SK3APDN <br/>
+												Username : ".$post['email'][$i]." <br/>
+												Password : ".$password_asli." <br/>
+												Demikian yang bisa disampaikan <br/>
+												Terima Kasih.
+											";
+											$subjek = "Notifikasi Email User Aplikasi Sistem Informasi SK3APDN";
+											
+											$this->lib->kirimemail($konten, $subjek, $post['email'][$i]);
+											$this->db->insert("tbl_user_admin", $array_user);
+										}
+									}
+								}
+							}
+						}
+						
+						/*
+						foreach($cek_data as $k=>$v){
+							if(isset($post['idx_tim'][$idx])){
+								if($v['id'] == $post['idx_tim'][$idx]){
+									$array_update = array(
+										'tbl_tim_kerja_id' => $tbl_tim_kerja_id,
+										'idx_jabatan_tim_kerja_id' => $post['jabatan_tim_kerja'][$idx],
+										'jabatan' =>  $post['jabatan'][$idx],
+										'is_user' => $post['isuser'][$idx],
+										'email' =>  $post['email'][$idx],
+										'nama' =>  $post['nama'][$idx],
+									);
+									$this->db->update('tbl_anggota_tim_kerja', array('id'=>$post['idx_tim'][$idx]) );
+								}else{
+									$this->db->delete('tbl_anggota_tim_kerja', array('id'=>$post['idx_tim'][$idx]) );
+								}
+							}else{
+								
 							}
 							
+							$idx++;
+						}
+						*/
+						
+					}elseif($post['editstatus'] == 'add'){
+						$get_id = $this->db->get_where('tbl_tim_kerja', array('kode_gen'=>$kode_gen))->row_array();
+						$tbl_tim_kerja_id = $get_id['id'];
+					
+						$count = count($post['nama'])-1;
+						$array_insert_user = array();
+						for($i = 0; $i <= $count; $i++){
 							//blok program insert to tbl_tim_kerja
 							$array_insert = array(
 								'tbl_tim_kerja_id' => $tbl_tim_kerja_id,
 								'idx_jabatan_tim_kerja_id' => $post['jabatan_tim_kerja'][$i],
 								'jabatan' =>  $post['jabatan'][$i],
-								'is_user' => $isusernya,
+								'is_user' => $post['isuser'][$i],
 								'email' =>  $post['email'][$i],
 								'nama' =>  $post['nama'][$i],
 							);
-							array_push($array_insert_batch, $array_insert);
+							$insertnya = $this->db->insert("tbl_anggota_tim_kerja", $array_insert);
+							
+							//blok program insert to tbl_user
+							if($post['isuser'][$i] == 'Y'){
+								
+								if($insertnya){
+									$cek_user = $this->db->get_where('tbl_user_admin', array('username'=>$post['email'][$i]) )->row_array();
+									
+									if(!$cek_user){
+										if($post['email'][$i] != ''){
+											$id_anggota_tim_kerja = $this->db->get_where('tbl_anggota_tim_kerja', array('email'=>$post['email'][$i]))->row_array();
+											$password_asli = $this->lib->randomString(5, 'huruf');
+											$password = $this->encrypt->encode($password_asli);
+											$array_user = array(
+												'username' => $post['email'][$i],
+												'password' => $password,
+												'real_name' => $post['nama'][$i],
+												'level_admin' => $post['jabatan_tim_kerja'][$i],
+												'email' => $post['email'][$i],
+												'aktif' => 1,
+												'tbl_anggota_tim_kerja_id' => $id_anggota_tim_kerja['id']
+											);
+											
+											$konten = "
+												Data user anda dalam aplikasi Sistem Informasi SK3APDN <br/>
+												Username : ".$post['email'][$i]." <br/>
+												Password : ".$password_asli." <br/>
+												Demikian yang bisa disampaikan <br/>
+												Terima Kasih.
+											";
+											$subjek = "Notifikasi Email User Aplikasi Sistem Informasi SK3APDN";
+											
+											$this->lib->kirimemail($konten, $subjek, $post['email'][$i]);
+											$this->db->insert("tbl_user_admin", $array_user);
+										}
+									}
+									
+								}
+								
+							}
 							
 						}
-						$this->db->insert_batch("tbl_anggota_tim_kerja", $array_insert_batch);
-						$this->db->insert_batch("tbl_user_admin", $array_insert_user);
+						
 					}
 				}
+			break;
+			case "hpsanggotatim":
+				$id = $post['idxn'];
+				$this->db->delete('tbl_anggota_tim_kerja', array('id'=>$id) );
 			break;
 			case "rencana_perumusan":				
 				if($post['editstatus'] != 'delete'){

@@ -1120,7 +1120,7 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
 	}
 }
 
-function deleterowtableinput(type, dom, p1, p2, p3){
+function deleterowtableinput(type, dom, p1, p2, p3, p4, p5){
 	switch(type){
 		case "pembentukan_tim":
 		case "rencana_perumusan":
@@ -1128,7 +1128,15 @@ function deleterowtableinput(type, dom, p1, p2, p3){
 		case "kompetensi_teknis":
 		case "bakat":
 		case "prasyarat_dasar":
+			
+			if(p2 == 'edit'){
+				$.post(hostir+'why/modul_admin/simpansavedbx/hpsanggotatim', { 'idxn':p3 } , function(crespo){
+					console.log(crespo);
+				});
+			}
+			
 			$('#'+dom).remove();
+			
 		break;
 	}
 }

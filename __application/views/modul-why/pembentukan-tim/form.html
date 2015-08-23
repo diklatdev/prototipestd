@@ -78,9 +78,10 @@
 													{if $ind eq 1}
 														{assign var=idnya value='oye'}
 													{else}
-														{assign var=idnya value='oye_{$ind}'}
+														{assign var=idnya value="oye_{$ind}"}
 													{/if}
 													<tr id='{$idnya}'>
+														<input type='hidden' name='idx_tim' value="{$rows.id}">
 														<td>
 															<input name='nama[]' type='text' value="{$rows.nama|default:''}" style='width:90%;'>
 														</td>
@@ -104,18 +105,19 @@
 															{if $ind eq 1}
 																-
 															{else}
-																<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('pembentukan_tim', 'oye', '{$ind}');" ><i class="mdi-content-clear tiny"></i></a>
+																<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('pembentukan_tim', '{$idnya}', '{$ind}', 'edit', '{$rows.id}');" ><i class="mdi-content-clear tiny"></i></a>
 															{/if}	
-														</td>
-													</tr>
-													<tr>
-														<td colspan='5'></td>
-														<td id='btn_dsr' style='text-align:center !important;'>
-															<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', 'btn_dsr', 1);" ><i class="mdi-content-add-box tiny"></i></a>
 														</td>
 													</tr>
 													{assign var=ind value=$ind+1}
 												{/foreach}
+													<tr>
+														<td colspan='5'></td>
+														<td id='btn_dsr' style='text-align:center !important;'>
+															<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye_{$ind}', 'btn_dsr', {$ind});" ><i class="mdi-content-add-box tiny"></i></a>
+														</td>
+													</tr>
+
 											{/if}
 											
 										</tbody>
