@@ -204,9 +204,9 @@ class lib {
 	//END Class Json Data
 	
 	//Class Fillcombo
-	function fillcombo($type="", $balikan="", $p1="", $p2="", $p3=""){
+	function fillcombo($type="", $balikan="", $p1="", $p2="", $p3="", $p4=""){
 		$ci =& get_instance();
-		$ci->load->model(array('madmin'));
+		$ci->load->model(array('why/madmin'));
 		
 		$v = $ci->input->post('v');
 		if($v != ""){
@@ -238,7 +238,7 @@ class lib {
 				);
 			break;
 			default:
-				$data = $ci->madmin->get_data_fillcombo($type, $p1, $p2);
+				$data = $ci->madmin->get_data_fillcombo($type, $p1, $p2, $p3, $p4);
 			break;
 		}
 		

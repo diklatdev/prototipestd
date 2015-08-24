@@ -221,8 +221,8 @@ class modul_admin extends SHIPMENT_Controller{
 				$this->smarty->assign('jenis_bkl', $jenis_bkl);
 				$this->smarty->assign('id_bkl', $id_bkl);		
 				
-				$this->smarty->assign('atasan_langsung_id', $this->lib->fillcombo('tbl_peta_jabatan', 'return', ($editstatus == 'edit' ? $data['atasan_langsung_id'] : "") ));
-				$this->smarty->assign('idx_pangkat_kknipdn_id', $this->lib->fillcombo('idx_pangkat_kknipdn', 'return', ($editstatus == 'edit' ? $data['idx_pangkat_kknipdn_id'] : "") ));
+				$this->smarty->assign('atasan_langsung_id', $this->lib->fillcombo('tbl_peta_jabatan', 'return', ($editstatus == 'edit' ? $data['atasan_langsung_id'] : ""), $tipologi_id['id'], $jenis_bkl, $id_bkl ));
+				$this->smarty->assign('idx_pangkat_kknipdn_id', $this->lib->fillcombo('idx_pangkat_kknipdn', 'return', ($editstatus == 'edit' ? $data['idx_pangkat_kknipdn_id'] : ""), $jenis_bkl ));
 				$this->smarty->assign('idx_pendidikan_kknipdn_id', $this->lib->fillcombo('idx_pendidikan_kknipdn', 'return', ($editstatus == 'edit' ? $data['idx_pendidikan_kknipdn_id'] : "") ));
 			break;
 			case "get_kode_kompetensi":

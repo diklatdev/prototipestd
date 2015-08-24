@@ -21,42 +21,37 @@
 										<table class="responsive-table" style='width:50%;'>
 											<thead>
 												<tr>
-													<td style='text-align:center !important;font-weight:none;color:#A49EAB'>Sub Bidang & Fungsi Kerja</td>
-													<td style='text-align:center !important;'>::</td>
+													<th style='text-align:center !important;'>Sub Bidang & Fungsi Kerja</th>
+													<th style='text-align:center !important;'>Action</th>
 												</tr>
 											</thead>
-											<tbody id='uye'>
+											<tbody>
 												{if $editstatus eq 'add'}
-												<tr>
-													<td>
-														<select name='subbidang[]' id='subbidang_1' class="browser-default" style='width:90%;'>
-															<option value=""> -- Pilih Combo Bidang Dahulu -- </option>
-														</select>
+												<tr id='uye'>
+													<td colspan='2'>
+														&nbsp;
 													</td>
-													<td>
-														<a id='tombol_1' style='display:none;' href="javascript:void(0);" title='Tambah Sub Bidang' onClick="addrowtableinput('rencana_perumusan', 'uye', '1');" ><i class="mdi-content-add-box tiny"></i></a>
+												</tr>
+												<tr id='baten' style='display:none;'>
+													<td colspan='2' id='btn_dsr' align='right' width='1000px' style='text-align:right; !important;'>
+														<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('rencana_perumusan', 'uye', 'btn_dsr', 1);" ><i class="mdi-content-add-box tiny"></i></a>
 													</td>
 												</tr>
 												{else}
-												{assign var=ind value=1}
-												{foreach from=$data_subbidang item=rows}
-													<tr id='row_{$ind}'>
-														<td>
-															<select name='subbidang[]' id='subbidang_1' class="browser-default" style='width:90%;'>
-																{$combo_{$ind}|default:''}
-															</select>
-														</td>
-														<td>
-															{if $ind eq 1}
-																<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('rencana_perumusan', 'uye', '1');" ><i class="mdi-content-add-box tiny"></i></a>
-															{else}
-																<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('rencana_perumusan', 'uye', '{$ind}');" ><i class="mdi-content-add-box tiny"></i></a>
-																<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('rencana_perumusan', 'uye', '{$ind}');" ><i class="mdi-content-clear tiny"></i></a>
-															{/if}	
-														</td>
-													</tr>
-													{assign var=ind value=$ind+1}
-												{/foreach}
+													{assign var=ind value=1}
+													{foreach from=$data_subbidang item=rows}
+														<tr id='uye_{$ind}'>
+															<td>
+																<select name='subbidang[]' id='subbidang_1' class="browser-default" style='width:90%;'>
+																	{$combo_{$ind}|default:''}
+																</select>
+															</td>
+															<td>
+																<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('rencana_perumusan', 'uye_{$ind}', '{$ind}');" ><i class="mdi-content-clear tiny"></i></a>
+															</td>
+														</tr>
+														{assign var=ind value=$ind+1}
+													{/foreach}
 												{/if}
 											</tbody>
 										</table>
@@ -496,7 +491,7 @@
 	$('#bidang_fungsi').bind('change', function(){
 		if(edi == 'add'){
 			fillCmb(hostir+'why/modul_admin/getcombo/idx_sub_bidang', "subbidang_1", "", $(this).val() );
-			$('#tombol_1').css({ 'display':'inline' });
+			$('#baten').css({ 'display':'inline' });
 		}
 	});
 	

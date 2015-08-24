@@ -119,7 +119,7 @@ class madmin extends SHIPMENT_Model{
 		return $this->lib->jsondata($sql, $type);
 	}
 	
-	function get_data_fillcombo($type="", $p1="", $p2=""){
+	function get_data_fillcombo($type="", $p1="", $p2="", $p3="", $p4){
 		$where = " WHERE 1=1 ";
 		$join = "";
 		$tabel = $type;
@@ -193,6 +193,7 @@ class madmin extends SHIPMENT_Model{
 			case "tbl_peta_jabatan" :
 				$select = "id, nama_jabatan as txt";
 				$tabel = "tbl_peta_jabatan";
+				$where .= "AND idx_tipologi_id='".$p2."' AND jenis_bkl='".$p3."' AND idx_bkl_id='".$p4."' ";
 			break;
 			case "idx_pendidikan_kknipdn" :
 				$select = "id, jenjang as txt";
@@ -202,7 +203,11 @@ class madmin extends SHIPMENT_Model{
 			case "idx_pangkat_kknipdn" :
 				$select = "id, jenjang as txt";
 				$tabel = "idx_jenjang_kknipdn";
-				$where .= " AND idx_tipe_kknipdn_id = '3' OR idx_tipe_kknipdn_id = '4' OR idx_tipe_kknipdn_id = '5' OR idx_tipe_kknipdn_id = '6' OR idx_tipe_kknipdn_id = '7' OR idx_tipe_kknipdn_id = '8' ";
+				if($p2 == 'B'){
+					$where .= " AND idx_tipe_kknipdn_id = '7' OR idx_tipe_kknipdn_id = '8' ";
+				}elseif($p2 == 'K'){
+					$where .= " AND idx_tipe_kknipdn_id = '5' OR idx_tipe_kknipdn_id = '6' ";
+				}
 			break;
 			
 			case "idx_kompetensi_manajerial":
@@ -245,6 +250,8 @@ class madmin extends SHIPMENT_Model{
 			$join
 			$where
 		";
+		
+		//echo $sql;
 		
 		return $this->db->query($sql)->result_array();
 	}
@@ -343,31 +350,7 @@ class madmin extends SHIPMENT_Model{
 								}
 							}
 						}
-						
-						/*
-						foreach($cek_data as $k=>$v){
-							if(isset($post['idx_tim'][$idx])){
-								if($v['id'] == $post['idx_tim'][$idx]){
-									$array_update = array(
-										'tbl_tim_kerja_id' => $tbl_tim_kerja_id,
-										'idx_jabatan_tim_kerja_id' => $post['jabatan_tim_kerja'][$idx],
-										'jabatan' =>  $post['jabatan'][$idx],
-										'is_user' => $post['isuser'][$idx],
-										'email' =>  $post['email'][$idx],
-										'nama' =>  $post['nama'][$idx],
-									);
-									$this->db->update('tbl_anggota_tim_kerja', array('id'=>$post['idx_tim'][$idx]) );
-								}else{
-									$this->db->delete('tbl_anggota_tim_kerja', array('id'=>$post['idx_tim'][$idx]) );
-								}
-							}else{
-								
-							}
-							
-							$idx++;
-						}
-						*/
-						
+												
 					}elseif($post['editstatus'] == 'add'){
 						$get_id = $this->db->get_where('tbl_tim_kerja', array('kode_gen'=>$kode_gen))->row_array();
 						$tbl_tim_kerja_id = $get_id['id'];

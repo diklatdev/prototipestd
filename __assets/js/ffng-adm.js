@@ -1007,7 +1007,7 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
 			
             html_link +="<a href='#' onclick=\"addrowtableinput('pembentukan_tim', 'oye', 'btn_dsr', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
 			
-			$('#'+dom).after(htmlnya);
+			$('#'+dom).before(htmlnya);
 			$('#'+dom_linked).html(html_link);
 			fillCmb(hostir+'why/modul_admin/getcombo/idx_jabatan_tim_kerja', "jbtankerja_"+counter );
 			fillCmb(hostir+'why/modul_admin/getcombo/ya_tidak', "isuser_"+counter );
@@ -1016,17 +1016,22 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
 			var counter = parseInt(p1)+1;
 			
 			var htmlnya = "";
-			htmlnya += "<tr id='row_"+counter+"'>";
+			var html_link = "";
+			
+			htmlnya += "<tr id='uye_"+counter+"'>";
 			htmlnya += "	<td>";
 			htmlnya += "		<select name='subbidang[]' id='subbidang_"+counter+"' class=\"browser-default\" style='width:90%;'></select>";
 			htmlnya += "	</td>";
 			htmlnya += "	<td>";
-			htmlnya += "		<a href=\"javascript:void(0);\" title='Tambah Sub Bidang' onClick=\"addrowtableinput('rencana_perumusan', 'uye', '"+counter+"');\" ><i class=\"mdi-content-add-box tiny\"></i></a>";			
-			htmlnya += "		<a href=\"javascript:void(0);\" title='Hapus Sub Bidang' onClick=\"deleterowtableinput('rencana_perumusan', 'uye', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";						
+			htmlnya += "		<a href=\"javascript:void(0);\" title='Hapus Sub Bidang' onClick=\"deleterowtableinput('rencana_perumusan', 'uye_"+counter+"', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";						
 			htmlnya += "	</td>";
 			htmlnya += "</tr>";
 			
-			$('#'+dom).append(htmlnya);
+			html_link +="<a href='#' onclick=\"addrowtableinput('rencana_perumusan', 'uye', 'btn_dsr', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
+			
+			$('#'+dom).before(htmlnya);
+			$('#'+dom_linked).html(html_link);
+			
 			fillCmb(hostir+'why/modul_admin/getcombo/idx_sub_bidang', "subbidang_"+counter, "", $('#bidang_fungsi').val() );
 		break;
 		case "kompetensi_manajerial":
@@ -1043,7 +1048,7 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
 			htmlnya += "</tr>";
 			
 			html_link +="<a href='#' onclick=\"addrowtableinput('kompetensi_manajerial', 'ahaide', 'btn_ahaide', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
-			$('#'+dom).after(htmlnya);
+			$('#'+dom).before(htmlnya);
 			$('#'+dom_linked).html(html_link);
 			
 			fillCmb(hostir+'why/modul_admin/getcombo/idx_kompetensi_manajerial', "kompetensi_manajerial_"+counter );
@@ -1067,7 +1072,7 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
 			
 			html_link +="<a href='#' onclick=\"addrowtableinput('kompetensi_teknis', 'ohoi', 'btn_ohoi', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
 			
-			$('#'+dom).after(htmlnya);
+			$('#'+dom).before(htmlnya);
 			$('#'+dom_linked).html(html_link);
 			
 			fillCmb(hostir+'why/modul_admin/getcombo/tbl_unit_kompetensi', "unit_kompetensi_"+counter );
@@ -1095,7 +1100,7 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
 			
 			html_link +="<a href='#' onclick=\"addrowtableinput('bakat', 'ihii', 'btn_ihii', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
 			
-			$('#'+dom).after(htmlnya);
+			$('#'+dom).before(htmlnya);
 			$('#'+dom_linked).html(html_link);
 			fillCmb(hostir+'why/modul_admin/getcombo/idx_bakat', "bakat_"+counter );
 		break;
@@ -1114,7 +1119,7 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
 			
 			html_link +="<a href='#' onclick=\"addrowtableinput('prasyarat_dasar', 'ocii', 'btn_ocii', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
 			
-			$('#'+dom).after(htmlnya);
+			$('#'+dom).before(htmlnya);
 			$('#'+dom_linked).html(html_link);
 		break;
 	}

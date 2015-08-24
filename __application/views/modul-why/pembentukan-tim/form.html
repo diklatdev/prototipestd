@@ -41,29 +41,8 @@
 										<tbody >
 											{if $editstatus eq 'add'}
 												<tr id='oye'>
-													<td>
-														<input name='nama[]' type='text' style='width:90%;'>
-													</td>
-													<td>
-														<input name='jabatan[]' type='text' style='width:90%;'>
-													</td>
-													<td>
-														<select name='jabatan_tim_kerja[]' id='jbtankerja_1' class="browser-default" style='width:90%;'>
-															<option value=""> -- Pilih -- </option>
-														</select>
-													</td>
-													<td>
-														<select name='isuser[]' id='isuser_1' class="browser-default" style='width:90%;'>
-															<option value=""> -- Pilih -- </option>
-															<option value="Y"> Ya </option>
-															<option value="N"> Tidak </option>
-														</select>
-													</td>													
-													<td>
-														<input name='email[]' type='text' style='width:90%;'>
-													</td>
-													<td style='text-align:center !important;'>
-														-
+													<td colspan='5'>
+														&nbsp;
 													</td>
 												</tr>
 												<tr>
@@ -74,47 +53,46 @@
 												</tr>
 											{else}
 												{assign var=ind value=1}
-												{foreach from=$data_anggota item=rows}
-													{if $ind eq 1}
-														{assign var=idnya value='oye'}
-													{else}
+												{if $data_anggota}
+													{foreach from=$data_anggota item=rows}
 														{assign var=idnya value="oye_{$ind}"}
-													{/if}
-													<tr id='{$idnya}'>
-														<input type='hidden' name='idx_tim' value="{$rows.id}">
-														<td>
-															<input name='nama[]' type='text' value="{$rows.nama|default:''}" style='width:90%;'>
-														</td>
-														<td>
-															<input name='jabatan[]' type='text' value="{$rows.jabatan|default:''}" style='width:90%;'>
-														</td>
-														<td>
-															<select name='jabatan_tim_kerja[]' id='jbtankerja_{$ind}' class="browser-default" style='width:90%;'>
-																{$combo_{$ind}|default:''}
-															</select>
-														</td>
-														<td>
-															<select name='isuser[]' id='isuser_1' class="browser-default" style='width:90%;'>
-																{$combo_isuser_{$ind}|default:''}
-															</select>
-														</td>													
-														<td>
-															<input name='email[]' value="{$rows.email|default:''}" type='text' style='width:90%;'>
-														</td>
-														<td style='text-align:center !important;'>
-															{if $ind eq 1}
-																-
-															{else}
-																<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('pembentukan_tim', '{$idnya}', '{$ind}', 'edit', '{$rows.id}');" ><i class="mdi-content-clear tiny"></i></a>
-															{/if}	
+														<tr id='{$idnya}'>
+															<input type='hidden' name='idx_tim' value="{$rows.id}">
+															<td>
+																<input name='nama[]' type='text' value="{$rows.nama|default:''}" style='width:90%;'>
+															</td>
+															<td>
+																<input name='jabatan[]' type='text' value="{$rows.jabatan|default:''}" style='width:90%;'>
+															</td>
+															<td>
+																<select name='jabatan_tim_kerja[]' id='jbtankerja_{$ind}' class="browser-default" style='width:90%;'>
+																	{$combo_{$ind}|default:''}
+																</select>
+															</td>
+															<td>
+																<select name='isuser[]' id='isuser_1' class="browser-default" style='width:90%;'>
+																	{$combo_isuser_{$ind}|default:''}
+																</select>
+															</td>													
+															<td>
+																<input name='email[]' value="{$rows.email|default:''}" type='text' style='width:90%;'>
+															</td>
+															<td style='text-align:center !important;'>
+																<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('pembentukan_tim', '{$idnya}', '{$ind}', 'edit', '{$rows.id}');" ><i class="mdi-content-clear tiny"></i></a>	
+															</td>
+														</tr>
+														{assign var=ind value=$ind+1}
+													{/foreach}
+												{/if}
+													<tr id='oye'>
+														<td colspan='5'>
+															&nbsp;
 														</td>
 													</tr>
-													{assign var=ind value=$ind+1}
-												{/foreach}
 													<tr>
 														<td colspan='5'></td>
 														<td id='btn_dsr' style='text-align:center !important;'>
-															<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye_{$ind}', 'btn_dsr', {$ind});" ><i class="mdi-content-add-box tiny"></i></a>
+															<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('pembentukan_tim', 'oye', 'btn_dsr', '{$ind}');" ><i class="mdi-content-add-box tiny"></i></a>
 														</td>
 													</tr>
 
