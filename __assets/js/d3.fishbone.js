@@ -54,8 +54,8 @@ THE SOFTWARE.
 
       // arbitrary "nice" values
       _linkScale = d3.scale.log()
-        .domain([1, 5])
-        .range([60, 30]),
+        .domain([1, 1])
+        .range([10, 5]),
 
       // the main workhorse of the layout engine
       _force = d3.layout.force()

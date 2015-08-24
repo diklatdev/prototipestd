@@ -367,6 +367,7 @@ class modul_admin extends SHIPMENT_Controller{
                         . "</td>";
                 break; */
                 case "fungsi_dasar":
+                break;
                 case "unit_kompetensi":
                 case "delete_fd";
                 case "delete_skema";

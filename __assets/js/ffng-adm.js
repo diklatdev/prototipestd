@@ -973,15 +973,15 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
                 htmlnya += "<tr id='row_"+counter+"_"+p1+"_"+p2+"_"+p3+"'>";
                 htmlnya += "	<td></td>";
                 htmlnya += "	<td> </td>";
-                htmlnya += "	<td> <input name='fd_"+p2+"_"+p3+"[]' id='fungsi_dasar' type='text' style='width:90%;' value=''></td>";
-                htmlnya += "	<td> <select class='browser-default' name='kel_"+p2+"_"+p3+"[]' id='kel_kom' style='width:90%;'>\n\
+                htmlnya += "	<td> <input name='fd_"+p1+"_"+p2+"[]' id='fungsi_dasar' type='text' style='width:90%;' value=''></td>";
+                htmlnya += "	<td> <select class='browser-default' name='kel_"+p1+"_"+p2+"[]' id='kel_kom' style='width:90%;'>\n\
                                         <option value='1'>UMUM</option>\n\
                                         <option value='2'>INTI</option>\n\
                                         <option value='3'>PILIHAN</option>\n\
                                     </select> \n\
                                 </td>";
                 htmlnya += "	<td style='text-align:center !important;'>";			
-                htmlnya += "		<a href=\"javascript:void(0);\" title='Cancel Fungsi Dasar' onClick=\"deleterowtableinput('pembentukan_tim', 'oye', '"+counter+"_"+p1+"_"+p2+"_"+p3+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";			
+                htmlnya += "		<a href=\"javascript:void(0);\" title='Cancel Fungsi Dasar' onClick=\"deleterowtableinput('fungsi_dasar', 'row_', '"+counter+"_"+p1+"_"+p2+"_"+p3+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";			
 //                htmlnya += "		<a href=\"javascript:void(0);\" title='Simpan Fungsi Dasar' onClick=\"kumpulPost('add_fd','row_"+counter+"') \"><i class=\"mdi-action-done tiny\"></i></a>";			
                 htmlnya += "	</td>";	
                 htmlnya += "</tr>";	
@@ -1123,6 +1123,8 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
 function deleterowtableinput(type, dom, p1, p2, p3, p4, p5){
 	switch(type){
 		case "pembentukan_tim":
+			$('#'+dom).remove();
+		break;
 		case "rencana_perumusan":
 		case "kompetensi_manajerial":
 		case "kompetensi_teknis":
@@ -1137,6 +1139,9 @@ function deleterowtableinput(type, dom, p1, p2, p3, p4, p5){
 			
 			$('#'+dom).remove();
 			
+		break;
+		case "fungsi_dasar":
+			$('#'+dom+p1).remove();
 		break;
 	}
 }

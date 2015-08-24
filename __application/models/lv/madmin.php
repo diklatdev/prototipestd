@@ -209,22 +209,28 @@ class madmin extends SHIPMENT_Model{
                                 $sub2_bidang = $this->db->query("SELECT id FROM idx_sub_subbidang "
                                         . "WHERE idx_sub_bidang_id = '".$v['id']."'")->result_array();
                                 foreach ($sub2_bidang as $n){
+                                    
                                     if (isset($post['fd_'.$v['id'].'_'.$n['id']])){
                                         $count_post = count($post['fd_'.$v['id'].'_'.$n['id']]) -1;
 
                                         for($i = 0; $i <= $count_post;$i++){
+                                            
                                             $post_bnr['judul_unit'] = $post['fd_'.$v['id'].'_'.$n['id']][$i];
                                             $post_bnr['idx_kelompok_kompetensi_id'] = $post['kel_'.$v['id'].'_'.$n['id']][$i];
                                             $post_bnr['idx_sub_bidang_id'] = $v['id'];
                                             $post_bnr['idx_sub_subbidang_id'] = $n['id'];
                                             $post_bnr['idx_bidang_id'] = $id_bidang;
-
+                                            
+                                            //print_r($post_bnr);
                                             if ($p1 == 'sv'){				
-                                                    $insert_reg = $this->db->insert("tbl_unit_kompetensi", $post_bnr);
+                                                $insert_reg = $this->db->insert("tbl_unit_kompetensi", $post_bnr);
                                             }
                                         }
+                                        
                                     }
+                                    
                                 }
+                                
                             }
                             /*
                             $post_bnr['judul_unit'] = $post['fungsi_dasar'];
