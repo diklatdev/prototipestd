@@ -22,13 +22,9 @@
                     </li>
 					
                     <!--li class="bold"><a href="dashboard.shtml" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Dashboard</a></li-->
-					
-					{*
-					<li class="bold"><a href=".shtml" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Profil LSP & TUK</a></li>
-					*}
-					
+										
 					<li class="li-hover"><div class="divider"></div></li>
-					
+					{*
 					<li class="no-padding">
                         <ul class="collapsible collapsible-accordion">
                             <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Standar Kompetensi</a>
@@ -42,8 +38,7 @@
                         </ul>
                     </li>
 					
-					<li class="no-padding">
-                        <ul class="collapsible collapsible-accordion">
+						<ul class="collapsible collapsible-accordion">
                             <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Persiapan Perumusan</a>
                                 <div class="collapsible-body">
                                     <ul>
@@ -53,15 +48,34 @@
                                 </div>
                             </li>
                         </ul>
+
+					*}
+
+					<li class="bold">
+                        <a href="javascript:void(0);" class="waves-effect waves-cyan" onClick="loadUrl('{$host}pembentukan-tim-kerja');"><i class="mdi-action-dashboard"></i> Pembentukan Tim</a>						
                     </li>
+					<li class="bold">
+						<a href="javascript:void(0);" class="waves-effect waves-cyan" onClick="loadUrl('{$host}rencana-perumusan');"><i class="mdi-action-dashboard"></i> Rencana Perumusan</a>
+					</li>
 					
+					<li class="bold">
+						<a href="javascript:void(0);" class="waves-effect waves-cyan" onClick="loadUrl('{$host}pemetaan-fungsi');" ><i class="mdi-action-dashboard"></i> Pemetaan Fungsi</a>
+					</li>
+					<li class="bold">
+						<a href="javascript:void(0);" class="waves-effect waves-cyan" onClick="loadUrl('{$host}peta-jabatan')"><i class="mdi-action-dashboard"></i> Peta Jabatan</a>
+					</li>
+					<li class="bold">
+						<a href="#" class="waves-effect waves-cyan" onclick="loadUrl('{$host}skema-sertifikasi')"><i class="mdi-action-dashboard"></i> Skema Sertifikasi</a>
+					</li>
+					
+					
+					{*
 					<li class="no-padding">
                         <ul class="collapsible collapsible-accordion">
                             <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Perumusan</a>
                                 <div class="collapsible-body">
                                     <ul>
                                         <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pemetaan-fungsi');" >Pemetaan Fungsi</a></li>
-                                        <!--li><a href="petakompetensi.shtml">Peta Kompetensi</a></li-->
                                         <li><a href="javascript:void(0);" onClick="loadUrl('{$host}peta-jabatan')">Peta Jabatan</a></li>
                                         <li><a href="#" onclick="loadUrl('{$host}skema-sertifikasi')">Skema Sertifikasi</a></li>
                                     </ul>
@@ -111,10 +125,11 @@
                             </li>
                         </ul>
                     </li>
+					*}
 					
 					<li class="no-padding">
                         <ul class="collapsible collapsible-accordion">
-                            <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Master Data</a>
+                            <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-image-grid-on"></i> Master Data</a>
                                 <div class="collapsible-body">
                                     <ul>
                                         <li><a href="#" onClick="loadUrl('{$host}kementrian-grid')">Kementrian & Lembaga</a></li>
