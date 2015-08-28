@@ -43,6 +43,7 @@ $route['sub-bidang'] = "lv/modul_admin/getdisplay/datagridview/sub_bidang";
 $route['sub-subbidang'] = "lv/modul_admin/getdisplay/sub_subbidang";
 $route['detil-komp-manaj'] = "lv/modul_admin/getdisplay/detil_komp_manaj";
 $route['level-komp-kunci'] = "lv/modul_admin/getdisplay/level_komp_kunci";
+$route['dasar-hukum'] = "lv/modul_admin/getdisplay/datagridview/dasar_hukum";
 
 $route['pemetaan-fungsi'] = "lv/modul_admin/getdisplay/datagridview/pemetaan_fungsi";
 $route['fishbone/(:any)'] = "lv/modul_admin/display_fisbone/data/$1";
@@ -64,6 +65,12 @@ $route["select-kompt-kunci"] = "lv/modul_admin/display_flek/select_kompt_kunci";
 $route["select_level_kk"] = "lv/modul_admin/display_flek/select_level_kk";
 $route["delete-skema"] = "lv/modul_admin/simpandgnView/delete_skema";
 $route["select_jabatan"] = "lv/modul_admin/display_flek/select_jabatan";
+
+$route['form-dasar_hukum'] = "lv/modul_admin/getdisplay/dasar_hukum/form";
+$route['submit-dasar-hukum'] = "lv/modul_admin/simpandgnView/dasar_hukum/sv";
+$route['ed-dasar-hukum'] = "lv/modul_admin/getdisplay/dasar_hukum/edit";
+$route['up-dasar-hukum'] = "lv/modul_admin/simpandgnView/dasar_hukum/up";
+$route['del-dasar-hukum'] = "lv/modul_admin/simpandgnView/dasar_hukum/del";
 
 $route['form-kementrian_grid'] = "lv/modul_admin/getdisplay/kementrian_grid/form";
 $route['form-bidang'] = "lv/modul_admin/getdisplay/datagridview/bidang_urusan";

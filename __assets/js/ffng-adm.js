@@ -151,6 +151,20 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
 //                    },
                 ];                
             break;
+            case"dasar_hukum":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [
+                    {field:'dasar_hukum',title:'<b>Dasar Hukum</b>',width:850, halign:'left',align:'left'},
+                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'loadUrl_adds("dasar_hukum","'+hostir+'ed-dasar-hukum", "tMain", "'+value+'" )\'><i class="mdi-content-create"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light " href="#" onclick=\'kumpulPost("add-dasar-hukum","","delete","'+value+'" )\'><i class="mdi-content-clear"></i></a>';
+                        }
+                    },
+                ];                
+            break;
             case"list_eselon":
                 judulnya = "";
                 fitnya = true;
@@ -689,6 +703,11 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 		$("#"+domnya).html(resp);
             });            
         break;
+        case "dasar_hukum":            
+            $.post(urlnya, {'id_dasar_hukum':p1}, function(resp){
+                $("#"+domnya).html(resp);
+            });
+        break;
         
     }
     return false;
@@ -758,6 +777,43 @@ function kumpulPost($type, domnya, p1, p2, p3, p4){
              }else{
                  loadUrl('skema-sertifikasi');
              }
+        break;
+        case "add-dasar-hukum":	 
+            switch(p1){
+                case "add":
+                    $.post(hostir+"submit-dasar-hukum", $('form').serialize(),function (rspp){
+                        if (rspp == 1){
+                            alert('Data berhasil Disimpan');
+                            loadUrl('dasar-hukum');
+                        }else{
+                            alert('Penyimpanan gagal! :'+rspp);
+                        }		
+                    });
+                break;
+                case "update":
+                    $.post(hostir+"up-dasar-hukum", $('form').serialize(),function (rspp){
+                        if (rspp == 1){
+                            alert('Data berhasil Diperbaharui');
+                            loadUrl('dasar-hukum');
+                        }else{
+                            alert('Penyimpanan gagal! :'+rspp);
+                        }		
+                    });
+                break;
+                case "delete":
+                    if (confirm('Apakah Anda Akan Menghapus Data ini?')){
+                        $.post(hostir+"del-dasar-hukum", {'id_dasar_hukum':p2},function (rspp){
+                            if (rspp == 1){
+//                                alert('Data berhasil Dihapus');
+                                loadUrl('dasar-hukum');
+                            }else{
+                                alert('Gagal Dihapus! :'+rspp);
+                            }		
+                        });
+                    }
+                break
+            }
+            
         break;
     }
 	
@@ -978,7 +1034,12 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
         //p1 counter, p2 sub_bidang, p3 sub2bidang
 	switch(type){
             case "fungsi_dasar":
-				var counter = parseInt(p1)+1;
+		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                var text = '';
+                for( var i=0; i < 5; i++ ){
+                    text += possible.charAt(Math.floor(Math.random() * possible.length));
+                }
+                var counter = parseInt(p1)+text;
                 var htmlnya = "";
                 htmlnya += "<tr id='row_"+counter+"_"+p1+"_"+p2+"_"+p3+"'>";
                 htmlnya += "	<td></td>";
@@ -996,7 +1057,7 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
                 htmlnya += "	</td>";	
                 htmlnya += "</tr>";	
 
-                $('#'+dom).after(htmlnya);
+                $('#'+dom).before(htmlnya);
 		
             break;
 		case "pembentukan_tim":

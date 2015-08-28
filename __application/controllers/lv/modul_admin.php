@@ -102,7 +102,11 @@ class modul_admin extends SHIPMENT_Controller{
                         case "skema_sertifikasi":
                             $content = "modul-lv/skema_sertifikasi/main.html";
                             $this->smarty->assign('tipe',$p1);                             
-                        break;                            
+                        break;     
+                        case "dasar_hukum":
+                            $content = "modul-lv/dasar_hukum/tabel.html";      
+                            $this->smarty->assign('tipe',$p1);                     
+                        break;                       
                     }
                 break; 
                 case 'kementrian_grid':
@@ -140,14 +144,16 @@ class modul_admin extends SHIPMENT_Controller{
                     $id_bidang = $this->input->post('id_bidang');
                     $this->smarty->assign('id_bidang', $id_bidang);
                     
-                    $sql = $this->db->query("SELECT * FROM idx_bidang WHERE id = $id_bidang")->row_array();
+                    $sql = $this->db->query("SELECT * FROM idx_bidang WHERE id = $id_bidang ORDER BY id")->row_array();
                     $sql2 = $this->db->query("SELECT id as id_sub, nama_sub_bidang "
-                            . "FROM idx_sub_bidang WHERE idx_bidang_id = $id_bidang")->result_array();
+                            . "FROM idx_sub_bidang "
+                            . "WHERE idx_bidang_id = $id_bidang ORDER BY id")->result_array();
                     $sub = '';
 
                     foreach ($sql2 as $k => $v){ 
                         $sql3 = $this->db->query("SELECT id as id_sub2, nama_sub_subbidang "
-                                . "FROM idx_sub_subbidang WHERE idx_sub_bidang_id = ".$v['id_sub']."")->result_array();
+                                . "FROM idx_sub_subbidang "
+                                . "WHERE idx_sub_bidang_id = ".$v['id_sub']." ORDER BY id")->result_array();
                         
                         $sub[$k]["id_sub"] = $v["id_sub"];
                         $sub[$k]["nama_sub_bidang"] = $v["nama_sub_bidang"];
@@ -157,7 +163,7 @@ class modul_admin extends SHIPMENT_Controller{
                             $sqlFD = "SELECT A.id as id_fungsi_dasar, A.judul_unit, B.nama_kelompok_kompetensi "
                                     . "FROM tbl_unit_kompetensi A "
                                     . "LEFT JOIN idx_kelompok_kompetensi B ON A.idx_kelompok_kompetensi_id = B.id "
-                                    . "WHERE idx_sub_subbidang_id = ".$val['id_sub2']."";
+                                    . "WHERE idx_sub_subbidang_id = ".$val['id_sub2']." ORDER BY A.id";
                             $sqlFD = $this->db->query($sqlFD)->result_array();
                              
                             $sub[$k]["sub_2"][$key]["fungsi_dasar"] = $sqlFD; 
@@ -248,6 +254,16 @@ class modul_admin extends SHIPMENT_Controller{
                     $this->smarty->assign('id_bkl', $id_bkl);
                     
                     $content = "modul-lv/skema_sertifikasi/form_skema_edit.html";
+                break;
+                case "dasar_hukum" :
+                    if ($p1 == 'form'){
+                        $content = "modul-lv/dasar_hukum/form-add.html";
+                    }elseif ($p1 == 'edit'){
+                       $id_dasar_hukum = $this->input->post('id_dasar_hukum');
+                       $dukum = $this->db->query("SELECT id, dasar_hukum FROM idx_dasar_hukum WHERE id = '$id_dasar_hukum';")->row_array();
+                       $this->smarty->assign('data', $dukum);
+                       $content = "modul-lv/dasar_hukum/form-ed.html"; 
+                    }
                 break;
                         
             }
@@ -382,8 +398,9 @@ class modul_admin extends SHIPMENT_Controller{
                 case "fungsi_dasar":
                 break;
                 case "unit_kompetensi":
-                case "delete_fd";
-                case "delete_skema";
+                case "delete_fd":
+                case "delete_skema":
+                case "dasar_hukum":
                 break;
             }
             $this->smarty->display("string:" . $html);

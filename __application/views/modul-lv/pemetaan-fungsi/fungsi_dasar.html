@@ -57,10 +57,10 @@
                                                         <!--<a class="btn-floating btn-small waves-effect waves-light orange" href=".shtml"><i class="mdi-content-create"></i></a>-->
                                                         <a class="btn-floating btn-small waves-effect waves-light " href="javascript:void(0);" onclick="kumpulPost('delete_fd','fd_{$val.id_fungsi_dasar}','{$val.id_fungsi_dasar}','{$id_bidang}')"><i class="mdi-content-clear"></i></a>	
                                                         {if $smarty.foreach.na.total eq 1}
-                                                            <a class="btn-floating btn-small waves-effect waves-light blue" href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'oye_{$i.id_sub}', '1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add"></i></a>
+                                                            <a class="btn-floating btn-small waves-effect waves-light blue" href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'add_{$i.id_sub}', '','1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add"></i></a>
                                                         {/if}
-                                </td>
-                                           
+                                </td>   
+                            <tr id='add_{$i.id_sub}'></tr>
                                                     <!--jika fungsi dasar bukan row 1-->
                                                     {else}
                             <tr                         id='oye_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}'>
@@ -79,20 +79,23 @@
                                                         <a class="btn-floating btn-small waves-effect waves-light " href="javascript:void(0);" onclick="kumpulPost('delete_fd','fd_{$val.id_fungsi_dasar}','{$val.id_fungsi_dasar}','{$id_bidang}')"><i class="mdi-content-clear"></i></a>	
                                                         
                                                         {if $smarty.foreach.na.last}
-                                                            <a class="btn-floating btn-small waves-effect waves-light blue" href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'oye_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}', '1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add"></i></a>
+                                                            <a class="btn-floating btn-small waves-effect waves-light blue" href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'add_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}', '','1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add"></i></a>
                                                         {/if} 
                                 </td>
+                            <tr id='add_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}'></tr>
+                            
                                                     {/if}
                                                     <!--tutup if fungsi dasar cek row-->
                                                 {/foreach}
                                             {else}
                                             <!--jika fungsi dasar kosong-->
                                             <!--DISINI jika row pertama kosong-->
-                            <td> 
-                                            <a class="btn-floating btn-small waves-effect waves-light blue" href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'oye_{$i.id_sub}', '1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add"></i></a>
-                            </td>
+                                <td> 
+                                                <a class="btn-floating btn-small waves-effect waves-light blue" href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'add_{$i.id_sub}', '','1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add"></i></a>
+                                </td>
+                            <tr id='add_{$i.id_sub}'></tr>
                                             {/if}
-                                            <!--tutup if fungsi dasar-->
+                                            <!--tutup if fungsi dasar tidak ada-->
                                         {else}
                                         <!--jika sub bidang bukan row 1-->
                             <tr         id='oye_{$i.id_sub}_{$v.id_sub2}'>
@@ -104,7 +107,7 @@
                                 <td>                {if $smarty.foreach.na.first}
                                                         {$val.judul_unit}                                                   
 <!--                                                        {if $smarty.foreach.na.total eq 1}
-                                                            <a href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'oye_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}', '1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add-box tiny"></i></a>
+                                                            <a href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'add_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}', '','1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add-box tiny"></i></a>
                                                         {/if}-->
                                 </td>
                                 <td>                    
@@ -116,16 +119,17 @@
                                                         
                                                         <a class="btn-floating btn-small waves-effect waves-light " href="javascript:void(0);" onclick="kumpulPost('delete_fd','fd_{$val.id_fungsi_dasar}','{$val.id_fungsi_dasar}','{$id_bidang}')"><i class="mdi-content-clear"></i></a>	
                                                         {if $smarty.foreach.na.total eq 1}
-                                                            <a class="btn-floating btn-small waves-effect waves-light blue" href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'oye_{$i.id_sub}_{$v.id_sub2}', '1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add"></i></a>
+                                                            <a class="btn-floating btn-small waves-effect waves-light blue" href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'add_{$i.id_sub}_{$v.id_sub2}', '','1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add"></i></a>
                                                         {/if}
                                 </td>
-                                             {else}
-                            <tr                     id='oye_{$i.id_sub}_{$v.id_sub2}'>
+                            <tr id='add_{$i.id_sub}_{$v.id_sub2}' ></tr>
+                                                    {else}
+                            <tr                     id='oye_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}'>
                                 <td></td>
                                 <td></td>
                                 <td>                    {$val.judul_unit} 
 <!--                                                        {if $smarty.foreach.na.last}
-                                                            <a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('fungsi_dasar', 'oye_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}', '1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add-box tiny"></i></a>
+                                                            <a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('fungsi_dasar', 'add_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}', '','1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add-box tiny"></i></a>
                                                         {/if}    -->
                                 </td>
                                 <td>
@@ -137,17 +141,19 @@
                                                         
                                                         <a class="btn-floating btn-small waves-effect waves-light " href="javascript:void(0);" onclick="kumpulPost('delete_fd','fd_{$val.id_fungsi_dasar}','{$val.id_fungsi_dasar}','{$id_bidang}')"><i class="mdi-content-clear"></i></a>	
                                                         {if $smarty.foreach.na.last}
-                                                            <a class="btn-floating btn-small waves-effect waves-light blue" href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'oye_{$i.id_sub}_{$v.id_sub2}', '1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add"></i></a>
+                                                            <a class="btn-floating btn-small waves-effect waves-light blue" href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'add_{$i.id_sub}_{$v.id_sub2}', '','1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add"></i></a>
                                                         {/if} 
                                 </td>
+                            <tr id='add_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}'></tr>
                                                     {/if}
                                                 {/foreach}
                                             {else}
                                 <td> 
-                                                <!--<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('fungsi_dasar', 'oye_{$i.id_sub}_{$v.id_sub2}', '1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add-box tiny"></i></a>-->
-                                                <a class="btn-floating btn-small waves-effect waves-light blue" href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'oye_{$i.id_sub}_{$v.id_sub2}', '1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add"></i></a>
+                                                <!--<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('fungsi_dasar', 'add_{$i.id_sub}_{$v.id_sub2}', '','1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add-box tiny"></i></a>-->
+                                                <a class="btn-floating btn-small waves-effect waves-light blue" href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'add_{$i.id_sub}_{$v.id_sub2}', '','1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add"></i></a>
                                                         
                                 </td>
+                            <tr id='add_{$i.id_sub}_{$v.id_sub2}'></tr>
                                             {/if}
                                         {/if}
                                     {/foreach}
@@ -160,10 +166,11 @@
                                         <a class="btn-floating btn-small waves-effect waves-light orange" href=".shtml"><i class="mdi-content-create"></i></a>
                                         <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>	
                                 </td>
+                            <tr id='add_{$i.id_sub}'></tr>
                                 {/if}
 
 
-                          </tr>
+                          </tr> 
                         {/foreach}
                     {else}
                           <tr>

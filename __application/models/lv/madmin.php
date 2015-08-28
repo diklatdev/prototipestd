@@ -185,6 +185,9 @@ class madmin extends SHIPMENT_Model{
                                 LEFT JOIN idx_kl C ON A.idx_bkl_id = C.id
                                 LEFT JOIN idx_sub_bidang D ON D.id = A.idx_sub_bkl_id";
                     break;
+                    case "dasar_hukum":
+                        $sql = "SELECT * FROM idx_dasar_hukum";
+                    break;
                     
                     
                     
@@ -539,6 +542,19 @@ class madmin extends SHIPMENT_Model{
                         $delete_skema = $this->db->where('id', $post['id_skema']);
                         $delete_skema = $this->db->delete('tbl_skema_sertifikasi');
                     break;
+                    case "dasar_hukum":
+                        $post_data = array();
+                        if ($p1 == 'sv'){
+                            $post_data['dasar_hukum'] = $post['dasar_hukum'];
+                            $insert_db = $this->db->insert("idx_dasar_hukum", $post_data);
+                        }elseif($p1 == 'up'){
+                            $post_data['dasar_hukum'] = $post['dasar_hukum'];
+                            $update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_dasar_hukum', $post_data);
+                        }elseif($p1 == 'del'){
+                            $update_db = $this->db->where('id', $post['id_dasar_hukum']);
+                            $update_db = $this->db->delete('idx_dasar_hukum');                            
+                        }
                 }
 		
 		
