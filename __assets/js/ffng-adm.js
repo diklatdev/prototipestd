@@ -205,8 +205,9 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                     {field:'judul_unit',title:'<b>Judul Unit Kompetensi</b>',width:850, halign:'left',align:'left'},
                     {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
                         formatter: function(value,row,index){
-                                return '<a class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+'")\'\><i class="mdi-hardware-keyboard-arrow-up"></i></a>\n\
-                                <a class="btn-floating btn-small waves-effect waves-light blue"  href="#" onclick=\'\loadUrl_adds("form-kompetensi","'+hostir+'form-kompetensi","tMain","'+value+'")\'\><i class="mdi-content-send"></i></a>';
+                                return '<a class="btn-floating btn-small waves-effect waves-light blue"  href="#" onclick=\'\loadUrl_adds("form-kompetensi","'+hostir+'form-kompetensi","tMain","'+value+'")\'\><i class="mdi-content-send"></i></a>';
+//                                <a class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+'")\'\><i class="mdi-hardware-keyboard-arrow-up"></i></a>\n\
+                                
                         }
                     },
                     ];
@@ -681,6 +682,13 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 		$("#"+domnya).html(resp);
             });            
         break;
+        case "select_jabatan":
+            var id_skema= $('#id_skema').val();
+            
+            $.post(urlnya, {'id_skema':id_skema}, function(resp){
+		$("#"+domnya).html(resp);
+            });            
+        break;
         
     }
     return false;
@@ -690,14 +698,16 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 function kumpulPost($type, domnya, p1, p2, p3, p4){
     switch($type){
         case "delete_fd":
-            $.post(hostir+"delete-fd",{'id_fd':p1},function(rspp){
-               if (rspp == 1){
-                   alert('Data berhasil Dihapus');
-                    loadUrl_adds('fungsi-dasar', hostir+'fungsi-dasar','tMain',p2 );
-               } else{
-                   alert(rspp);
-               }
-            });
+            if (confirm('Apakah Anda Akan Menghapus Fungsi Dasar Ini?')) {
+                $.post(hostir+"delete-fd",{'id_fd':p1},function(rspp){
+                   if (rspp == 1){
+                       alert('Data berhasil Dihapus');
+                        loadUrl_adds('fungsi-dasar', hostir+'fungsi-dasar','tMain',p2 );
+                   } else{
+                       alert(rspp);
+                   }
+                });
+            }
         break;
         case "add_fd":	 		
             $.post(hostir+"submit-fungsi-dasar", $('form').serialize(),function (rspp){
@@ -789,7 +799,7 @@ function addrowtableinput_lv(type, dom, dom_link, p1, p2, p3, p4){
                 html_link +="<i class=\"mdi-content-add\"></i>"
                 html_link +="</a>"
 
-                $('#'+dom).after(htmlnya);
+                $('#'+dom).before(htmlnya);
 //                $('#'+dom_link).html(html_link);
             break
             case "add_skema_unit":
@@ -797,11 +807,11 @@ function addrowtableinput_lv(type, dom, dom_link, p1, p2, p3, p4){
                 var htmlnya = "";                
                 
                 var html_link = "";
-                html_link +="<a href='#' onclick=\"addrowtableinput_lv('add_skema_unit','unit_row','btn_add', '"+counter+"', '"+p2+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
+                html_link +="<a href='javascript:void(0);' onclick=\"addrowtableinput_lv('add_skema_unit','unit_row','btn_add', '"+counter+"', '"+p2+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
                                 
                 $.post(hostir+"select-unit-skema", {'id_bidang':p2, 'counter':counter},function (rspp){  
                     htmlnya = rspp;
-                    $('#'+dom).after(htmlnya);
+                    $('#'+dom).before(htmlnya);
                     $('#'+dom_link).html(html_link);		
                 });
             break;
@@ -810,7 +820,7 @@ function addrowtableinput_lv(type, dom, dom_link, p1, p2, p3, p4){
                 var htmlnya = "";                
                 
                 var html_link = "";
-                html_link +="<a href='#' onclick=\"addrowtableinput_lv('add_skema_dasar','dasar_row','btn_add_dasar', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
+                html_link +="<a href='javascript:void(0);' onclick=\"addrowtableinput_lv('add_skema_dasar','dasar_row','btn_add_dasar', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
                     
                 htmlnya += "<tr id='dasar_row_"+counter+"'>";                
                 htmlnya += "	<td> <input name='dasar[]' id='dasar_"+counter+"' type='text' style='width:90%;' value='' ></td>";
@@ -821,7 +831,7 @@ function addrowtableinput_lv(type, dom, dom_link, p1, p2, p3, p4){
                 htmlnya += "	</td>";	
                 htmlnya += "</tr>";
                 
-                $('#'+dom).after(htmlnya);
+                $('#'+dom).before(htmlnya);
                 $('#'+dom_link).html(html_link);	            
             break;
         case "edit_kuk":
@@ -871,11 +881,11 @@ function addrowtableinput_lv(type, dom, dom_link, p1, p2, p3, p4){
             var htmlnya = "";                
 
             var html_link = "";
-            html_link +="<a href='#' onclick=\"addrowtableinput_lv('add_skema_unit','unit_row','btn_add', '"+counter+"', '"+p2+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
+            html_link +="<a href='javascript:void(0);' onclick=\"addrowtableinput_lv('add_skema_unit','unit_row','btn_add', '"+counter+"', '"+p2+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 
 
             $.post(hostir+"select-kompt-kunci", {'counter':counter},function (rspp){  
                 htmlnya = rspp;
-                $('#'+dom).after(htmlnya);
+                $('#'+dom).before(htmlnya);
                 //$('#'+dom_link).html(html_link);		
             });
         break;

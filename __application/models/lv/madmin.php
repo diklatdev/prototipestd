@@ -102,7 +102,7 @@ class madmin extends SHIPMENT_Model{
                             $sql = "SELECT A.id, B.judul_unit, B.kode_unit_kompetensi "
                                 . "FROM tbl_skesert_unit_kompetensi A "
                                 . "LEFT JOIN tbl_unit_kompetensi B ON B.id = A.tbl_unit_kompetensi_id "
-                                . "WHERE A.tbl_skema_sertifikasi_id = '$p1' ";
+                                . "WHERE A.tbl_skema_sertifikasi_id = '$p1'";
                         break;
                         case "skesert_prsayarat_dasar":
                            $sql = "SELECT A.* FROM tbl_skesert_prasyarat_dasar A "

@@ -36,12 +36,12 @@
                                         <div class="row">
                                           <div class="input-field col s12">
                                                 <textarea id="namaprogram" class="materialize-textarea" length="120" name="pekerjaan" >{$data.pekerjaan}</textarea>
-                                                <label for="namaprogram" class='active'>Pekerjaan</label>
+                                                <label for="namaprogram" class='active'>Judul Skema Sertifikasi</label>
                                           </div>
                                         </div>
                                         <div class="row">
                                           <div class="input-field col s12 m6">
-                                                <select class="browser-default" style="width:100%;" name="skema_sert">
+                                                <select class="browser-default" style="width:100%;" name="skema_sert" id="id_skema" onchange="loadUrl_adds('select_jabatan','{$host}select_jabatan', 'select_jab')">
                                                   <option value="">Pilih Skema Sertifikasi</option>
                                                   <option value="1" {if $data.idx_skema_id eq 1}selected{/if}>Klaster</option>
                                                   <option value="2" {if $data.idx_skema_id eq 2}selected{/if}>Jabatan</option>
@@ -51,7 +51,7 @@
                                           </div>
 
                                           <div class="input-field col s12 m6">
-                                                <select class="browser-default" style="width:100%;" name="pangkat_jabatan">
+                                                <select class="browser-default" style="width:100%;" name="pangkat_jabatan" id='select_jab'>
                                                   <option value="" selected>Pilih Pangkat /Jenjang Jabatan</option>
                                                   {foreach from=$pangkat item=row}
                                                   <option value="{$row.id}" {if $data.idx_jenjang_kknipdn_id eq $row.id}selected{/if}>{$row.jenjang}</option>
@@ -80,7 +80,7 @@
                                                                 <td>{$row.kode_unit_kompetensi}</td>
                                                                 <td>{$row.judul_unit}</td>
                                                                 <td>
-                                                                    <a href="#" onclick="deleterowtableinput_lv('del_unit_skesert', 'unit_row','','{$row.id}')">
+                                                                    <a href="javascript:void(0);" onclick="deleterowtableinput_lv('del_unit_skesert', 'unit_row','','{$row.id}')">
                                                                     <i class="mdi-content-clear tiny"></i>
                                                                     </a>
                                                                 </td>
@@ -90,7 +90,7 @@
                                                               <td></td>
                                                               <td></td>
                                                               <td id="btn_add">
-                                                                  <a href='#' onclick="addrowtableinput_lv('add_skema_unit','unit_row','btn_add', '0', '{$data.idx_bkl_id}');"><i class='mdi-content-add-box tiny right'></i></a>
+                                                                  <a href='javascript:void(0);' onclick="addrowtableinput_lv('add_skema_unit','unit_row','btn_add', '0', '{$data.idx_bkl_id}');"><i class='mdi-content-add-box tiny right'></i></a>
                                                               </td>
                                                             </tr>
                                                   </tbody>
@@ -118,7 +118,7 @@
                                                                 <td>{$row.prasyarat_dasar}</td>
                                                                 <td>{$row.bukti}</td>
                                                                 <td>
-                                                                    <a href="#" onclick="deleterowtableinput_lv('del_syarat_skesert', 'dasar_row','','{$row.id}')">
+                                                                    <a href="javascript:void(0);" onclick="deleterowtableinput_lv('del_syarat_skesert', 'dasar_row','','{$row.id}')">
                                                                     <i class="mdi-content-clear tiny"></i>
                                                                     </a>
                                                                 </td>
@@ -128,7 +128,7 @@
                                                           <td></td>
                                                           <td></td>
                                                           <td id = "btn_add_dasar">
-                                                                <a href='#' onclick="addrowtableinput_lv('add_skema_dasar','dasar_row','btn_add_dasar', '0');"><i class='mdi-content-add-box tiny right'></i></a>
+                                                                <a href='javascript:void(0);' onclick="addrowtableinput_lv('add_skema_dasar','dasar_row','btn_add_dasar', '0');"><i class='mdi-content-add-box tiny right'></i></a>
                                                           </td>
                                                         </tr>
                                                   </tbody>

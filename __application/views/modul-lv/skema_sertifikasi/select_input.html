@@ -3,7 +3,9 @@
         <select name='unit_id[]' class='browser-default' width='50%'> 
             <option>-- Pilih Unit Kompetensi --</option>
         {foreach from=$unit item =row}
-            <option value='{$row.id}'>{$row.judul_unit}</option> 
+            <option value='{$row.id}'>
+                {if $row.kode_unit_kompetensi eq ''}Kode Kosong{else}{$row.kode_unit_kompetensi}{/if} - {$row.judul_unit}
+            </option> 
          {/foreach}
          </select>
      </td>

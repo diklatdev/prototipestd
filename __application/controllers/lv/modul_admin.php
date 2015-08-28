@@ -260,7 +260,7 @@ class modul_admin extends SHIPMENT_Controller{
                 case "select_unit":
                     $id_bidang = $this->input->post('id_bidang');
                     $counter = $this->input->post("counter");
-                    $query = "SELECT * FROM tbl_unit_kompetensi WHERE idx_bidang_id = '$id_bidang'";
+                    $query = "SELECT * FROM tbl_unit_kompetensi WHERE idx_bidang_id = '$id_bidang' ";
                     $unit_kompt = $this->db->query($query)->result_array();
                     $this->smarty->assign('unit', $unit_kompt);
                     $this->smarty->assign('counter', $counter);
@@ -291,6 +291,19 @@ class modul_admin extends SHIPMENT_Controller{
                     $this->smarty->assign('level_kk', $level_kk);
                     $content = "modul-lv/pemetaan-fungsi/select_level_kk.html";
                 break;
+                case "select_jabatan":
+                    $id_skema = $this->input->post('id_skema');
+                    $where = '';
+                    if ($id_skema == 2 ){
+                        $where = "WHERE idx_tipe_kknipdn_id IN('5,6,7,8')";
+                    }elseif ($id_skema == 3){
+                        $where = "WHERE idx_tipe_kknipdn_id IN('4')";
+                    }
+                    $sql = "SELECT id, jenjang FROM idx_jenjang_kknipdn $where";
+                    $jabatan = $this->db->query($sql)->result_array();
+                    $this->smarty->assign('jabatan', $jabatan);
+                    $content = "modul-lv/skema_sertifikasi/select_jabatan.html";
+                    
             }
             $this->smarty->display($content);
         }

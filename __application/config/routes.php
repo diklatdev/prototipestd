@@ -63,6 +63,7 @@ $route["delete-fd"] = "lv/modul_admin/simpandgnView/delete_fd";
 $route["select-kompt-kunci"] = "lv/modul_admin/display_flek/select_kompt_kunci";
 $route["select_level_kk"] = "lv/modul_admin/display_flek/select_level_kk";
 $route["delete-skema"] = "lv/modul_admin/simpandgnView/delete_skema";
+$route["select_jabatan"] = "lv/modul_admin/display_flek/select_jabatan";
 
 $route['form-kementrian_grid'] = "lv/modul_admin/getdisplay/kementrian_grid/form";
 $route['form-bidang'] = "lv/modul_admin/getdisplay/datagridview/bidang_urusan";
