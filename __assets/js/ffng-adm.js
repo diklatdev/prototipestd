@@ -1093,7 +1093,7 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
 			htmlnya += "	<td>";
 			htmlnya += "		<select name='subbidang[]' id='subbidang_"+counter+"' class=\"browser-default\" style='width:90%;'></select>";
 			htmlnya += "	</td>";
-			htmlnya += "	<td>";
+			htmlnya += "	<td style='text-align:center !important;'>";
 			htmlnya += "		<a href=\"javascript:void(0);\" title='Hapus Sub Bidang' onClick=\"deleterowtableinput('rencana_perumusan', 'uye_"+counter+"', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";						
 			htmlnya += "	</td>";
 			htmlnya += "</tr>";
@@ -1193,6 +1193,25 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
 			$('#'+dom).before(htmlnya);
 			$('#'+dom_linked).html(html_link);
 		break;
+		case "dasar_hukum":
+			var counter = parseInt(p1)+1;
+			var html_link = "";
+			var htmlnya = "";
+			
+			htmlnya += "<tr id='acuy_"+counter+"'>";
+			htmlnya += "	<td> <select class='browser-default' name='dasar_hukum[]' id='dasar_hukum_"+counter+"' style='width:90%;'></select> </td>";
+			htmlnya += "	<td style='text-align:center !important;'>";			
+			htmlnya += "		<a href=\"javascript:void(0);\" title='Hapus Dasar Hukum' onClick=\"deleterowtableinput('dasar_hukum', 'acuy_"+counter+"', '"+counter+"');\"><i class=\"mdi-content-clear tiny\"></i></a>";			
+			htmlnya += "	</td>";
+			htmlnya += "</tr>";
+			
+			html_link +="<a href='#' onclick=\"addrowtableinput('dasar_hukum', 'acuy', 'btn_acuy', '"+counter+"');\"><i class='mdi-content-add-box tiny right'></i></a>"; 			
+			
+			$('#'+dom).before(htmlnya);
+			$('#'+dom_linked).html(html_link);
+			fillCmb(hostir+'why/modul_admin/getcombo/idx_dasar_hukum', "dasar_hukum_"+counter );
+		break;
+		
 	}
 }
 
@@ -1206,6 +1225,7 @@ function deleterowtableinput(type, dom, p1, p2, p3, p4, p5){
 		case "kompetensi_teknis":
 		case "bakat":
 		case "prasyarat_dasar":
+		case "dasar_hukum":
 			
 			if(p2 == 'edit'){
 				$.post(hostir+'why/modul_admin/simpansavedbx/hpsanggotatim', { 'idxn':p3 } , function(crespo){
