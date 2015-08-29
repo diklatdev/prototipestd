@@ -27,32 +27,48 @@
 											</thead>
 											<tbody>
 												{if $editstatus eq 'add'}
-												<tr id='uye'>
-													<td colspan='2'>
-														&nbsp;
-													</td>
-												</tr>
-												<tr id='baten' style='display:none;'>
-													<td colspan='2' id='btn_dsr' align='right' width='1000px' style='text-align:right; !important;'>
-														<a href="javascript:void(0);" title='Tambah Anggota' onClick="addrowtableinput('rencana_perumusan', 'uye', 'btn_dsr', 1);" ><i class="mdi-content-add-box tiny"></i></a>
-													</td>
-												</tr>
-												{else}
+													<tr id='uye'>
+														<td colspan='2'>
+															&nbsp;
+														</td>
+													</tr>
+													<tr id='baten' style='display:none;'>
+														<td colspan='2' id='btn_dsr' align='right' width='1000px' style='text-align:right; !important;'>
+															<a href="javascript:void(0);" title='Tambah Sub Bidang' onClick="addrowtableinput('rencana_perumusan', 'uye', 'btn_dsr', 1);" ><i class="mdi-content-add-box tiny"></i></a>
+														</td>
+													</tr>
+												{elseif $editstatus eq 'edit'}
 													{assign var=ind value=1}
-													{foreach from=$data_subbidang item=rows}
-														<tr id='uye_{$ind}'>
-															<td>
-																<select name='subbidang[]' id='subbidang_1' class="browser-default" style='width:90%;'>
-																	{$combo_{$ind}|default:''}
-																</select>
-															</td>
-															<td>
-																<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('rencana_perumusan', 'uye_{$ind}', '{$ind}');" ><i class="mdi-content-clear tiny"></i></a>
-															</td>
-														</tr>
-														{assign var=ind value=$ind+1}
-													{/foreach}
+													{if $data_subbidang}
+														{assign var=display value='inline'}
+														{foreach from=$data_subbidang item=rows}
+															<tr id='uye_{$ind}'>
+																<td>
+																	<select name='subbidang[]' id='subbidang_1' class="browser-default" style='width:90%;'>
+																		{$combo_{$ind}|default:''}
+																	</select>
+																</td>
+																<td style='text-align:center !important;'>
+																	<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('rencana_perumusan', 'uye_{$ind}', '{$ind}');" ><i class="mdi-content-clear tiny"></i></a>
+																</td>
+															</tr>
+															{assign var=ind value=$ind+1}
+														{/foreach}
+													{else}
+														{assign var=display value='none'}
+													{/if}
+													<tr id='uye'>
+														<td colspan='2'>
+															&nbsp;
+														</td>
+													</tr>
+													<tr id='baten' style='display:{$display};'>
+														<td colspan='2' id='btn_dsr' align='right' width='1000px' style='text-align:right; !important;'>
+															<a href="javascript:void(0);" title='Tambah Sub Bidang' onClick="addrowtableinput('rencana_perumusan', 'uye', 'btn_dsr', {$ind});" ><i class="mdi-content-add-box tiny"></i></a>
+														</td>
+													</tr>
 												{/if}
+												
 											</tbody>
 										</table>
 									</div>
@@ -78,9 +94,65 @@
 								{include file='modul-why/template/input_select.html' ukuran='sedang' name='kementerian_lembaga' label="Kementrian / Lembaga" option={$idx_kl}} 
 								{include file='modul-why/template/input_select.html' ukuran='sedang' name='dirjen_eselon' label="Dirjen / Eselon 1" } 
 							</div>
-							<div class="row">
-								{include file='modul-why/template/input_text.html' ukuran='besar' name='dasar_hukum' label="Dasar Hukum" class={$class|default:''} value={$data.dasar_hukum|default:''}	} 
+							<br>
+							<div id="responsive-table">
+								<div class="row">
+									<div class="col s12">
+										<table class="responsive-table" style='width:100%;'>
+											<thead>
+												<tr>
+													<th width='90%' data-field="name" style='text-align:center !important;'>Dasar Hukum</th>
+													<th width='10%' data-field="status" style='text-align:center !important;'>Action</th>
+												</tr>
+											</thead>
+											<tbody>							
+												{if $editstatus eq 'add'}
+													<tr id='acuy'>
+														<td colspan='3'>
+															&nbsp;
+														</td>
+													</tr>
+													<tr>
+														<td colspan='2'>&nbsp;</td>
+														<td id='btn_acuy' style='text-align:center !important;'>
+															<a href="javascript:void(0);" title='Tambah Dasar Hukum' onClick="addrowtableinput('dasar_hukum', 'acuy', 'btn_acuy', 1);" ><i class="mdi-content-add-box tiny"></i></a>
+														</td>
+													</tr>
+												{elseif $editstatus eq 'edit'}
+													{assign var=indss value=1}
+													{if $data_dasarhukum}
+														{foreach from=$data_dasarhukum item=riws}
+															<tr id='acuy_{$indss}'>
+																<td>
+																	<select name='dasar_hukum[]' id='dasar_hukum_1' class="browser-default" style='width:90%;'>
+																		{$combos_{$indss}|default:''}
+																	</select>
+																</td>
+																<td style='text-align:center !important;'>
+																	<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('dasar_hukum', 'acuy_{$indss}', '{$indss}');" ><i class="mdi-content-clear tiny"></i></a>
+																</td>
+															</tr>
+															{assign var=indss value=$indss+1}
+														{/foreach}
+													{/if}	
+													<tr id='acuy'>
+														<td colspan='3'>
+															&nbsp;
+														</td>
+													</tr>
+													<tr>
+														<td colspan='2'>&nbsp;</td>
+														<td id='btn_acuy' style='text-align:center !important;'>
+															<a href="javascript:void(0);" title='Tambah Dasar Hukum' onClick="addrowtableinput('dasar_hukum', 'acuy', 'btn_acuy', {$indss});" ><i class="mdi-content-add-box tiny"></i></a>
+														</td>
+													</tr>
+												{/if}
+											</tbody>
+										</table>
+									</div>
+								</div>
 							</div>
+								
 							<br/>
 							
 							<h4 class="header2">III. Proses Perumusan  Standar Kompetensi (Permen - Pedoman Koordinasi 30-33)</h4>

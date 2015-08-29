@@ -242,6 +242,11 @@ class madmin extends SHIPMENT_Model{
 					id, nama_bakat as txt
 				";
 			break;
+			case "idx_dasar_hukum":
+				$select = "
+					id, dasar_hukum as txt
+				";
+			break;
 		}
 		
 		$sql = "
@@ -428,7 +433,6 @@ class madmin extends SHIPMENT_Model{
 					$post_bnr['idx_dirjen_id'] 					= $post['dirjen_eselon'];
 					$post_bnr['nama_kegiatan'] 					= $post['namaperumusan'];
 					$post_bnr['estimasi_waktu'] 				= $post['estimasi_wkt'];
-					$post_bnr['dasar_hukum'] 					= $post['dasar_hukum'];
 					$post_bnr['kode_gen'] 						= $kode_gen;
 					
 					for($i = 1; $i <= 22; $i++){
@@ -503,6 +507,7 @@ class madmin extends SHIPMENT_Model{
 					if($post['editstatus'] == 'delete'){
 						$this->db->delete('tbl_subbidang_perumusan', array( 'tbl_perumusan_id'=>$post['id']) );
 					}else{
+						// Blok Program SubBidang
 						$count = count($post['subbidang'])-1;
 						$array_insert_batch = array();
 						for($i = 0; $i <= $count; $i++){
@@ -513,6 +518,18 @@ class madmin extends SHIPMENT_Model{
 							array_push($array_insert_batch, $array_insert);
 						}
 						$this->db->insert_batch("tbl_subbidang_perumusan", $array_insert_batch);
+						
+						//Blok Program Dasar Hukum
+						$count2 = count($post['dasar_hukum'])-1;
+						$array_batch_insert_dasar_hukum = array();
+						for($is = 0; $is <= $count2; $is++){
+							$array_insert_dsr = array(
+								'tbl_perumusan_id' => $tbl_perumusan_id,
+								'idx_dasar_hukum_id' => $post['dasar_hukum'][$is],
+							);
+							array_push($array_batch_insert_dasar_hukum, $array_insert_dsr);
+						}
+						$this->db->insert_batch("tbl_dasarhukum_perumusan", $array_batch_insert_dasar_hukum);
 					}
 				}
 				

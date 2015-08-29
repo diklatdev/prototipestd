@@ -98,13 +98,25 @@ class modul_admin extends SHIPMENT_Controller{
 						}
 					}
 					
+					$data_dasarhukum = $this->db->get_where('tbl_dasarhukum_perumusan', array('tbl_perumusan_id'=>$id))->result_array();
+					if($data_dasarhukum){
+						$array_combos = array();
+						$idxw = 1;
+						foreach($data_dasarhukum as $kz => $vz){
+							$this->smarty->assign('combos_'.$idxw, $this->lib->fillcombo('idx_dasar_hukum', 'return', $vz['idx_dasar_hukum_id'] ) );
+							$idxw++;
+						}
+					}
+					
+					$count = ($data['estimasi_waktu']-1);
 					for($i = 1; $i <= 22; $i++){
-						$count = ($data['estimasi_waktu']-1);
 						$exp_cekbox = explode(":", $data['3_'.$i]);
+						//print_r($exp_cekbox);exit;
 						$cekbox = "";
 						for($t = 0; $t <= $count; $t++){
+							$s = $t+1;
 							if(isset($exp_cekbox[$t])){
-								if($exp_cekbox[$t] == $t){
+								if($exp_cekbox[$t] == $s){
 									$checked = "checked";
 								}else{
 									$checked = "";
@@ -121,6 +133,7 @@ class modul_admin extends SHIPMENT_Controller{
 					
 					$this->smarty->assign('data', $data);
 					$this->smarty->assign('data_subbidang', $data_subbidang);
+					$this->smarty->assign('data_dasarhukum', $data_dasarhukum);
 					$this->smarty->assign('class', "active");
 				}				
 				
@@ -261,10 +274,22 @@ class modul_admin extends SHIPMENT_Controller{
 	}
 	
 	function test(){
+		/*
 		$str = "1";
 		$exp = explode(":", $str);
-		
 		print_r($exp);
+		*/
+		
+		$this->load->library('encrypt');
+		$datauser = $this->db->get_where('tbl_user_admin', array('username'=>'triwahyunugroho11@gmail.com') )->row_array();
+		$password = $this->encrypt->decode($datauser['password']);
+		
+		$html = "
+			passwordnya = ".$password."
+		";
+		
+		echo $html;
+		
 	}
 	
 	
