@@ -170,7 +170,8 @@ class madmin extends SHIPMENT_Model{
                          $sql = 'SELECT A.* FROM idx_bidang A';
                     break;
                     case "unit_kompetensi":
-                        $sql = "SELECT A.* FROM tbl_unit_kompetensi A WHERE idx_bidang_id = $p1";
+                        $sql = "SELECT A.* FROM tbl_unit_kompetensi A WHERE idx_bidang_id = $p1 "
+                            . "ORDER BY (CASE WHEN no_urutan IS NULL THEN 1000 ELSE no_urutan END)";
                     break;
                     case "skema_sertifikasi":
                         $sql = "SELECT A.id, IF (A.jenis_bkl = 'b', B.nama_bidang, C.nama_kl) as nama_bkl, 
