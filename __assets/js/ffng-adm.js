@@ -137,7 +137,7 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                     },
                 ];                
             break;
-            case"bakat":
+            case"bakat_list":
                 judulnya = "";
                 fitnya = true;
                 pagesizeboy = 50;

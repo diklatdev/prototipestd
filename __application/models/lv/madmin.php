@@ -158,7 +158,7 @@ class madmin extends SHIPMENT_Model{
                     case 'kompetensi_kunci':
                          $sql = "SELECT * FROM idx_kompetensi_kunci";
                     break;
-                    case 'bakat':
+                    case 'bakat_list':
                          $sql = "SELECT id, nama_bakat FROM idx_bakat";
                     break;
                     case 'list_eselon':
