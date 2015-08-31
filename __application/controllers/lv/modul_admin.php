@@ -68,7 +68,7 @@ class modul_admin extends SHIPMENT_Controller{
                             $content = "modul-lv/kompetensi_kunci/tabel.html";     
                             $this->smarty->assign('tipe',$p1);                      
                         break;
-                        case "bakat":
+                        case "bakat_list":
                             $content = "modul-lv/bakat/tabel.html";      
                             $this->smarty->assign('tipe',$p1);                     
                         break;
