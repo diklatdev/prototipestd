@@ -223,6 +223,9 @@ class modul_admin extends SHIPMENT_Controller{
                     $kom_kunci_uk = $this->madmin->get_data('kom_kunci_uk','result_array',$id_kompetensi);
                     $this->smarty->assign('kompetensi_kunci', $kom_kunci_uk); 
                     
+                    $das_hukum = $this->madmin->get_data('dasar_hukum_uk', 'result_array', $id_kompetensi);
+                    $this->smarty->assign('das_hukum', $das_hukum);
+                    
                     $content = "modul-lv/pemetaan-fungsi/form_kompetensi.html";
                 break;
                 case "skema_sertifikasi":
@@ -319,6 +322,15 @@ class modul_admin extends SHIPMENT_Controller{
                     $jabatan = $this->db->query($sql)->result_array();
                     $this->smarty->assign('jabatan', $jabatan);
                     $content = "modul-lv/skema_sertifikasi/select_jabatan.html";
+                break;
+                case "select_dasar_hukum":                    
+                    $counter = $this->input->post("counter");
+                    $query = "SELECT * FROM idx_dasar_hukum";
+                    $dasar_hukum = $this->db->query($query)->result_array();
+                    $this->smarty->assign('dasar_hukum', $dasar_hukum);
+                    $this->smarty->assign('counter', $counter);
+                    $content = "modul-lv/pemetaan-fungsi/select_dasar_hukum.html";
+                break;
                     
             }
             $this->smarty->display($content);

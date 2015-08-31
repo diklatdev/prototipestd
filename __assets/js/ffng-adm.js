@@ -954,6 +954,26 @@ function addrowtableinput_lv(type, dom, dom_link, p1, p2, p3, p4){
             $('#'+dom).remove();
             $('#'+dominput).after(html);
         break;
+        case "add_dasar_hukum":
+            var counter = parseInt(p1)+1;
+            var htmlnya = "";                
+
+            $.post(hostir+"select-dasar-hukum", {'counter':counter},function (rspp){  
+                htmlnya = rspp;
+                $('#'+dom).before(htmlnya);
+                //$('#'+dom_link).html(html_link);		
+            });
+        break;
+        case "del_dasar_hukum":
+            var html = "";
+            var dominput = p1;
+            
+            html += "<input name='del_dasar_hukum[]' id='del_dasar_hukum_"+p2+"' value='"+p2+"' type='hidden'>";
+            
+            $('#'+dom).remove();
+            $('#'+dominput).after(html);
+        break;
+        
     }
 }
 
@@ -1026,6 +1046,9 @@ function deleterowtableinput_lv(type, dom, dom_link, p1, p2, p3){
                     htmlnya += "</div>";
                     
                     $('#'+dom).html(htmlnya);
+                break;
+                case "dasar_hukum":
+                    $('#hukum_'+p1).remove();
                 break;
 	}
 }

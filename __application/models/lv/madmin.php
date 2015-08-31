@@ -115,7 +115,12 @@ class madmin extends SHIPMENT_Model{
                                 . "LEFT JOIN idx_kompetensi_kunci C ON C.id = B.idx_kompetensi_kunci_id "
                                 . "WHERE A.tbl_unit_kompetensi_id = $p1";
                         break;
-                        
+                        case "dasar_hukum_uk":
+                            $sql = "SELECT A.id, C.dasar_hukum FROM tbl_dasar_hukum_unit_kompetensi A
+                                    LEFT JOIN tbl_unit_kompetensi B ON B.id = A.tbl_unit_kompetensi_id
+                                    LEFT JOIN idx_dasar_hukum C ON C.id = A.idx_dasar_hukum_id
+                                    WHERE A.tbl_unit_kompetensi_id = '$p1'";
+                        break;
                     
 			
 		}
@@ -417,6 +422,25 @@ class madmin extends SHIPMENT_Model{
                             }
                         }
                         
+                        if (isset($post['dasar_hukum'])){
+                            $count_das_hukum = count($post['dasar_hukum']) - 1;
+                            $post_dHukum = array();
+                            for ($i = 0; $i <= $count_das_hukum; $i++){
+                                $post_dHukum['idx_dasar_hukum_id'] = $post['dasar_hukum'][$i];
+                                $post_dHukum['tbl_unit_kompetensi_id'] = $id_fungsi_dasar;
+                                
+                                $insert_dasar_hukum = $this->db->insert('tbl_dasar_hukum_unit_kompetensi', $post_dHukum);
+                            }
+                        }
+                        
+                        if (isset($post['del_dasar_hukum'])){
+                            $count_del_dh = count($post['del_dasar_hukum']) - 1;
+                            $post_del_dh = array();
+                            for($i = 0;$i<=$count_del_dh;$i++){
+                                $delete_dh = $this->db->where('id', $post['del_dasar_hukum'][$i]);
+                                $delete_dh = $this->db->delete('tbl_dasar_hukum_unit_kompetensi');
+                            }
+                        }
                         
                     break;
                     case "skema_sertifikasi":

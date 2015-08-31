@@ -62,6 +62,7 @@ $route["edit-skema-kompetensi"] = "lv/modul_admin/getdisplay/edit_skema_sertifik
 $route["update-skema-sertifikasi"] = "lv/modul_admin/simpandgnView/skema_sertifikasi/up";
 $route["delete-fd"] = "lv/modul_admin/simpandgnView/delete_fd";
 $route["select-kompt-kunci"] = "lv/modul_admin/display_flek/select_kompt_kunci";
+$route["select-dasar-hukum"] = "lv/modul_admin/display_flek/select_dasar_hukum";
 $route["select_level_kk"] = "lv/modul_admin/display_flek/select_level_kk";
 $route["delete-skema"] = "lv/modul_admin/simpandgnView/delete_skema";
 $route["select_jabatan"] = "lv/modul_admin/display_flek/select_jabatan";

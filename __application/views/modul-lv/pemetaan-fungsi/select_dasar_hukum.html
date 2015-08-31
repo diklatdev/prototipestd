@@ -1,0 +1,14 @@
+ <tr id='hukum_{$counter}'> 
+     <td>
+        <select name='dasar_hukum[]' class='browser-default' width='50%' id='dasar_hukum_{$counter}'> 
+            <option>-- Pilih Dasar Hukum--</option>
+        {foreach from=$dasar_hukum item =row}
+            <option value='{$row.id}'>{$row.dasar_hukum}</option> 
+         {/foreach}
+         </select>
+     </td>
+         
+     <td>
+         <a href='javascript:void(0);' title='Cancel' onClick="deleterowtableinput_lv('dasar_hukum', 'oye', 'btn_unit', '{$counter}')"> <i class='mdi-content-clear tiny right'></i></a>
+     </td>
+</tr>
