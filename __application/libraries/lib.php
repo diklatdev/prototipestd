@@ -151,7 +151,7 @@ class lib {
 	//End Class KirimEmail
 	
 	//Class Json Data
-	function jsondata($sql, $type){
+	function jsondata($sql, $type, $p1=""){
 		$ci =& get_instance();
 		
 		$page = (integer) (($ci->input->post('page')) ? $ci->input->post('page') : "1");
@@ -171,7 +171,7 @@ class lib {
 			$sql2 = "
 				SELECT *
 				FROM idx_kl
-				WHERE id IN (1,2,3)
+				WHERE 1=1 $p1
 			";
 			$data2 = $ci->db->query($sql2)->result_array();
 			

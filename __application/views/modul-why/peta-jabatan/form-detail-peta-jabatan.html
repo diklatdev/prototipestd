@@ -52,12 +52,12 @@
 							<div id="responsive-table">
 								<div class="row">
 									<div class="col s12">
-										<table class="responsive-table" style='width:70%;'>
+										<table class="responsive-table" style='width:100%;'>
 											<thead>
 												<tr>
-													<th data-field="name" style='text-align:center !important;'>Unit Kompetensi</th>
-													<th data-field="price" style='text-align:center !important;'>Level</th>
-													<th data-field="status" style='text-align:center !important;'>Action</th>
+													<th data-field="name" width='30%' style='text-align:center !important;'>Unit Kompetensi</th>
+													<th data-field="price" width='65%' style='text-align:center !important;'>Level</th>
+													<th data-field="status" width='5%' style='text-align:center !important;'>Action</th>
 												</tr>
 											</thead>
 											<tbody >
@@ -117,12 +117,12 @@
 							<div id="responsive-table">
 								<div class="row">
 									<div class="col s12">
-										<table class="responsive-table" style='width:70%;'>
+										<table class="responsive-table" style='width:100%;'>
 											<thead>
 												<tr>
-													<th data-field="name" style='text-align:center !important;'>Unit Kompetensi</th>
-													<th data-field="price" style='text-align:center !important;'>Kode</th>
-													<th data-field="status" style='text-align:center !important;'>Action</th>
+													<th data-field="name" width='70%' style='text-align:center !important;'>Unit Kompetensi</th>
+													<th data-field="price" width='25%' style='text-align:center !important;'>Kode</th>
+													<th data-field="status" width='5%' style='text-align:center !important;'>Action</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -303,7 +303,7 @@
 							<button class="btn cyan waves-effect waves-light " onClick="javascript:void(0);sbmbyk('peta_jabatan');">Submit
 								<i class="mdi-content-send right"></i>
 							</button>
-							<button class="btn waves-effect waves-light " >Kembali
+							<button class="btn waves-effect waves-light " onClick='javascript:void(0);loadUrl_adds("det-petjab", "{$host}detail-peta-jabatan", "tMain", "{$tipologi|default:''}", "{$jenis_bkl|default:''}", "{$id_bkl|default:''}", "{$label|default:''}" );' >Kembali
 								<i class="mdi-content-reply left"></i>
 							</button>
 						</div>						

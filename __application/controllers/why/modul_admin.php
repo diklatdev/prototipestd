@@ -111,24 +111,56 @@ class modul_admin extends SHIPMENT_Controller{
 					$count = ($data['estimasi_waktu']-1);
 					for($i = 1; $i <= 22; $i++){
 						$exp_cekbox = explode(":", $data['3_'.$i]);
-						//print_r($exp_cekbox);exit;
 						$cekbox = "";
 						for($t = 0; $t <= $count; $t++){
-							$s = $t+1;
-							if(isset($exp_cekbox[$t])){
-								if($exp_cekbox[$t] == $s){
-									$checked = "checked";
-								}else{
-									$checked = "";
-								}
-							}else{
+							if($exp_cekbox[$t] == 0){
 								$checked = "";
+								$nilai = 0;
+							}else{
+								$checked = "checked";
+								$nilai = ($t+1);
 							}
-							
-							$cekbox .= "<input type='checkbox' name='3_".$i."[]' value='".($t+1)."' ".$checked."> ".($t+1)." ";
+														
+							$cekbox .= "<input type='hidden' name='3_".$i."[]' value='".$nilai."'>";
+							$cekbox .= "<input type='checkbox'  ".$checked." onclick='this.previousSibling.value=".($t+1)."-this.previousSibling.value' > ".($t+1)." &nbsp; ";
 						}
-						//$exp_cekbox = "";
 						$this->smarty->assign('3_'.$i, $cekbox);
+					}
+					
+					for($ii = 1; $ii <= 2; $ii++){
+						$exp_cekbox = explode(":", $data['4_'.$ii]);
+						$cekbox = "";
+						for($t = 0; $t <= $count; $t++){
+							if($exp_cekbox[$t] == 0){
+								$checked = "";
+								$nilais = 0;
+							}else{
+								$checked = "checked";
+								$nilais = ($t+1);
+							}
+														
+							$cekbox .= "<input type='hidden' name='4_".$ii."[]' value='".$nilais."'>";
+							$cekbox .= "<input type='checkbox'  ".$checked." onclick='this.previousSibling.value=".($t+1)."-this.previousSibling.value' > ".($t+1)." &nbsp; ";
+						}
+						$this->smarty->assign('4_'.$ii, $cekbox);
+					}
+					
+					for($iii = 1; $iii <= 2; $iii++){
+						$exp_cekbox = explode(":", $data['5_'.$iii]);
+						$cekbox = "";
+						for($t = 0; $t <= $count; $t++){
+							if($exp_cekbox[$t] == 0){
+								$checked = "";
+								$nilaiss = 0;
+							}else{
+								$checked = "checked";
+								$nilaiss = ($t+1);
+							}
+														
+							$cekbox .= "<input type='hidden' name='5_".$iii."[]' value='".$nilaiss."'>";
+							$cekbox .= "<input type='checkbox'  ".$checked." onclick='this.previousSibling.value=".($t+1)."-this.previousSibling.value' > ".($t+1)." &nbsp; ";
+						}
+						$this->smarty->assign('5_'.$iii, $cekbox);
 					}
 					
 					$this->smarty->assign('data', $data);
@@ -143,6 +175,7 @@ class modul_admin extends SHIPMENT_Controller{
 				$this->smarty->assign('idx_tim_verifikasi_perumus', $this->lib->fillcombo('idx_tim_verifikasi_perumus', 'return', ($editstatus == 'edit' ? $data['tbl_tim_kerja_verifikasi_id'] : "") ));
 				$this->smarty->assign('idx_tim_komite_perumus', $this->lib->fillcombo('idx_tim_komite_perumus', 'return', ($editstatus == 'edit' ? $data['tbl_tim_kerja_komite_id'] : "") ));
 				$this->smarty->assign('idx_kl', $this->lib->fillcombo('idx_kl', 'return', ($editstatus == 'edit' ? $data['idx_kl_id'] : "") ));
+				$this->smarty->assign('idx_dirjen', ($editstatus == 'add' ? "<option value='0'> -- Pilih Combo Kementerian Dahulu --</option>" : ""));
 			break;
 			
 			case "peta_jabatan":
@@ -164,12 +197,14 @@ class modul_admin extends SHIPMENT_Controller{
 				$this->smarty->assign('tipologi', $tipologi);
 				$this->smarty->assign('jenis_bkl', $jenis_bkl);
 				$this->smarty->assign('id_bkl', $id_bkl);
+				$this->smarty->assign('label', $label_bkl);
 			break;
 			case "form_detail_peta_jabatan":
 				$editstatus = $this->input->post('editstatus');
 				$tipologi = $this->input->post('tipgi');
 				$jenis_bkl = $this->input->post('jns_bkl');
 				$id_bkl = $this->input->post('idx_kbl');
+				$label = $this->input->post('lbl');
 				$tipologi_id = $this->db->get_where('idx_tipologi', array('inisial'=>$tipologi) )->row_array();
 				
 				if($editstatus == 'edit'){
@@ -231,8 +266,10 @@ class modul_admin extends SHIPMENT_Controller{
 				$content = "modul-why/peta-jabatan/form-detail-peta-jabatan.html";
 				$this->smarty->assign('editstatus', $editstatus);
 				$this->smarty->assign('tipologi_id', $tipologi_id['id']);
+				$this->smarty->assign('tipologi', $tipologi);
 				$this->smarty->assign('jenis_bkl', $jenis_bkl);
 				$this->smarty->assign('id_bkl', $id_bkl);		
+				$this->smarty->assign('label', $label);		
 				
 				$this->smarty->assign('atasan_langsung_id', $this->lib->fillcombo('tbl_peta_jabatan', 'return', ($editstatus == 'edit' ? $data['atasan_langsung_id'] : ""), $tipologi_id['id'], $jenis_bkl, $id_bkl ));
 				$this->smarty->assign('idx_pangkat_kknipdn_id', $this->lib->fillcombo('idx_pangkat_kknipdn', 'return', ($editstatus == 'edit' ? $data['idx_pangkat_kknipdn_id'] : ""), $jenis_bkl ));
@@ -292,5 +329,30 @@ class modul_admin extends SHIPMENT_Controller{
 		
 	}
 	
+	function get_access_data($type=""){
+		switch($type){
+			case "peta_jabatan":
+				$array = array();
+				$array['bidang'] = array();
+				$array['kl'] = array();
+				
+				$sql = "
+					SELECT B.idx_bidang_id, B.idx_kl_id
+					FROM tbl_anggota_tim_kerja A
+					LEFT JOIN tbl_tim_kerja B ON A.tbl_tim_kerja_id = B.id
+					WHERE email = 'itil'
+				";
+				$data = $this->db->query($sql)->result_array();
+				if($data){
+					foreach($data as $k => $v){
+						$array['bidang'][] = $v['idx_bidang_id'];
+						$array['kl'][] = $v['idx_kl_id'];
+					}
+				}
+				echo "<pre>";
+				print_r($array);exit;
+			break;
+		}
+	}	
 	
 }

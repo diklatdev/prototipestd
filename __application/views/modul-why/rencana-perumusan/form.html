@@ -92,7 +92,7 @@
 							<h4 class="header2">II. Ketentuan dan Kebijakan Perumusan Standar Kompetensi</h4>
 							<div class="row">
 								{include file='modul-why/template/input_select.html' ukuran='sedang' name='kementerian_lembaga' label="Kementrian / Lembaga" option={$idx_kl}} 
-								{include file='modul-why/template/input_select.html' ukuran='sedang' name='dirjen_eselon' label="Dirjen / Eselon 1" } 
+								{include file='modul-why/template/input_select.html' ukuran='sedang' name='dirjen_eselon' label="Dirjen / Eselon 1" option={$idx_dirjen} } 
 							</div>
 							<br>
 							<div id="responsive-table">
@@ -476,7 +476,11 @@
 									</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='4_1'></span>
+										<span id='4_1'>
+											{if $editstatus eq 'edit'}
+												{$4_1}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -503,7 +507,11 @@
 									</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='4_2'></span>
+										<span id='4_2'>
+											{if $editstatus eq 'edit'}
+												{$4_2}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								
@@ -525,7 +533,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Paraf koordinasi RSKTUP    </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='5_1'></span>
+										<span id='5_1'>
+											{if $editstatus eq 'edit'}
+												{$5_1}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								<tr>
@@ -534,7 +546,11 @@
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>Tim Perumus  </td>
 									<td style='border-bottom:1px solid #000;padding:3px !important;'>SKTUPD</td>
 									<td style='border-bottom:1px solid #000;padding:3px !important; padding-left:5px !important;'>
-										<span id='5_2'></span>
+										<span id='5_2'>
+											{if $editstatus eq 'edit'}
+												{$5_2}
+											{/if}
+										</span>
 									</td>
 								</tr>
 								
@@ -546,7 +562,7 @@
 							<button class="btn cyan waves-effect waves-light " onClick="javascript:void(0);sbmbyk('rencana_perumusan');">Submit
 								<i class="mdi-content-send right"></i>
 							</button>
-							<button class="btn waves-effect waves-light " >Kembali
+							<button class="btn waves-effect waves-light " onClick="javascript:void(0); loadUrl('{$host}rencana-perumusan');">Kembali
 								<i class="mdi-content-reply left"></i>
 							</button>
 						</div>
@@ -563,6 +579,7 @@
 	$('#bidang_fungsi').bind('change', function(){
 		if(edi == 'add'){
 			fillCmb(hostir+'why/modul_admin/getcombo/idx_sub_bidang', "subbidang_1", "", $(this).val() );
+			$('.renper').remove();
 			$('#baten').css({ 'display':'inline' });
 		}
 	});
@@ -584,7 +601,11 @@
 		
 		for (var s=1; s <= 22; s++) {
 			for (var i=1; i <= jumlah; i++) {
-				cekbok += "<input id='3_"+s+"_"+i+"' name='3_"+s+"[]' type='checkbox'  value='"+i+"'> "+i+" &nbsp;";
+				//cekbok += "<input id='3_"+s+"_"+i+"' name='3_"+s+"[]' type='hidden'  value='0'> ";
+				//cekbok += "<input id='3_"+s+"_"+i+"' name='3_"+s+"[]' type='checkbox'  value='"+i+"'> "+i+" &nbsp;";
+				
+				cekbok += "<input type='hidden' name='3_"+s+"[]' value='0'>";
+				cekbok += "<input type='checkbox' onclick='this.previousSibling.value="+i+"-this.previousSibling.value'> "+i+" &nbsp;";
 			}
 			$('#3_'+s).html(cekbok);
 			cekbok = "";
@@ -592,7 +613,11 @@
 		
 		for (var ss=1; ss <= 2; ss++) {
 			for (var ii=1; ii <= jumlah; ii++) {
-				cekbok2 += "<input id='4_"+ss+"_"+ii+"' name='4_"+ss+"[]' type='checkbox'  value='"+ii+"'> "+ii+" &nbsp;";
+				//cekbok2 += "<input id='4_"+ss+"_"+ii+"' name='4_"+ss+"[]' type='checkbox'  value='"+ii+"'> "+ii+" &nbsp;";
+				
+				cekbok2 += "<input type='hidden' name='4_"+ss+"[]' value='0'>";
+				cekbok2 += "<input type='checkbox' onclick='this.previousSibling.value="+ii+"-this.previousSibling.value'> "+ii+" &nbsp;";
+
 			}
 			$('#4_'+ss).html(cekbok2);
 			cekbok2 = "";
@@ -600,7 +625,10 @@
 		
 		for (var sss=1; sss <= 2; sss++) {
 			for (var iii=1; iii <= jumlah; iii++) {
-				cekbok3 += "<input id='5_"+sss+"_"+iii+"' name='5_"+sss+"[]' type='checkbox'  value='"+iii+"'> "+iii+" &nbsp;";
+				//cekbok3 += "<input id='5_"+sss+"_"+iii+"' name='5_"+sss+"[]' type='checkbox'  value='"+iii+"'> "+iii+" &nbsp;";
+				
+				cekbok3 += "<input type='hidden' name='5_"+sss+"[]' value='0'>";
+				cekbok3 += "<input type='checkbox' onclick='this.previousSibling.value="+iii+"-this.previousSibling.value'> "+iii+" &nbsp;";				
 			}
 			$('#5_'+sss).html(cekbok3);
 			cekbok3 = "";

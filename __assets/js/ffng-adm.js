@@ -589,13 +589,13 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 		break;
 		case "tambah_detail_peta_jabatan":
 			$("#div_"+urlnya).html("").addClass("loading");
-			$.post(hostir+'form-detail-peta-jabatan', { 'editstatus':'add', 'tipgi':tipologi, 'jns_bkl':jenis_bkl, 'idx_kbl':kubil }, function(respo){
+			$.post(hostir+'form-detail-peta-jabatan', { 'editstatus':'add', 'tipgi':tipologi, 'jns_bkl':jenis_bkl, 'idx_kbl':kubil, 'lbl':label }, function(respo){
 				$("#div_"+urlnya).html(respo).removeClass("loading");
 			 });
 		break;
 		case "edit_detail_peta_jabatan":			
 			$("#div_detail_peta_jabatan").html("").addClass("loading");
-			$.post(hostir+'form-detail-peta-jabatan', { 'editstatus':'edit', 'idxny':p1, 'tipgi':tipologi, 'jns_bkl':jenis_bkl, 'idx_kbl':kubil }, function(respo){
+			$.post(hostir+'form-detail-peta-jabatan', { 'editstatus':'edit', 'idxny':p1, 'tipgi':tipologi, 'jns_bkl':jenis_bkl, 'idx_kbl':kubil, 'lbl':label }, function(respo){
 				$("#div_detail_peta_jabatan").html(respo).removeClass("loading");
 			 });
 		break;
@@ -1099,6 +1099,7 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
 			var htmlnya = "";
 			
 			htmlnya += "<tr id='oye_"+counter+"'>";
+			htmlnya += "	<input type='hidden' name='idx_tim[]' value='' />";
 			htmlnya += "	<td> <input name='nama[]' type='text' style='width:90%;'>  </td>";
 			htmlnya += "	<td> <input name='jabatan[]' type='text' style='width:90%;'>  </td>";
 			htmlnya += "	<td> <select class='browser-default' name='jabatan_tim_kerja[]' id='jbtankerja_"+counter+"' style='width:90%;'></select> </td>";
@@ -1122,7 +1123,7 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
 			var htmlnya = "";
 			var html_link = "";
 			
-			htmlnya += "<tr id='uye_"+counter+"'>";
+			htmlnya += "<tr class='renper' id='uye_"+counter+"'>";
 			htmlnya += "	<td>";
 			htmlnya += "		<select name='subbidang[]' id='subbidang_"+counter+"' class=\"browser-default\" style='width:90%;'></select>";
 			htmlnya += "	</td>";
@@ -1251,8 +1252,6 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
 function deleterowtableinput(type, dom, p1, p2, p3, p4, p5){
 	switch(type){
 		case "pembentukan_tim":
-			$('#'+dom).remove();
-		break;
 		case "rencana_perumusan":
 		case "kompetensi_manajerial":
 		case "kompetensi_teknis":
@@ -1261,12 +1260,16 @@ function deleterowtableinput(type, dom, p1, p2, p3, p4, p5){
 		case "dasar_hukum":
 			
 			if(p2 == 'edit'){
-				$.post(hostir+'why/modul_admin/simpansavedbx/hpsanggotatim', { 'idxn':p3 } , function(crespo){
-					console.log(crespo);
-				});
+				var r = confirm("Yakin Untuk Menghapus Data Anggota Tim Dari Tim Kerja Ini?");
+				if (r == true) {
+					$.post(hostir+'why/modul_admin/simpansavedbx/hpsanggotatim', { 'idxn':p3 } , function(crespo){
+						console.log(crespo);
+					});
+					$('#'+dom).remove();
+				}
+			}else{
+				$('#'+dom).remove();
 			}
-			
-			$('#'+dom).remove();
 			
 		break;
 		case "fungsi_dasar":

@@ -67,6 +67,7 @@ class madmin extends SHIPMENT_Model{
 		$this->load->library('lib');
 		$where = "";
 		$join = "";
+		$var_additional = "";
 		
 		switch($type){
 			case "pembentukan_tim":
@@ -87,10 +88,30 @@ class madmin extends SHIPMENT_Model{
 				";
 			break;
 			case "peta_jabatan":
+				if($this->auth['level_admin'] != 99){
+					$akses_data = $this->get_access_data('peta_jabatan');
+					if($akses_data['bidang']){
+						$list_bidang = "('".join("','",$akses_data['bidang'])."') ";
+					}else{
+						$list_bidang = "('')";
+					}
+					
+					if($akses_data['kl']){
+						$list_kl = " AND id IN ('".join("','",$akses_data['kl'])."') ";
+					}else{
+						$list_kl = " AND id IN ('')";
+					}
+					
+					$where .= " AND id IN $list_bidang ";
+					$var_additional = $list_kl;
+				}else{
+					$where .= "";
+				}
+				
 				$sql = "
 					SELECT *
 					FROM idx_bidang
-					WHERE id IN ('1','2','3')
+					WHERE 1=1 $where
 				";
 			break;
 			case "detail_peta_jabatan":
@@ -116,7 +137,7 @@ class madmin extends SHIPMENT_Model{
 			break;
 		}
 		
-		return $this->lib->jsondata($sql, $type);
+		return $this->lib->jsondata($sql, $type, $var_additional);
 	}
 	
 	function get_data_fillcombo($type="", $p1="", $p2="", $p3="", $p4){
@@ -222,7 +243,7 @@ class madmin extends SHIPMENT_Model{
 					$parameter = $p2;
 				}
 				$select = "
-					id, level as txt
+					id, CONCAT(level, ' - ', deskripsi) as txt
 				";
 				$tabel = "idx_level_kompetensi_manajerial";				
 				$where .= "
@@ -231,7 +252,7 @@ class madmin extends SHIPMENT_Model{
 			break;
 			case "tbl_unit_kompetensi":
 				$select = "
-					id, judul_unit as txt
+					id,  CONCAT(' ( ',kode_unit_kompetensi,' ) - ', judul_unit) as txt
 				";
 				$where .= "
 					AND kode_unit_kompetensi IS NOT NULL
@@ -294,14 +315,25 @@ class madmin extends SHIPMENT_Model{
 					if($post['editstatus'] == 'delete'){
 						$this->db->delete('tbl_anggota_tim_kerja', array( 'tbl_tim_kerja_id'=>$post['id']) );
 					}elseif($post['editstatus'] == 'edit'){
-						$tbl_tim_kerja_id = $post['id'];
-						$count = count($post['nama'])-1;
-						$cek_data = $this->db->get_where('tbl_anggota_tim_kerja', array('tbl_tim_kerja_id'=>$tbl_tim_kerja_id) )->result_array();
-						
-						for($i = 0; $i <= $count; $i++){
-							if(isset($post['idx_tim'][$i])){
-								if($cek_data[$i]['id'] == $post['idx_tim'][$i]){
-									$array_update = array(
+						$tbl_tim_kerja_id = $post['id'];						
+						if(isset($post['nama'])){
+							$count = count($post['nama'])-1;
+							$cek_data = $this->db->get_where('tbl_anggota_tim_kerja', array('tbl_tim_kerja_id'=>$tbl_tim_kerja_id) )->result_array();	
+							for($i = 0; $i <= $count; $i++){
+								if(isset($post['idx_tim'][$i])){
+									if($cek_data[$i]['id'] == $post['idx_tim'][$i]){
+										$array_update = array(
+											'tbl_tim_kerja_id' => $tbl_tim_kerja_id,
+											'idx_jabatan_tim_kerja_id' => $post['jabatan_tim_kerja'][$i],
+											'jabatan' =>  $post['jabatan'][$i],
+											'is_user' => $post['isuser'][$i],
+											'email' =>  $post['email'][$i],
+											'nama' =>  $post['nama'][$i],
+										);
+										$this->db->update('tbl_anggota_tim_kerja', array('id'=>$post['idx_tim'][$i]), array('id'=>$post['idx_tim'][$i]) );
+									}
+								}else{
+									$array_insert = array(
 										'tbl_tim_kerja_id' => $tbl_tim_kerja_id,
 										'idx_jabatan_tim_kerja_id' => $post['jabatan_tim_kerja'][$i],
 										'jabatan' =>  $post['jabatan'][$i],
@@ -309,9 +341,52 @@ class madmin extends SHIPMENT_Model{
 										'email' =>  $post['email'][$i],
 										'nama' =>  $post['nama'][$i],
 									);
-									$this->db->update('tbl_anggota_tim_kerja', array('id'=>$post['idx_tim'][$i]), array('id'=>$post['idx_tim'][$i]) );
+									$insertnya = $this->db->insert("tbl_anggota_tim_kerja", $array_insert);
+									
+									if($post['isuser'][$i] == 'Y'){
+										$cek_user = $this->db->get_where('tbl_user_admin', array('username'=>$post['email'][$i]) )->row_array();
+										if(!$cek_user){
+											if($post['email'][$i] != ''){
+												$id_anggota_tim_kerja = $this->db->get_where('tbl_anggota_tim_kerja', array('email'=>$post['email'][$i]))->row_array();
+												$password_asli = $this->lib->randomString(5, 'huruf');
+												$password = $this->encrypt->encode($password_asli);
+												$array_user = array(
+													'username' => $post['email'][$i],
+													'password' => $password,
+													'real_name' => $post['nama'][$i],
+													'level_admin' => $post['jabatan_tim_kerja'][$i],
+													'email' => $post['email'][$i],
+													'aktif' => 1,
+													'tbl_anggota_tim_kerja_id' => $id_anggota_tim_kerja['id']
+												);
+												
+												$konten = "
+													Data user anda dalam aplikasi Sistem Informasi SK3APDN <br/>
+													Username : ".$post['email'][$i]." <br/>
+													Password : ".$password_asli." <br/>
+													Demikian yang bisa disampaikan <br/>
+													Terima Kasih.
+												";
+												$subjek = "Notifikasi Email User Aplikasi Sistem Informasi SK3APDN";
+												
+												$this->lib->kirimemail($konten, $subjek, $post['email'][$i]);
+												$this->db->insert("tbl_user_admin", $array_user);
+											}
+										}
+									}
 								}
-							}else{
+							}
+						}
+												
+					}elseif($post['editstatus'] == 'add'){
+						$get_id = $this->db->get_where('tbl_tim_kerja', array('kode_gen'=>$kode_gen))->row_array();
+						$tbl_tim_kerja_id = $get_id['id'];
+						
+						if(isset($post['nama'])){
+							$count = count($post['nama'])-1;
+							$array_insert_user = array();
+							for($i = 0; $i <= $count; $i++){
+								//blok program insert to tbl_tim_kerja
 								$array_insert = array(
 									'tbl_tim_kerja_id' => $tbl_tim_kerja_id,
 									'idx_jabatan_tim_kerja_id' => $post['jabatan_tim_kerja'][$i],
@@ -322,97 +397,46 @@ class madmin extends SHIPMENT_Model{
 								);
 								$insertnya = $this->db->insert("tbl_anggota_tim_kerja", $array_insert);
 								
+								//blok program insert to tbl_user
 								if($post['isuser'][$i] == 'Y'){
-									$cek_user = $this->db->get_where('tbl_user_admin', array('username'=>$post['email'][$i]) )->row_array();
-									if(!$cek_user){
-										if($post['email'][$i] != ''){
-											$id_anggota_tim_kerja = $this->db->get_where('tbl_anggota_tim_kerja', array('email'=>$post['email'][$i]))->row_array();
-											$password_asli = $this->lib->randomString(5, 'huruf');
-											$password = $this->encrypt->encode($password_asli);
-											$array_user = array(
-												'username' => $post['email'][$i],
-												'password' => $password,
-												'real_name' => $post['nama'][$i],
-												'level_admin' => $post['jabatan_tim_kerja'][$i],
-												'email' => $post['email'][$i],
-												'aktif' => 1,
-												'tbl_anggota_tim_kerja_id' => $id_anggota_tim_kerja['id']
-											);
-											
-											$konten = "
-												Data user anda dalam aplikasi Sistem Informasi SK3APDN <br/>
-												Username : ".$post['email'][$i]." <br/>
-												Password : ".$password_asli." <br/>
-												Demikian yang bisa disampaikan <br/>
-												Terima Kasih.
-											";
-											$subjek = "Notifikasi Email User Aplikasi Sistem Informasi SK3APDN";
-											
-											$this->lib->kirimemail($konten, $subjek, $post['email'][$i]);
-											$this->db->insert("tbl_user_admin", $array_user);
-										}
-									}
-								}
-							}
-						}
+									
+									if($insertnya){
+										$cek_user = $this->db->get_where('tbl_user_admin', array('username'=>$post['email'][$i]) )->row_array();
+										
+										if(!$cek_user){
+											if($post['email'][$i] != ''){
+												$id_anggota_tim_kerja = $this->db->get_where('tbl_anggota_tim_kerja', array('email'=>$post['email'][$i]))->row_array();
+												$password_asli = $this->lib->randomString(5, 'huruf');
+												$password = $this->encrypt->encode($password_asli);
+												$array_user = array(
+													'username' => $post['email'][$i],
+													'password' => $password,
+													'real_name' => $post['nama'][$i],
+													'level_admin' => $post['jabatan_tim_kerja'][$i],
+													'email' => $post['email'][$i],
+													'aktif' => 1,
+													'tbl_anggota_tim_kerja_id' => $id_anggota_tim_kerja['id']
+												);
 												
-					}elseif($post['editstatus'] == 'add'){
-						$get_id = $this->db->get_where('tbl_tim_kerja', array('kode_gen'=>$kode_gen))->row_array();
-						$tbl_tim_kerja_id = $get_id['id'];
-					
-						$count = count($post['nama'])-1;
-						$array_insert_user = array();
-						for($i = 0; $i <= $count; $i++){
-							//blok program insert to tbl_tim_kerja
-							$array_insert = array(
-								'tbl_tim_kerja_id' => $tbl_tim_kerja_id,
-								'idx_jabatan_tim_kerja_id' => $post['jabatan_tim_kerja'][$i],
-								'jabatan' =>  $post['jabatan'][$i],
-								'is_user' => $post['isuser'][$i],
-								'email' =>  $post['email'][$i],
-								'nama' =>  $post['nama'][$i],
-							);
-							$insertnya = $this->db->insert("tbl_anggota_tim_kerja", $array_insert);
-							
-							//blok program insert to tbl_user
-							if($post['isuser'][$i] == 'Y'){
-								
-								if($insertnya){
-									$cek_user = $this->db->get_where('tbl_user_admin', array('username'=>$post['email'][$i]) )->row_array();
-									
-									if(!$cek_user){
-										if($post['email'][$i] != ''){
-											$id_anggota_tim_kerja = $this->db->get_where('tbl_anggota_tim_kerja', array('email'=>$post['email'][$i]))->row_array();
-											$password_asli = $this->lib->randomString(5, 'huruf');
-											$password = $this->encrypt->encode($password_asli);
-											$array_user = array(
-												'username' => $post['email'][$i],
-												'password' => $password,
-												'real_name' => $post['nama'][$i],
-												'level_admin' => $post['jabatan_tim_kerja'][$i],
-												'email' => $post['email'][$i],
-												'aktif' => 1,
-												'tbl_anggota_tim_kerja_id' => $id_anggota_tim_kerja['id']
-											);
-											
-											$konten = "
-												Data user anda dalam aplikasi Sistem Informasi SK3APDN <br/>
-												Username : ".$post['email'][$i]." <br/>
-												Password : ".$password_asli." <br/>
-												Demikian yang bisa disampaikan <br/>
-												Terima Kasih.
-											";
-											$subjek = "Notifikasi Email User Aplikasi Sistem Informasi SK3APDN";
-											
-											$this->lib->kirimemail($konten, $subjek, $post['email'][$i]);
-											$this->db->insert("tbl_user_admin", $array_user);
+												$konten = "
+													Data user anda dalam aplikasi Sistem Informasi SK3APDN <br/>
+													Username : ".$post['email'][$i]." <br/>
+													Password : ".$password_asli." <br/>
+													Demikian yang bisa disampaikan <br/>
+													Terima Kasih.
+												";
+												$subjek = "Notifikasi Email User Aplikasi Sistem Informasi SK3APDN";
+												
+												$this->lib->kirimemail($konten, $subjek, $post['email'][$i]);
+												$this->db->insert("tbl_user_admin", $array_user);
+											}
 										}
+										
 									}
 									
 								}
 								
 							}
-							
 						}
 						
 					}
@@ -435,34 +459,37 @@ class madmin extends SHIPMENT_Model{
 					$post_bnr['estimasi_waktu'] 				= $post['estimasi_wkt'];
 					$post_bnr['kode_gen'] 						= $kode_gen;
 					
+					$count_est = ($post['estimasi_wkt']-1);
 					for($i = 1; $i <= 22; $i++){
 						if(isset($post['3_'.$i])){
-							$count_elemen = count($post['3_'.$i])-1;
-							$el = "";
-							for($r = 0; $r <= $count_elemen; $r++){
-								if($r == $count_elemen){
-									$el .= $post['3_'.$i][$r];
+							
+							$aray = array();
+							for($r = 0; $r <= $count_est; $r++){
+								if(isset($post['3_'.$i][$r])){
+									$aray[] = $post['3_'.$i][$r];
 								}else{
-									$el .= $post['3_'.$i][$r].":";
+									$aray[] = 0;
 								}
 							}
+							$el = join(':', $aray);
+							
 						}else{
 							$el = null;
 						}
 						$post_bnr['3_'.$i] = $el;
 					}
-					
+										
 					for($i = 1; $i <= 2; $i++){
 						if(isset($post['4_'.$i])){
-							$count_elemen = count($post['4_'.$i])-1;
-							$els = "";
-							for($r = 0; $r <= $count_elemen; $r++){
-								if($r == $count_elemen){
-									$els .= $post['4_'.$i][$r];
+							$arays = array();
+							for($r = 0; $r <= $count_est; $r++){
+								if(isset($post['4_'.$i][$r])){
+									$arays[] = $post['4_'.$i][$r];
 								}else{
-									$els .= $post['4_'.$i][$r].":";
+									$arays[] = 0;
 								}
 							}
+							$els = join(':', $arays);
 						}else{
 							$els = null;
 						}
@@ -471,15 +498,15 @@ class madmin extends SHIPMENT_Model{
 					
 					for($i = 1; $i <= 2; $i++){
 						if(isset($post['5_'.$i])){
-							$count_elemen = count($post['5_'.$i])-1;
-							$elss = "";
-							for($r = 0; $r <= $count_elemen; $r++){
-								if($r == $count_elemen){
-									$elss .= $post['5_'.$i][$r];
+							$arayss = array();
+							for($r = 0; $r <= $count_est; $r++){
+								if(isset($post['5_'.$i][$r])){
+									$arayss[] = $post['5_'.$i][$r];
 								}else{
-									$elss .= $post['5_'.$i][$r].":";
+									$arayss[] = 0;
 								}
 							}
+							$elss = join(':', $arayss);
 						}else{
 							$elss = null;
 						}
@@ -500,36 +527,42 @@ class madmin extends SHIPMENT_Model{
 						$get_id = $this->db->get_where('tbl_perumusan', array('kode_gen'=>$kode_gen))->row_array();
 						$tbl_perumusan_id = $get_id['id'];
 					}elseif($post['editstatus'] == 'edit'){	
-						$tbl_tim_kerja_id = $post['id'];
+						$tbl_perumusan_id = $post['id'];
 						$this->db->delete('tbl_subbidang_perumusan', array('tbl_perumusan_id'=>$tbl_perumusan_id));
+						$this->db->delete('tbl_dasarhukum_perumusan', array('tbl_perumusan_id'=>$tbl_perumusan_id));
 					}
 					
 					if($post['editstatus'] == 'delete'){
 						$this->db->delete('tbl_subbidang_perumusan', array( 'tbl_perumusan_id'=>$post['id']) );
+						$this->db->delete('tbl_dasarhukum_perumusan', array( 'tbl_perumusan_id'=>$post['id']) );
 					}else{
 						// Blok Program SubBidang
-						$count = count($post['subbidang'])-1;
-						$array_insert_batch = array();
-						for($i = 0; $i <= $count; $i++){
-							$array_insert = array(
-								'tbl_perumusan_id' => $tbl_perumusan_id,
-								'idx_sub_bidang_id' => $post['subbidang'][$i],
-							);
-							array_push($array_insert_batch, $array_insert);
+						if(isset($post['subbidang'])){
+							$count = count($post['subbidang'])-1;
+							$array_insert_batch = array();
+							for($i = 0; $i <= $count; $i++){
+								$array_insert = array(
+									'tbl_perumusan_id' => $tbl_perumusan_id,
+									'idx_sub_bidang_id' => $post['subbidang'][$i],
+								);
+								array_push($array_insert_batch, $array_insert);
+							}
+							$this->db->insert_batch("tbl_subbidang_perumusan", $array_insert_batch);
 						}
-						$this->db->insert_batch("tbl_subbidang_perumusan", $array_insert_batch);
 						
 						//Blok Program Dasar Hukum
-						$count2 = count($post['dasar_hukum'])-1;
-						$array_batch_insert_dasar_hukum = array();
-						for($is = 0; $is <= $count2; $is++){
-							$array_insert_dsr = array(
-								'tbl_perumusan_id' => $tbl_perumusan_id,
-								'idx_dasar_hukum_id' => $post['dasar_hukum'][$is],
-							);
-							array_push($array_batch_insert_dasar_hukum, $array_insert_dsr);
+						if(isset($post['dasar_hukum'])){
+							$count2 = count($post['dasar_hukum'])-1;
+							$array_batch_insert_dasar_hukum = array();
+							for($is = 0; $is <= $count2; $is++){
+								$array_insert_dsr = array(
+									'tbl_perumusan_id' => $tbl_perumusan_id,
+									'idx_dasar_hukum_id' => $post['dasar_hukum'][$is],
+								);
+								array_push($array_batch_insert_dasar_hukum, $array_insert_dsr);
+							}
+							$this->db->insert_batch("tbl_dasarhukum_perumusan", $array_batch_insert_dasar_hukum);
 						}
-						$this->db->insert_batch("tbl_dasarhukum_perumusan", $array_batch_insert_dasar_hukum);
 					}
 				}
 				
@@ -601,52 +634,60 @@ class madmin extends SHIPMENT_Model{
 					}
 					
 					if($post['editstatus'] == 'add' || $post['editstatus'] == 'edit'){
-						$count_manajerial = count($post['levelkompetensimanajerial'])-1;
-						$count_teknis = count($post['unit_kompetensi'])-1;
-						$count_bakat = count($post['bakat'])-1;
-						$count_prasyarat = count($post['prasyarat_dasar'])-1;
 						
-						$array_manajerial_batch = array();
-						for($i = 0; $i <= $count_manajerial; $i++){
-							$array_manajerial_insert = array(
-								'tbl_peta_jabatan_id' => $tbl_petjab_id,
-								'idx_level_kompetensi_manajerial' => $post['levelkompetensimanajerial'][$i],
-							);
-							array_push($array_manajerial_batch, $array_manajerial_insert);
+						if(isset($post['levelkompetensimanajerial'])){
+							$count_manajerial = count($post['levelkompetensimanajerial'])-1;
+							$array_manajerial_batch = array();
+							for($i = 0; $i <= $count_manajerial; $i++){
+								$array_manajerial_insert = array(
+									'tbl_peta_jabatan_id' => $tbl_petjab_id,
+									'idx_level_kompetensi_manajerial' => $post['levelkompetensimanajerial'][$i],
+								);
+								array_push($array_manajerial_batch, $array_manajerial_insert);
+							}
+							$this->db->insert_batch("tbl_petjab_level_kompetensi_manajerial", $array_manajerial_batch);
 						}
 						
-						$array_teknis_batch = array();
-						for($ii = 0; $ii <= $count_teknis; $ii++){
-							$array_teknis_insert = array(
-								'tbl_peta_jabatan_id' => $tbl_petjab_id,
-								'tbl_unit_kompetensi_id' => $post['unit_kompetensi'][$ii],
-							);
-							array_push($array_teknis_batch, $array_teknis_insert);
+						if(isset($post['unit_kompetensi'])){
+							$count_teknis = count($post['unit_kompetensi'])-1;
+							$array_teknis_batch = array();
+							for($ii = 0; $ii <= $count_teknis; $ii++){
+								$array_teknis_insert = array(
+									'tbl_peta_jabatan_id' => $tbl_petjab_id,
+									'tbl_unit_kompetensi_id' => $post['unit_kompetensi'][$ii],
+								);
+								array_push($array_teknis_batch, $array_teknis_insert);
+							}
+							$this->db->insert_batch("tbl_petjab_kompetensi_teknis", $array_teknis_batch);
 						}
 						
-						$array_bakat_batch = array();
-						for($iii = 0; $iii <= $count_bakat; $iii++){
-							$array_bakat_insert = array(
-								'tbl_peta_jabatan_id' => $tbl_petjab_id,
-								'idx_bakat_id' => $post['bakat'][$iii],
-							);
-							array_push($array_bakat_batch, $array_bakat_insert);
+						if(isset($post['bakat'])){
+							$count_bakat = count($post['bakat'])-1;
+							$array_bakat_batch = array();
+							for($iii = 0; $iii <= $count_bakat; $iii++){
+								$array_bakat_insert = array(
+									'tbl_peta_jabatan_id' => $tbl_petjab_id,
+									'idx_bakat_id' => $post['bakat'][$iii],
+								);
+								array_push($array_bakat_batch, $array_bakat_insert);
+							}
+							$this->db->insert_batch("tbl_petjab_bakat", $array_bakat_batch);
 						}
 						
-						$array_prasyarat_batch = array();
-						for($iiii = 0; $iiii <= $count_prasyarat; $iiii++){
-							$array_prasyarat_insert = array(
-								'tbl_peta_jabatan_id' => $tbl_petjab_id,
-								'prasyarat_dasar' => $post['prasyarat_dasar'][$iiii],
-								'bukti' => $post['bukti'][$iiii],
-							);
-							array_push($array_prasyarat_batch, $array_prasyarat_insert);
+						if(isset($post['prasyarat_dasar'])){
+							$count_prasyarat = count($post['prasyarat_dasar'])-1;
+							$array_prasyarat_batch = array();
+							for($iiii = 0; $iiii <= $count_prasyarat; $iiii++){
+								$array_prasyarat_insert = array(
+									'tbl_peta_jabatan_id' => $tbl_petjab_id,
+									'prasyarat_dasar' => $post['prasyarat_dasar'][$iiii],
+									'bukti' => $post['bukti'][$iiii],
+								);
+								array_push($array_prasyarat_batch, $array_prasyarat_insert);
+							}
+							$this->db->insert_batch("tbl_petjab_prasyarat_dasar", $array_prasyarat_batch);
 						}
 						
-						$this->db->insert_batch("tbl_petjab_level_kompetensi_manajerial", $array_manajerial_batch);
-						$this->db->insert_batch("tbl_petjab_kompetensi_teknis", $array_teknis_batch);
-						$this->db->insert_batch("tbl_petjab_bakat", $array_bakat_batch);
-						$this->db->insert_batch("tbl_petjab_prasyarat_dasar", $array_prasyarat_batch);
 					}
 					
 				}
@@ -675,6 +716,32 @@ class madmin extends SHIPMENT_Model{
 		}
 		
 		return $ret;
+	}
+	
+	function get_access_data($type=""){
+		$array = array();
+		switch($type){
+			case "peta_jabatan":
+				$array['bidang'] = array();
+				$array['kl'] = array();
+				
+				$sql = "
+					SELECT B.idx_bidang_id, B.idx_kl_id
+					FROM tbl_anggota_tim_kerja A
+					LEFT JOIN tbl_tim_kerja B ON A.tbl_tim_kerja_id = B.id
+					WHERE email = '".$this->auth['username']."' 
+					GROUP BY B.idx_bidang_id, B.idx_kl_id
+				";
+				$data = $this->db->query($sql)->result_array();
+				if($data){
+					foreach($data as $k => $v){
+						$array['bidang'][] = $v['idx_bidang_id'];
+						$array['kl'][] = $v['idx_kl_id'];
+					}
+				}
+			break;
+		}
+		return $array;
 	}
 	
 	
