@@ -73,16 +73,16 @@ class madmin extends SHIPMENT_Model{
                                     WHERE A.id = '$p1';";
                         break;
                         case "list_bkl":
-                            $sql ="SELECT CONCAT(id,'_b') as id, nama_bidang as nama FROM idx_bidang 
+                            $sql ="SELECT CONCAT(id,'_B') as id, nama_bidang as nama FROM idx_bidang 
                                     UNION
-                                   SELECT CONCAT(id,'_k') as id, nama_kl as nama FROM idx_kl
+                                   SELECT CONCAT(id,'_K') as id, nama_kl as nama FROM idx_kl
                                    ORDER BY nama ASC;";
                         break;
                         case "sub_bkl":
-                            if ($p2 == 'b'){
+                            if ($p2 == 'B'){
                                $sql = "SELECT id, nama_sub_bidang as nama FROM idx_sub_bidang WHERE idx_bidang_id = $p1";
                             }
-                            elseif ($p2 == 'k'){
+                            elseif ($p2 == 'K'){
                                 $sql = "SELECT id, nama_dirjen as nama FROm idx_dirjen WHERE idx_kl_id = $p1";
                             }else{
                                 $sql = "    SELECT id, nama_sub_bidang as nama FROM idx_sub_bidang"

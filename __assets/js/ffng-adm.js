@@ -968,7 +968,7 @@ function addrowtableinput_lv(type, dom, dom_link, p1, p2, p3, p4){
             var counter = parseInt(p1)+1;
             var htmlnya = "";                
 
-            $.post(hostir+"select-dasar-hukum", {'counter':counter},function (rspp){  
+            $.post(hostir+"select-dasar-hukum", {'counter':counter, 'id_bidang':p2},function (rspp){  
                 htmlnya = rspp;
                 $('#'+dom).before(htmlnya);
                 //$('#'+dom_link).html(html_link);		

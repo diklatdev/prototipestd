@@ -265,15 +265,19 @@ class modul_admin extends SHIPMENT_Controller{
                     $id_bkl = $this->input->post('id_bkl');
                     $data = $this->madmin->get_data('skema_sert', 'row_array', $id_bkl);
                     $this->smarty->assign('data',$data);
+                    
                     $bkl =$this->madmin->get_data('list_bkl','result_array');
                     $this->smarty->assign('bkl', $bkl);
+                    
                     $pangkat =$this->madmin->get_data('list_pangkat','result_array');
                     $this->smarty->assign('pangkat', $pangkat);
+                    
                     $sub_bkl = $this->madmin->get_data('sub_bkl', 'result_array',$data['idx_bkl_id'], $data['jenis_bkl']);
                     $this->smarty->assign('sub_bkl', $sub_bkl);
                     
                     $unit_komp = $this->madmin->get_data('skesert_unit_kompetensi', 'result_array', $id_bkl);
                     $this->smarty->assign('unit_kompt', $unit_komp);
+                    
                     $syarat_dasar = $this->madmin->get_data('skesert_prsayarat_dasar', 'result_array', $id_bkl);
                     $this->smarty->assign('syarat_dasar', $syarat_dasar);
                     $this->smarty->assign('id_bkl', $id_bkl);
@@ -347,7 +351,13 @@ class modul_admin extends SHIPMENT_Controller{
                 break;
                 case "select_dasar_hukum":                    
                     $counter = $this->input->post("counter");
-                    $query = "SELECT * FROM idx_dasar_hukum";
+                    $id_bidang = $this->input->post('id_bidang');
+                    
+                    $query = "SELECT C.id as id, B.idx_bidang_id, C.dasar_hukum FROM `tbl_dasarhukum_perumusan` A
+                        LEFT JOIN tbl_perumusan B ON B.id = A.tbl_perumusan_id
+                        LEFT JOIN idx_dasar_hukum C ON C.id = A.idx_dasar_hukum_id
+                        WHERE B.idx_bidang_id = '$id_bidang';";
+                    
                     $dasar_hukum = $this->db->query($query)->result_array();
                     $this->smarty->assign('dasar_hukum', $dasar_hukum);
                     $this->smarty->assign('counter', $counter);
