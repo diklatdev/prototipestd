@@ -204,7 +204,8 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                     {field:'nama_bidang',title:'<b>Bidang & Fungsi Kerja</b>',width:650, halign:'left',align:'left'},
                     {field:'fishbone',title:'<b>Fishbone</b>',width:100,align:'center',
                         formatter: function(value,row,index){
-                            return '<a title="Fishbone" class="btn-floating btn-small waves-effect waves-light" href="#" onclick=\'\loadUrl_adds("fishbone_view","'+hostir+'fishbone_view","tMain","'+value+'")\'\><i class="mdi-editor-vertical-align-center"></i></a>';
+                            return '<a title="Fishbone E3" class="btn-floating btn-small waves-effect waves-light" href="#" onclick=\'\loadUrl_adds("fishbone_view","'+hostir+'fishbone_view","tMain","'+value+'")\'\><i class="mdi-editor-vertical-align-center"></i></a>\n\
+                                <a target="_blank" title="Fishbone goJS" class="btn-floating btn-small waves-effect waves-light" href="new-fishbone/'+value+'" ><i class="mdi-editor-vertical-align-center"></i></a>';
                         }
                     },
                     {field:'fungsi_dasar', title:'<b>Fungsi dasar</b>', halign:'center', width:120,align:'center',
@@ -659,6 +660,12 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
             $.post(urlnya, { 'id_bidang' : p1}, function(resp){
 		$("#"+domnya).html(resp).removeClass("loading");
             });
+        break;
+        case "fishbone_new":
+            $("#"+domnya).html("").addClass("loading");
+            $.post(urlnya, { 'id_bidang' : p1}, function(resp){
+		$("#"+domnya).html(resp).removeClass("loading");
+            });            
         break;
         case "fungsi-dasar":
             $("#"+domnya).html("").addClass("loading");

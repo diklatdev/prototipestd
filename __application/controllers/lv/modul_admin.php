@@ -409,6 +409,35 @@ class modul_admin extends SHIPMENT_Controller{
             //using the FILE_APPEND flag to append the content.
             file_put_contents ($file, $json);
         }
+        
+        function new_fishbone($p = ''){
+            $sql = $this->db->query("SELECT "
+                    . "IF (LENGTH(nama_bidang) > 30,CONCAT(LEFT(nama_bidang, 30),'...'),nama_bidang) as name, "
+                    . "'18' as size, 'Bold' as weight FROM idx_bidang WHERE id = $p")->row_array();
+            
+            $sql2 = $this->db->query("SELECT id, IF (LENGTH(nama_sub_bidang ) > 60,CONCAT(LEFT(nama_sub_bidang , 60),'...'),nama_sub_bidang ) as name "
+                    . "FROM idx_sub_bidang WHERE idx_bidang_id = $p")->result_array();
+            $child2 = '';
+                
+            foreach ($sql2 as $k => $v){ 
+                $sql3 = $this->db->query("SELECT IF (LENGTH(nama_sub_subbidang ) > 40,CONCAT(LEFT(nama_sub_subbidang , 40),'...'),nama_sub_subbidang ) as text "
+                        . "FROM idx_sub_subbidang WHERE idx_sub_bidang_id = ".$v['id']."")->result_array();
+                
+                $child2[$k]["text"] = $v["name"];
+                $child2[$k]["size"] = "14";
+                $child2[$k]["weight"] = "Bold";
+                $child2[$k]["causes"] = $sql3; 
+            }
+            
+            $json_data =array("text" => $sql['name'], "size" =>'18', "weight" => 'Bold', "causes" => $child2); 
+//            echo '<pre>';
+//            print_r($json_data);
+            
+            $json = json_encode($json_data);
+//            echo $json;
+            $this->smarty->assign('json', $json);
+            $this->smarty->display("modul-lv/fishbone/fishbone.html");
+        }
 	
 	function getdatagrid($type, $p1 = '', $p2 = ''){
 		echo $this->madmin->get_data_grid($type, $p1, $p2);

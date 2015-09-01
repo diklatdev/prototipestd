@@ -81,6 +81,7 @@ $route['form-kompetensi-kunci'] = "lv/modul_admin/getdisplay/datagridview/kompet
 $route['form-bakat'] = "lv/modul_admin/getdisplay/datagridview/bakat";
 
 
+$route['new-fishbone/(:any)'] = "lv/modul_admin/new_fishbone/$1";
 $route['json-data'] = "lv/modul_admin/json_fishbone";
 
 $route['404_override'] = '';
