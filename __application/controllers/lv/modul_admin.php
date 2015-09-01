@@ -141,8 +141,28 @@ class modul_admin extends SHIPMENT_Controller{
                     $content = "modul-lv/kompetensi_kunci/tabel_level.html";                    
                 break;
                 case "fungsi_dasar":
-                    $id_bidang = $this->input->post('id_bidang');
+                    $id_bidang_all = $this->input->post('id_bidang');
+                    $id_bidang_all = explode('-', $id_bidang_all);
+                    $id_bidang = $id_bidang_all[0];
+                    $id_pemerintahan = $id_bidang_all[1];
+                    
+                    $nama_pemerintahan = "";
+                    switch ($id_pemerintahan){
+                        case "1":
+                            $nama_pemerintahan = "Pemerintahan Pusat";
+                        break;
+                        case "2":
+                            $nama_pemerintahan = "Pemerintahan Provinsi";
+                        break;
+                        case "3":
+                            $nama_pemerintahan = "Pemerintahan Kabupaten/Kota";
+                        break;
+                            
+                    }
+                    $this->smarty->assign('nama_pemerintahan', $nama_pemerintahan);
+                    
                     $this->smarty->assign('id_bidang', $id_bidang);
+                    $this->smarty->assign('id_pemerintahan', $id_pemerintahan);
                     
                     $sql = $this->db->query("SELECT * FROM idx_bidang WHERE id = $id_bidang ORDER BY id")->row_array();
                     $sql2 = $this->db->query("SELECT id as id_sub, nama_sub_bidang "
@@ -153,7 +173,9 @@ class modul_admin extends SHIPMENT_Controller{
                     foreach ($sql2 as $k => $v){ 
                         $sql3 = $this->db->query("SELECT id as id_sub2, nama_sub_subbidang "
                                 . "FROM idx_sub_subbidang "
-                                . "WHERE idx_sub_bidang_id = ".$v['id_sub']." ORDER BY id")->result_array();
+                                . "WHERE idx_sub_bidang_id = ".$v['id_sub']." "
+                                . "AND idx_tipe_pemerintahan_id = ".$id_pemerintahan." "
+                                . "ORDER BY id")->result_array();
                         
                         $sub[$k]["id_sub"] = $v["id_sub"];
                         $sub[$k]["nama_sub_bidang"] = $v["nama_sub_bidang"];

@@ -3,7 +3,7 @@
   <div class="section">
 
 
-        <p class="caption">{$bidang.nama_bidang}</p>
+        <p class="caption">{$bidang.nama_bidang} - {$nama_pemerintahan}</p>
         <div class="divider"></div>
             <div class="row">
                 <div class="col s12 m12 l12"><ol class="breadcrumb">
@@ -141,7 +141,7 @@
                                                         
                                                         <a class="btn-floating btn-small waves-effect waves-light " href="javascript:void(0);" onclick="kumpulPost('delete_fd','fd_{$val.id_fungsi_dasar}','{$val.id_fungsi_dasar}','{$id_bidang}')"><i class="mdi-content-clear"></i></a>	
                                                         {if $smarty.foreach.na.last}
-                                                            <a class="btn-floating btn-small waves-effect waves-light blue" href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'add_{$i.id_sub}_{$v.id_sub2}', '','1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add"></i></a>
+                                                            <a class="btn-floating btn-small waves-effect waves-light blue" href="javascript:void(0);" title='Tambah Fungsi Dasar' onClick="addrowtableinput('fungsi_dasar', 'add_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}', '','1','{$i.id_sub}','{$v.id_sub2}', '{$bidang.id}');" ><i class="mdi-content-add"></i></a>
                                                         {/if} 
                                 </td>
                             <tr id='add_{$i.id_sub}_{$v.id_sub2}_{$val.id_fungsi_dasar}'></tr>
@@ -163,8 +163,8 @@
                                 <td></td>
                                 <td>
                                         <!--<a class="btn-floating btn-small waves-effect waves-light green" href=".shtml"><i class="mdi-action-search"></i></a>-->
-                                        <a class="btn-floating btn-small waves-effect waves-light orange" href=".shtml"><i class="mdi-content-create"></i></a>
-                                        <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>	
+<!--                                        <a class="btn-floating btn-small waves-effect waves-light orange" href=".shtml"><i class="mdi-content-create"></i></a>
+                                        <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>	-->
                                 </td>
                             <tr id='add_{$i.id_sub}'></tr>
                                 {/if}
@@ -186,7 +186,7 @@
                           <a href='#' class="btn waves-effect waves-light " onclick="loadUrl('pemetaan-fungsi')">BACK
                               <i class="mdi-content-reply left"></i>
                           </a>
-                          <a href='#' class="btn cyan waves-effect waves-light right" onclick="kumpulPost('add_fd','tMain','{$bidang.id}')">Submit
+                          <a href='#' class="btn cyan waves-effect waves-light right" onclick="kumpulPost('add_fd','tMain','{$bidang.id}', '{$id_pemerintahan}')">Submit
                               <i class="mdi-content-send right"></i>
                         </a>
                       </div>

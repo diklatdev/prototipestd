@@ -172,7 +172,7 @@ class madmin extends SHIPMENT_Model{
                             . "WHERE A.idx_bidang_id = $p1";
                     break;
                     case "pemetaan_fungsi":
-                         $sql = 'SELECT A.* FROM idx_bidang A';
+                         $sql = 'SELECT A.*, A.id as fishbone, A.id as fungsi_dasar, A.id as unit_kompetensi FROM idx_bidang A';
                     break;
                     case "unit_kompetensi":
                         $sql = "SELECT A.* FROM tbl_unit_kompetensi A WHERE idx_bidang_id = $p1 "

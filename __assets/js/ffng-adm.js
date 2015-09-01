@@ -201,12 +201,22 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                 fitnya = true;
                 pagesizeboy = 50;
                 kolom[modnya] = [	
-                    {field:'nama_bidang',title:'<b>Bidang & Fungsi Kerja</b>',width:850, halign:'left',align:'left'},
-                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+                    {field:'nama_bidang',title:'<b>Bidang & Fungsi Kerja</b>',width:650, halign:'left',align:'left'},
+                    {field:'fishbone',title:'<b>Fishbone</b>',width:100,align:'center',
                         formatter: function(value,row,index){
-                                return '<a class="btn-floating btn-small waves-effect waves-light green" href="#" onclick=\'\loadUrl_adds("fishbone_view","'+hostir+'fishbone_view","tMain","'+value+'")\'\><i class="mdi-editor-vertical-align-center"></i></a>\n\
-                                <a class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+'")\'\><i class="mdi-action-book"></i></a>\n\
-                                <a class="btn-floating btn-small waves-effect waves-light blue"  href="#" onclick=\'\loadUrl_adds("unit-kompetensi","'+hostir+'unit-kompetensi","tMain","'+value+'")\'\><i class="mdi-action-assignment"></i></a>';
+                            return '<a title="Fishbone" class="btn-floating btn-small waves-effect waves-light" href="#" onclick=\'\loadUrl_adds("fishbone_view","'+hostir+'fishbone_view","tMain","'+value+'")\'\><i class="mdi-editor-vertical-align-center"></i></a>';
+                        }
+                    },
+                    {field:'fungsi_dasar', title:'<b>Fungsi dasar</b>', halign:'center', width:120,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a title="Fungsi Dasar Pusat" class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-1"+'")\'\><i class="mdi-action-book"></i></a>\n\
+                                <a title="Fungsi Dasar Provinsi" class="btn-floating btn-small waves-effect waves-light yellow" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-2"+'")\'\><i class="mdi-action-book"></i></a>\n\
+                                <a title="Fungsi Dasar Kabupaten/Kota" class="btn-floating btn-small waves-effect waves-light red" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-3"+'")\'\><i class="mdi-action-book"></i></a>';
+                        }
+                    },
+                    {field:'unit_kompetensi', title:'<b>Unit Kompetensi</b>', halign:'center', width:120,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a title="Unit Kompetensi" class="btn-floating btn-small waves-effect waves-light blue"  href="#" onclick=\'\loadUrl_adds("unit-kompetensi","'+hostir+'unit-kompetensi","tMain","'+value+'")\'\><i class="mdi-action-assignment"></i></a>';
                         }
                     },
                     ];
@@ -652,7 +662,7 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
         break;
         case "fungsi-dasar":
             $("#"+domnya).html("").addClass("loading");
-            $.post(urlnya, { 'id_bidang' : p1}, function(resp){
+            $.post(urlnya, { 'id_bidang' : p1+'-'+p2,}, function(resp){
 		$("#"+domnya).html(resp).removeClass("loading");
             });
         break;
@@ -732,7 +742,7 @@ function kumpulPost($type, domnya, p1, p2, p3, p4){
             $.post(hostir+"submit-fungsi-dasar", $('form').serialize(),function (rspp){
                 if (rspp == 1){
                     alert('Data berhasil Disimpan');
-                    loadUrl_adds('fungsi-dasar', hostir+'fungsi-dasar','tMain',p1 );
+                    loadUrl_adds('fungsi-dasar', hostir+'fungsi-dasar','tMain',p1, p2 );
                 }else{
                     alert('Penyimpanan gagal! :'+rspp);
                 }		
@@ -1067,8 +1077,8 @@ function addrowtableinput(type, dom, dom_linked, p1, p2, p3, p4){
                 htmlnya += "<tr id='row_"+counter+"_"+p1+"_"+p2+"_"+p3+"'>";
                 htmlnya += "	<td></td>";
                 htmlnya += "	<td> </td>";
-                htmlnya += "	<td> <input name='fd_"+p1+"_"+p2+"[]' id='fungsi_dasar' type='text' style='width:90%;' value=''></td>";
-                htmlnya += "	<td> <select class='browser-default' name='kel_"+p1+"_"+p2+"[]' id='kel_kom' style='width:90%;'>\n\
+                htmlnya += "	<td> <input name='fd_"+p2+"_"+p3+"[]' id='fungsi_dasar' type='text' style='width:90%;' value=''></td>";
+                htmlnya += "	<td> <select class='browser-default' name='kel_"+p2+"_"+p3+"[]' id='kel_kom' style='width:90%;'>\n\
                                         <option value='1'>UMUM</option>\n\
                                         <option value='2'>INTI</option>\n\
                                         <option value='3'>PILIHAN</option>\n\
