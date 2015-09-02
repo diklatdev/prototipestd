@@ -331,7 +331,7 @@ function genGrid2(modnya, lebarnya, tingginya, p1, p2){
 				{field:'nama',title:'<b>Nama Tim</b>',width:250, halign:'center',align:'left'},
 				{field:'nama_kl',title:'<b>Kementerian / Lembaga</b>',width:250, halign:'center',align:'left'},
 				{field:'nama_dirjen',title:'<b>Dirjen</b>',width:200, halign:'center',align:'left'},
-				{field:'nama_bidang',title:'<b>Bidang</b>',width:200, halign:'center',align:'left'},
+				{field:'nama_bidang',title:'<b>Urusan</b>',width:200, halign:'center',align:'left'},
 				{field:'nama_timkerja',title:'<b>Jenis Tim Kerja</b>',width:200, halign:'center',align:'left'},
 			];
 		break;
@@ -341,7 +341,7 @@ function genGrid2(modnya, lebarnya, tingginya, p1, p2){
 			pagesizeboy = 50;
 			kolom[modnya] = [	
 				{field:'nama_kegiatan',title:'<b>Nama Kegiatan</b>',width:250, halign:'center',align:'left'},
-				{field:'nama_bidang',title:'<b>Bidang Urusan</b>',width:300, halign:'center',align:'left'},
+				{field:'nama_bidang',title:'<b>Urusan</b>',width:300, halign:'center',align:'left'},
 			];
 		break;
 		case "peta_jabatan":
@@ -349,7 +349,7 @@ function genGrid2(modnya, lebarnya, tingginya, p1, p2){
 			fitnya = true;
 			pagesizeboy = 50;
 			kolom[modnya] = [	
-				{field:'nama_bidang',title:'<b>Bidang Fungsi Kerja Urusan Pemerintahan - K/L</b>',width:400, halign:'center',align:'left'},
+				{field:'nama_bidang',title:'<b>Urusan Pemerintahan - K/L</b>',width:400, halign:'center',align:'left'},
 				{field:'jenis_bkl',title:'<b>Tipologi</b>',width:500, halign:'center', align:'left',
 					formatter: function(value,row,index){
 						var buttonhtml = "";
