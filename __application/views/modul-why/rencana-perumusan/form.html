@@ -12,7 +12,7 @@
 								{include file='modul-why/template/input_text.html' ukuran='besar' name='namaperumusan' label="Program Perumusan Standar Kompetensi" class={$class|default:''} value={$data.nama_kegiatan|default:''}} 
 							</div>
 							<div class="row">
-								{include file='modul-why/template/input_select.html' ukuran='besar' name='bidang_fungsi' label="Bidang & Fungsi Kerja Urusan Pemerintahan" option={$idx_bidang} } 
+								{include file='modul-why/template/input_select.html' ukuran='besar' name='bidang_fungsi' label="Urusan" option={$idx_bidang} } 
 							</div>
 							
 							<div id="responsive-table" style='margin-top:10px !important;margin-bottom:40px !important;'>
@@ -21,7 +21,7 @@
 										<table class="responsive-table" style='width:50%;'>
 											<thead>
 												<tr>
-													<th style='text-align:center !important;'>Sub Bidang & Fungsi Kerja</th>
+													<th style='text-align:center !important;'>Sub Urusan</th>
 													<th style='text-align:center !important;'>Action</th>
 												</tr>
 											</thead>
@@ -34,7 +34,7 @@
 													</tr>
 													<tr id='baten' style='display:none;'>
 														<td colspan='2' id='btn_dsr' align='right' width='1000px' style='text-align:right; !important;'>
-															<a href="javascript:void(0);" title='Tambah Sub Bidang' onClick="addrowtableinput('rencana_perumusan', 'uye', 'btn_dsr', 1);" ><i class="mdi-content-add-box tiny"></i></a>
+															<a href="javascript:void(0);" title='Tambah Sub Urusan' onClick="addrowtableinput('rencana_perumusan', 'uye', 'btn_dsr', 1);" ><i class="mdi-content-add-box tiny"></i></a>
 														</td>
 													</tr>
 												{elseif $editstatus eq 'edit'}
@@ -49,7 +49,7 @@
 																	</select>
 																</td>
 																<td style='text-align:center !important;'>
-																	<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('rencana_perumusan', 'uye_{$ind}', '{$ind}');" ><i class="mdi-content-clear tiny"></i></a>
+																	<a href="javascript:void(0);" title='Hapus Sub Urusan' onClick="deleterowtableinput('rencana_perumusan', 'uye_{$ind}', '{$ind}');" ><i class="mdi-content-clear tiny"></i></a>
 																</td>
 															</tr>
 															{assign var=ind value=$ind+1}
@@ -64,7 +64,7 @@
 													</tr>
 													<tr id='baten' style='display:{$display};'>
 														<td colspan='2' id='btn_dsr' align='right' width='1000px' style='text-align:right; !important;'>
-															<a href="javascript:void(0);" title='Tambah Sub Bidang' onClick="addrowtableinput('rencana_perumusan', 'uye', 'btn_dsr', {$ind});" ><i class="mdi-content-add-box tiny"></i></a>
+															<a href="javascript:void(0);" title='Tambah Sub Urusan' onClick="addrowtableinput('rencana_perumusan', 'uye', 'btn_dsr', {$ind});" ><i class="mdi-content-add-box tiny"></i></a>
 														</td>
 													</tr>
 												{/if}
@@ -129,7 +129,7 @@
 																	</select>
 																</td>
 																<td style='text-align:center !important;'>
-																	<a href="javascript:void(0);" title='Hapus Anggota' onClick="deleterowtableinput('dasar_hukum', 'acuy_{$indss}', '{$indss}');" ><i class="mdi-content-clear tiny"></i></a>
+																	<a href="javascript:void(0);" title='Hapus Dasar Hukum' onClick="deleterowtableinput('dasar_hukum', 'acuy_{$indss}', '{$indss}');" ><i class="mdi-content-clear tiny"></i></a>
 																</td>
 															</tr>
 															{assign var=indss value=$indss+1}
