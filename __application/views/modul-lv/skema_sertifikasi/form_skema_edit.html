@@ -14,23 +14,23 @@
                                         <div class="row">
                                           <div class="input-field col s12">
                                                 <select class="browser-default" style="width:100%;" name='bkl' id="bkl" onchange="loadUrl_adds('select_sub_bkl','{$host}select_sub_bkl', 'select_sub')">
-                                                  <option value=""> Pilih Bidang Fungsi kerja - K/L</option>
+                                                  <option value=""> Pilih Urusan Pemerintah</option>
                                                   {foreach from=$bkl item=row}
                                                   <option value="{$row.id}" {if $data.id_bkl eq $row.id}selected{/if}>{$row.nama}</option>
                                                   {/foreach}
                                                 </select>
-                                                <label class='active'>Bidang</label>
+                                                <label class='active'>Urusan Pemerintah</label>
                                           </div> 
                                         </div>
                                         <div class="row">
                                           <div class="input-field col s12">
                                                 <select class="browser-default" style="width:100%;" id="select_sub" name="sub_bkl">
-                                                  <option value="" >Pilih Sub Bidang - K/L</option>
+                                                  <option value="" >Pilih Sub Urusan</option>
                                                   {foreach from=$sub_bkl item=row}
                                                     <option value="{$row.id}" {if $data.idx_sub_bkl_id eq $row.id}selected{/if}>{$row.nama}</option>
                                                   {/foreach}
                                                 </select>
-                                                <label class='active'>Sektor</label>
+                                                <label class='active'>Sub Urusan</label>
                                           </div> 
                                         </div>
                                         <div class="row">

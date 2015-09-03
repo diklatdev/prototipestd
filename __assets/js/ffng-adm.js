@@ -79,7 +79,7 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                 fitnya = true;
                 pagesizeboy = 50;
                 kolom[modnya] = [
-                    {field:'nama_bidang',title:'<b>Bidang & Fungsi Kerja</b>',width:700, halign:'left',align:'left'},
+                    {field:'nama_bidang',title:'<b>Urusan & Fungsi Kerja</b>',width:700, halign:'left',align:'left'},
                     {field:'inisial',title:'<b>Inisial</b>', halign:'left',width:150, align:'left'},
                     {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
                         formatter: function(value,row,index){
@@ -201,18 +201,18 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                 fitnya = true;
                 pagesizeboy = 50;
                 kolom[modnya] = [	
-                    {field:'nama_bidang',title:'<b>Bidang & Fungsi Kerja</b>',width:650, halign:'left',align:'left'},
+                    {field:'nama_bidang',title:'<b>Urusan Pemerintahan</b>',width:570, halign:'left',align:'left'},
                     {field:'fishbone',title:'<b>Fishbone</b>',width:100,align:'center',
                         formatter: function(value,row,index){
                             return '<a title="Fishbone E3" class="btn-floating btn-small waves-effect waves-light" href="#" onclick=\'\loadUrl_adds("fishbone_view","'+hostir+'fishbone_view","tMain","'+value+'")\'\><i class="mdi-editor-vertical-align-center"></i></a>\n\
                                 <a target="_blank" title="Fishbone goJS" class="btn-floating btn-small waves-effect waves-light" href="new-fishbone/'+value+'" ><i class="mdi-editor-vertical-align-center"></i></a>';
                         }
                     },
-                    {field:'fungsi_dasar', title:'<b>Fungsi dasar</b>', halign:'center', width:120,align:'center',
+                    {field:'fungsi_dasar', title:'<b>Tugas/Layanan/Produk</b>', halign:'center', width:180,align:'center',
                         formatter: function(value,row,index){
-                                return '<a title="Fungsi Dasar Pusat" class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-1"+'")\'\><i class="mdi-action-book"></i></a>\n\
-                                <a title="Fungsi Dasar Provinsi" class="btn-floating btn-small waves-effect waves-light yellow" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-2"+'")\'\><i class="mdi-action-book"></i></a>\n\
-                                <a title="Fungsi Dasar Kabupaten/Kota" class="btn-floating btn-small waves-effect waves-light red" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-3"+'")\'\><i class="mdi-action-book"></i></a>';
+                                return '<a title="Tugas/Layanan/Produk Pusat" class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-1"+'")\'\><i class="mdi-action-book"></i></a>\n\
+                                <a title="Tugas/Layanan/Produk Provinsi" class="btn-floating btn-small waves-effect waves-light yellow" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-2"+'")\'\><i class="mdi-action-book"></i></a>\n\
+                                <a title="Tugas/Layanan/Produk Kabupaten/Kota" class="btn-floating btn-small waves-effect waves-light red" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-3"+'")\'\><i class="mdi-action-book"></i></a>';
                         }
                     },
                     {field:'unit_kompetensi', title:'<b>Unit Kompetensi</b>', halign:'center', width:120,align:'center',
@@ -242,8 +242,8 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                 fitnya = true;
                 pagesizeboy = 50;
                 kolom[modnya] = [
-                    {field:'nama_bkl',title:'<b>Bidang Sertifikasi</b>',width:300, halign:'left',align:'left'},
-                    {field:'nama_sub_bkl',title:'<b>Sub Bidang</b>', halign:'left',width:275, align:'left'},
+                    {field:'nama_bkl',title:'<b>Urusan Sertifikasi</b>',width:300, halign:'left',align:'left'},
+                    {field:'nama_sub_bkl',title:'<b>Sub Urusan</b>', halign:'left',width:275, align:'left'},
                     {field:'pekerjaan',title:'<b>Judul</b>', halign:'left',width:275, align:'left'},
                     {field:'skema',title:'<b>Skema</b>', halign:'left',width:75, align:'left'},
                     {field:'id', title:'<b>Action</b>', halign:'center', width:75,align:'center',
