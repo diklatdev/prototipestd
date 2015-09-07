@@ -133,7 +133,7 @@ class madmin extends SHIPMENT_Model{
 		
 	}
 	
-	function get_data_grid($type="", $p1="", $p2=""){
+	function get_data_grid($type="", $p1="", $p2="", $p3=""){
 		$this->load->library('lib');
 		$where = "";
                 switch($type){
@@ -171,8 +171,17 @@ class madmin extends SHIPMENT_Model{
                             . "LEFT JOIN idx_bidang B ON B.id = A.idx_bidang_id "
                             . "WHERE A.idx_bidang_id = $p1";
                     break;
-                    case "pemetaan_fungsi":
-                         $sql = 'SELECT A.*, A.id as fishbone, A.id as fungsi_dasar, A.id as unit_kompetensi FROM idx_bidang A';
+                    case "pemetaan_fungsi-UK":
+                        $sql = 'SELECT A.*, A.id as fishbone, A.id as fungsi_dasar, A.id as unit_kompetensi '
+                            . 'FROM idx_bidang A WHERE idx_kelompok_urusan_id IN(1,2,3)';
+                    break;
+                    case "pemetaan_fungsi-UL":
+                        $sql = 'SELECT A.*, A.id as fishbone, A.id as fungsi_dasar, A.id as unit_kompetensi '
+                            . 'FROM idx_bidang A WHERE idx_kelompok_urusan_id IN(4,5,6)';
+                    break;
+                    case "pemetaan_fungsi-JFU":
+                        $sql = 'SELECT A.*, A.id as fishbone, A.id as fungsi_dasar, A.id as unit_kompetensi '
+                            . 'FROM idx_bidang A WHERE idx_kelompok_urusan_id = 7';
                     break;
                     case "unit_kompetensi":
                         $sql = "SELECT A.* FROM tbl_unit_kompetensi A WHERE idx_bidang_id = $p1 "

@@ -5,7 +5,7 @@
                     <li class="user-details cyan darken-2">
                         <div class="row">
                             <div class="col col s4 m4 l4">
-                                <img src="{$host}__assets/images/avatar.jpg" alt="" class="circle responsive-img valign profile-image">
+                                <img src="{$host}__assets/images/avatsar.jpg" alt="" class="circle responsive-img valign profile-image">
                             </div>
                             <div class="col col s8 m8 l8">
                                 <ul id="profile-dropdown" class="dropdown-content">
@@ -15,7 +15,7 @@
                                     <li><a href="http://localhost/sk3apdn/ref" target="blank"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
                                     </li>
                                 </ul>
-                                <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown">Jaka Sampurna<i class="mdi-navigation-arrow-drop-down right"></i></a>
+                                <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown">Nurdin Mak Bacah<i class="mdi-navigation-arrow-drop-down right"></i></a>
                                 <p class="user-roal">Administrator</p>
                             </div>
                         </div>
@@ -57,10 +57,24 @@
 					<li class="bold">
 						<a href="javascript:void(0);" class="waves-effect waves-cyan" onClick="loadUrl('{$host}rencana-perumusan');"><i class="mdi-action-dashboard"></i> Rencana Perumusan</a>
 					</li>
-					
+					{*
 					<li class="bold">
 						<a href="javascript:void(0);" class="waves-effect waves-cyan" onClick="loadUrl('{$host}pemetaan-fungsi');" ><i class="mdi-action-dashboard"></i> Pemetaan Fungsi</a>
 					</li>
+                                        *}
+                                        <li class="no-padding">
+                                            <ul class="collapsible collapsible-accordion">
+                                                <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Pemetaan Fungsi</a>
+                                                    <div class="collapsible-body">
+                                                        <ul>
+                                                            <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pemetaan-fungsi-UK');" >Urusan Kongruen</a></li>
+                                                            <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pemetaan-fungsi-UL');">Urusan Lain</a></li>
+                                                            <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pemetaan-fungsi-JFU');">JFU</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
 					<li class="bold">
 						<a href="javascript:void(0);" class="waves-effect waves-cyan" onClick="loadUrl('{$host}peta-jabatan')"><i class="mdi-action-dashboard"></i> Peta Jabatan</a>
 					</li>

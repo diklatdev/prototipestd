@@ -196,7 +196,7 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                     },
                 ];                
             break;
-            case "pemetaan_fungsi":
+            case "pemetaan_fungsi-UK":
                 judulnya = "";
                 fitnya = true;
                 pagesizeboy = 50;
@@ -210,9 +210,9 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                     },
                     {field:'fungsi_dasar', title:'<b>Tugas/Layanan/Produk</b>', halign:'center', width:180,align:'center',
                         formatter: function(value,row,index){
-                                return '<a title="Tugas/Layanan/Produk Pusat" class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-1"+'")\'\><i class="mdi-action-book"></i></a>\n\
-                                <a title="Tugas/Layanan/Produk Provinsi" class="btn-floating btn-small waves-effect waves-light yellow" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-2"+'")\'\><i class="mdi-action-book"></i></a>\n\
-                                <a title="Tugas/Layanan/Produk Kabupaten/Kota" class="btn-floating btn-small waves-effect waves-light red" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-3"+'")\'\><i class="mdi-action-book"></i></a>';
+                                return '<a title="Tugas/Layanan/Produk Pusat" class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-1-UK"+'")\'\><i class="mdi-action-book"></i></a>\n\
+                                <a title="Tugas/Layanan/Produk Provinsi" class="btn-floating btn-small waves-effect waves-light yellow" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-2-UK"+'")\'\><i class="mdi-action-book"></i></a>\n\
+                                <a title="Tugas/Layanan/Produk Kabupaten/Kota" class="btn-floating btn-small waves-effect waves-light red" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-3-UK"+'")\'\><i class="mdi-action-book"></i></a>';
                         }
                     },
                     {field:'unit_kompetensi', title:'<b>Unit Kompetensi</b>', halign:'center', width:120,align:'center',
@@ -220,7 +220,62 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                                 return '<a title="Unit Kompetensi" class="btn-floating btn-small waves-effect waves-light blue"  href="#" onclick=\'\loadUrl_adds("unit-kompetensi","'+hostir+'unit-kompetensi","tMain","'+value+'")\'\><i class="mdi-action-assignment"></i></a>';
                         }
                     },
-                    ];
+                ];
+                
+            break;
+            case "pemetaan_fungsi-UL":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [	
+                    {field:'nama_bidang',title:'<b>Urusan Pemerintahan</b>',width:570, halign:'left',align:'left'},
+                    {field:'fishbone',title:'<b>Fishbone</b>',width:100,align:'center',
+                        formatter: function(value,row,index){
+                            return '<a title="Fishbone E3" class="btn-floating btn-small waves-effect waves-light" href="#" onclick=\'\loadUrl_adds("fishbone_view","'+hostir+'fishbone_view","tMain","'+value+'")\'\><i class="mdi-editor-vertical-align-center"></i></a>\n\
+                                <a target="_blank" title="Fishbone goJS" class="btn-floating btn-small waves-effect waves-light" href="new-fishbone/'+value+'" ><i class="mdi-editor-vertical-align-center"></i></a>';
+                        }
+                    },
+                    {field:'fungsi_dasar', title:'<b>Tugas/Layanan/Produk</b>', halign:'center', width:180,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a title="Tugas/Layanan/Produk Pusat" class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-1-UL"+'")\'\><i class="mdi-action-book"></i></a>\n\
+                                <a title="Tugas/Layanan/Produk Provinsi" class="btn-floating btn-small waves-effect waves-light yellow" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-2-UL"+'")\'\><i class="mdi-action-book"></i></a>\n\
+                                <a title="Tugas/Layanan/Produk Kabupaten/Kota" class="btn-floating btn-small waves-effect waves-light red" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-3-UL"+'")\'\><i class="mdi-action-book"></i></a>';
+                        }
+                    },
+                    {field:'unit_kompetensi', title:'<b>Unit Kompetensi</b>', halign:'center', width:120,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a title="Unit Kompetensi" class="btn-floating btn-small waves-effect waves-light blue"  href="#" onclick=\'\loadUrl_adds("unit-kompetensi","'+hostir+'unit-kompetensi","tMain","'+value+'")\'\><i class="mdi-action-assignment"></i></a>';
+                        }
+                    },
+                ];
+                
+            break;
+            case "pemetaan_fungsi-JFU":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [	
+                    {field:'nama_bidang',title:'<b>Urusan Pemerintahan</b>',width:570, halign:'left',align:'left'},
+                    {field:'fishbone',title:'<b>Fishbone</b>',width:100,align:'center',
+                        formatter: function(value,row,index){
+                            return '<a title="Fishbone E3" class="btn-floating btn-small waves-effect waves-light" href="#" onclick=\'\loadUrl_adds("fishbone_view","'+hostir+'fishbone_view","tMain","'+value+'")\'\><i class="mdi-editor-vertical-align-center"></i></a>\n\
+                                <a target="_blank" title="Fishbone goJS" class="btn-floating btn-small waves-effect waves-light" href="new-fishbone/'+value+'" ><i class="mdi-editor-vertical-align-center"></i></a>';
+                        }
+                    },
+                    {field:'fungsi_dasar', title:'<b>Tugas/Layanan/Produk</b>', halign:'center', width:180,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a title="Tugas/Layanan/Produk Pusat" class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-1-JFU"+'")\'\><i class="mdi-action-book"></i></a>\n\
+                                <a title="Tugas/Layanan/Produk Provinsi" class="btn-floating btn-small waves-effect waves-light yellow" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-2-JFU"+'")\'\><i class="mdi-action-book"></i></a>\n\
+                                <a title="Tugas/Layanan/Produk Kabupaten/Kota" class="btn-floating btn-small waves-effect waves-light red" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+"-3-JFU"+'")\'\><i class="mdi-action-book"></i></a>';
+                        }
+                    },
+                    {field:'unit_kompetensi', title:'<b>Unit Kompetensi</b>', halign:'center', width:120,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a title="Unit Kompetensi" class="btn-floating btn-small waves-effect waves-light blue"  href="#" onclick=\'\loadUrl_adds("unit-kompetensi","'+hostir+'unit-kompetensi","tMain","'+value+'")\'\><i class="mdi-action-assignment"></i></a>';
+                        }
+                    },
+                ];
+                
             break;
             case "unit_kompetensi":
                 judulnya = "";

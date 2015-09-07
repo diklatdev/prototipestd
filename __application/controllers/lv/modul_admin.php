@@ -89,9 +89,20 @@ class modul_admin extends SHIPMENT_Controller{
                             $this->smarty->assign('tipe',$p1);  
                             $this->smarty->assign('id_where', $id_bidang);
                         break;		
-                        case "pemetaan_fungsi":
+                        case "pemetaan_fungsi-UK":                            
                             $content = "modul-lv/pemetaan-fungsi/main.html";
-                            $this->smarty->assign('tipe',$p1); 
+                            $this->smarty->assign('tipe',$p1);  
+                            $this->smarty->assign('kel', 'UK');
+                        break;		
+                        case "pemetaan_fungsi-UL":                            
+                            $content = "modul-lv/pemetaan-fungsi/main.html";
+                            $this->smarty->assign('tipe',$p1);
+                            $this->smarty->assign('kel', 'UL');  
+                        break;		
+                        case "pemetaan_fungsi-JFU":                            
+                            $content = "modul-lv/pemetaan-fungsi/main.html";
+                            $this->smarty->assign('tipe',$p1);
+                            $this->smarty->assign('kel', 'JFU');
                         break;
                         case "unit_kompetensi":
                             $id_bidang = $this->input->post('id_bidang');
@@ -145,6 +156,7 @@ class modul_admin extends SHIPMENT_Controller{
                     $id_bidang_all = explode('-', $id_bidang_all);
                     $id_bidang = $id_bidang_all[0];
                     $id_pemerintahan = $id_bidang_all[1];
+                    $kelompok_urusan = $id_bidang_all[2];
                     
                     $nama_pemerintahan = "";
                     switch ($id_pemerintahan){
@@ -160,6 +172,7 @@ class modul_admin extends SHIPMENT_Controller{
                             
                     }
                     $this->smarty->assign('nama_pemerintahan', $nama_pemerintahan);
+                    $this->smarty->assign('kelompok_urusan', $kelompok_urusan);
                     
                     $this->smarty->assign('id_bidang', $id_bidang);
                     $this->smarty->assign('id_pemerintahan', $id_pemerintahan);

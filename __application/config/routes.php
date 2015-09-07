@@ -45,7 +45,9 @@ $route['detil-komp-manaj'] = "lv/modul_admin/getdisplay/detil_komp_manaj";
 $route['level-komp-kunci'] = "lv/modul_admin/getdisplay/level_komp_kunci";
 $route['dasar-hukum'] = "lv/modul_admin/getdisplay/datagridview/dasar_hukum";
 
-$route['pemetaan-fungsi'] = "lv/modul_admin/getdisplay/datagridview/pemetaan_fungsi";
+$route['pemetaan-fungsi-UK'] = "lv/modul_admin/getdisplay/datagridview/pemetaan_fungsi-UK";
+$route['pemetaan-fungsi-UL'] = "lv/modul_admin/getdisplay/datagridview/pemetaan_fungsi-UL";
+$route['pemetaan-fungsi-JFU'] = "lv/modul_admin/getdisplay/datagridview/pemetaan_fungsi-JFU";
 $route['fishbone/(:any)'] = "lv/modul_admin/display_fisbone/data/$1";
 $route['fishbone_view'] = "lv/modul_admin/display_fisbone/view";
 $route['fungsi-dasar'] = "lv/modul_admin/getdisplay/fungsi_dasar";
