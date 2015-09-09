@@ -90,6 +90,22 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                     },
                 ];                
             break;
+            case"bidang_lain":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [
+                    {field:'nama_bidang',title:'<b>Urusan & Fungsi Kerja</b>',width:700, halign:'left',align:'left'},
+                    {field:'inisial',title:'<b>Inisial</b>', halign:'left',width:150, align:'left'},
+                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a class="btn-floating btn-small waves-effect waves-light light-blue darken-4" href="#" onclick=\'\loadUrl_adds("sub-bidang","'+hostir+'sub-bidang-lain","tMain","'+value+'")\'\><i class="mdi-content-send"></i></a>';/*\n\
+                                <a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';*/
+                        }
+                    },
+                ];                
+            break;
             case"kel_kompetensi":
                 judulnya = "";
                 fitnya = true;
@@ -190,6 +206,37 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                     {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
                         formatter: function(value,row,index){
                                 return '<a class="btn-floating btn-small waves-effect waves-light light-blue darken-4" href="#" onclick=\'\loadUrl_adds("sub-subbidang","'+hostir+'sub-subbidang","tMain","'+value+'")\'\><i class="mdi-content-send"></i></a>';/*\n\
+                                <a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';*/
+                        }
+                    },
+                ];                
+            break;
+            case"sub_bidang_lain":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [
+                    {field:'nama_sub_bidang',title:'<b>SUB BIDANG & FUNGSI KERJA URUSAN PEMERINTAHAN</b>',width:700, halign:'left',align:'left'},
+                    {field:'inisial',title:'<b>Inisial</b>',width:150, halign:'left',align:'left'},
+                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a class="btn-floating btn-small waves-effect waves-light light-blue darken-4" href="#" onclick=\'\loadUrl_adds("sub-subbidang-lain","'+hostir+'sub-subbidang-lain","tMain","'+value+'", "'+id_bidang1+'")\'\><i class="mdi-content-send"></i></a>';/*\n\
+                                <a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';*/
+                        }
+                    },
+                ];                
+            break;
+            case "fungsional":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [
+                    {field:'nama_sub_subbidang',title:'<b>SUB SUB-URUSAN</b>',width:700, halign:'left',align:'left'},
+                    {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a class="btn-floating btn-small waves-effect waves-light light-blue darken-4" href="#" onclick=\'\loadUrl_adds("edit-sub-subbidang-lain","'+hostir+'form-sub-subbidang-lain","tMain","'+value+'", "'+id_sub_bidang1+'", "'+id_bidang1+'")\'\><i class="mdi-content-send"></i></a>';/*\n\
                                 <a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
                                 <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';*/
                         }
@@ -511,7 +558,7 @@ function ajxamsterfrm(objid, func){
     });
 }
 
-function sbmbyk(type){
+function sbmbyk(type, p1, p2){
 	switch(type){
 		case "pembentukan_tim":
 			ajxamsterfrm('pembentukan_tim', function(resp){
@@ -554,6 +601,60 @@ function sbmbyk(type){
 					$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
 					console.log(resp);
 					loadUrl_adds('det-petjab', hostir+'detail-peta-jabatan', 'tMain', tipologi, jenis_bkl, kubil, breadcumb);					
+				}
+			});
+		break;
+		case "bidang_lain":
+			ajxamsterfrm('frm-bidang-lain', function(resp){
+				if(resp == 1){
+					//alert('Data Tersimpan');
+					//loadUrl(hostir+'rencana-perumusan');
+					$.messager.alert('Sukses','Data Tersimpan','info');
+					loadUrl(hostir+'bidang-lain');
+				}else{
+					//alert(resp);
+					//loadUrl(hostir+'rencana-perumusan');
+					$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
+					console.log(resp);
+					loadUrl(hostir+'bidang-lain');
+					//loadUrl_adds('det-petjab', hostir+'detail-peta-jabatan', 'tMain', tipologi, jenis_bkl, kubil, breadcumb);					
+				}
+			});
+		break;
+		case "sub_bidang_lain":
+			ajxamsterfrm('frm-subbidang-lain', function(resp){
+				if(resp == 1){
+					//alert('Data Tersimpan');
+					//loadUrl(hostir+'rencana-perumusan');
+					//loadUrl(hostir+'bidang-lain');
+					$.messager.alert('Sukses','Data Tersimpan','info');
+					//loadUrl_adds('det-petjab', hostir+'detail-peta-jabatan', 'tMain', tipologi, jenis_bkl, kubil, breadcumb);					
+					loadUrl_adds("sub-bidang", hostir+"sub-bidang-lain", "tMain", p1);
+				}else{
+					//alert(resp);
+					//loadUrl(hostir+'rencana-perumusan');
+					$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
+					console.log(resp);
+					loadUrl_adds("sub-bidang", hostir+"sub-bidang-lain", "tMain", p1);
+					//loadUrl_adds('det-petjab', hostir+'detail-peta-jabatan', 'tMain', tipologi, jenis_bkl, kubil, breadcumb);					
+				}
+			});
+		break;
+		case "sub_subbidang_lain":
+			ajxamsterfrm('frm-sub-subbidang-lain', function(resp){
+				if(resp == 1){
+					//alert('Data Tersimpan');
+					//loadUrl(hostir+'rencana-perumusan');
+					//loadUrl(hostir+'bidang-lain');
+					$.messager.alert('Sukses','Data Tersimpan','info');
+					loadUrl_adds('sub-subbidang-lain',hostir+'sub-subbidang-lain','tMain', p1, p2);
+				}else{
+					//alert(resp);
+					//loadUrl(hostir+'rencana-perumusan');
+					$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
+					console.log(resp);
+					loadUrl_adds('sub-subbidang-lain',hostir+'sub-subbidang-lain','tMain', p1, p2);
+					//loadUrl_adds('det-petjab', hostir+'detail-peta-jabatan', 'tMain', tipologi, jenis_bkl, kubil, breadcumb);					
 				}
 			});
 		break;
@@ -689,13 +790,43 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
         case "sub-bidang":
             $("#"+domnya).html("").addClass("loading");
             $.post(urlnya, { 'id_bidang' : p1}, function(resp){
-		$("#"+domnya).html(resp).removeClass("loading");
+				$("#"+domnya).html(resp).removeClass("loading");
+            });
+        break;
+        case "form-tambah-bidang-lain":
+            $("#"+domnya).html("").addClass("loading");
+            $.post(urlnya, { 'editstatus':'add' }, function(resp){
+				$("#"+domnya).html(resp).removeClass("loading");
             });
         break;
         case "sub-subbidang":
             $("#"+domnya).html("").addClass("loading");
             $.post(urlnya, { 'id_subbidang' : p1}, function(resp){
-		$("#"+domnya).html(resp).removeClass("loading");
+				$("#"+domnya).html(resp).removeClass("loading");
+            });
+        break;
+        case "sub-subbidang-lain":
+            $("#"+domnya).html("").addClass("loading");
+            $.post(urlnya, { 'id_subbidang' : p1, 'id_bidang':p2}, function(resp){
+				$("#"+domnya).html(resp).removeClass("loading");
+            });
+        break;
+        case "form-tambah-subbidang-lain":
+            $("#"+domnya).html("").addClass("loading");
+            $.post(urlnya, { 'editstatus':'add', 'id_bidang':p1}, function(resp){
+				$("#"+domnya).html(resp).removeClass("loading");
+            });
+        break;
+        case "form-tambah-sub-subbidang-lain":
+            $("#"+domnya).html("").addClass("loading");
+            $.post(urlnya, { 'editstatus':'add', 'id_sub_bidang':p1, 'id_bidang':p2}, function(resp){
+				$("#"+domnya).html(resp).removeClass("loading");
+            });
+        break;
+        case "edit-sub-subbidang-lain":
+            $("#"+domnya).html("").addClass("loading");
+            $.post(urlnya, {'id_sub_subbidang':p1, 'id_sub_bidang':p2, 'id_bidang':p3}, function(resp){
+				$("#"+domnya).html(resp).removeClass("loading");
             });
         break;
         case 'detil-komp-manaj':
