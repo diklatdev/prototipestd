@@ -34,6 +34,13 @@ $route['datagrid/(:any)'] = "lv/modul_admin/getdatagrid/$1";
 
 $route['kementrian-grid'] = "lv/modul_admin/getdisplay/datagridview/kementrian_grid";
 $route['bidang'] = "lv/modul_admin/getdisplay/datagridview/bidang_urusan";
+$route['bidang-lain'] = "lv/modul_admin/getdisplay/datagridview/bidang_lain";
+$route['sub-bidang-lain'] = "lv/modul_admin/getdisplay/datagridview/sub_bidang_lain";
+$route['sub-subbidang-lain'] = "lv/modul_admin/getdisplay/sub_subbidang_lain";
+$route['form-sub-subbidang-lain'] = "lv/modul_admin/getdisplay/form_sub_subbidang_lain";
+$route['submit-bidang-lain'] = "lv/modul_admin/simpansavedbx/bidang_lain";
+$route['submit-subbidang-lain'] = "lv/modul_admin/simpansavedbx/submit_subbidang_lain";
+$route['submit-sub-subbidang-lain'] = "lv/modul_admin/simpansavedbx/submit_sub_subbidang_lain";
 $route['kel-kompetensi'] = "lv/modul_admin/getdisplay/datagridview/kel_kompetensi";
 $route['kompetensi-manajerial'] = "lv/modul_admin/getdisplay/datagridview/kompetensi_manajerial";
 $route['kompetensi-kunci'] = "lv/modul_admin/getdisplay/datagridview/kompetensi_kunci";

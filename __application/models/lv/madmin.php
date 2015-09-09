@@ -39,6 +39,10 @@ class madmin extends SHIPMENT_Model{
                                $sql = "SELECT A.* FROM idx_sub_subbidang A "
                                 . "WHERE idx_sub_bidang_id = $p1 AND idx_tipe_pemerintahan_id = $p2"; 
                         break;
+                        case "sub_sub_fungsional":
+                               $sql = "SELECT A.* FROM idx_sub_subbidang A "
+                                . "WHERE idx_sub_bidang_id = $p1 "; 
+                        break;
                         case "kompetensi_manajerial":
                             if ($p2 == 'detil'){
                                 $sql = "SELECT A.*, B.nama_kelompok, B.inisial as ini_kelompok 
@@ -143,7 +147,11 @@ class madmin extends SHIPMENT_Model{
                     break;
                     case 'bidang_urusan':
                         $sql = 'SELECT A.id, A.nama_bidang, A.inisial '
-                            . 'FROM idx_bidang A';
+                            . 'FROM idx_bidang A WHERE idx_kelompok_urusan_id IN (1,2,3)';
+                    break;
+                    case 'bidang_lain':
+                        $sql = 'SELECT A.id, A.nama_bidang, A.inisial '
+                            . 'FROM idx_bidang A WHERE idx_kelompok_urusan_id IN (4,5,6,7)';
                     break;
                     case 'kel_kompetensi':
                         $sql = 'SELECT A.id, A.nama_kelompok_kompetensi, A.inisial '
@@ -170,6 +178,15 @@ class madmin extends SHIPMENT_Model{
                          $sql = "SELECT A.*, B.nama_bidang FROM idx_sub_bidang A "
                             . "LEFT JOIN idx_bidang B ON B.id = A.idx_bidang_id "
                             . "WHERE A.idx_bidang_id = $p1";
+                    break;
+                    case 'sub_bidang_lain':
+                         $sql = "SELECT A.*, B.nama_bidang FROM idx_sub_bidang A "
+                            . "LEFT JOIN idx_bidang B ON B.id = A.idx_bidang_id "
+                            . "WHERE A.idx_bidang_id = $p1";
+                    break;
+                    case 'fungsional':
+                         $sql = "SELECT A.* FROM idx_sub_subbidang A "
+                            . " WHERE A.idx_sub_bidang_id = $p1";
                     break;
                     case "pemetaan_fungsi-UK":
                         $sql = 'SELECT A.*, A.id as fishbone, A.id as fungsi_dasar, A.id as unit_kompetensi '
@@ -589,6 +606,47 @@ class madmin extends SHIPMENT_Model{
                             $update_db = $this->db->where('id', $post['id_dasar_hukum']);
                             $update_db = $this->db->delete('idx_dasar_hukum');                            
                         }
+					break;
+                    case "bidang_lain":
+						$post_data = array();
+						$post_data['nama_bidang'] = $post['nama_bidang'];
+						$post_data['inisial'] = $post['inisial'];
+						$post_data['idx_kelompok_urusan_id'] = $post['idx_kelompok_urusan_id'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_bidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_bidang', $post_data);
+						}
+                    break;
+                    case "submit_subbidang_lain":
+						$post_data = array();
+						$post_data['idx_bidang_id'] = $post['idx_bidang_id'];
+						$post_data['nama_sub_bidang'] = $post['nama_sub_bidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_bidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_bidang', $post_data);
+						}
+                    break;
+                    case "submit_sub_subbidang_lain":
+						$post_data = array();
+						$post_data['idx_sub_bidang_id'] = $post['idx_sub_bidang_id'];
+						$post_data['nama_sub_subbidang'] = $post['nama_sub_subbidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_subbidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_subbidang', $post_data);
+						}
+                    break;
+					
                 }
 		
 		

@@ -9,7 +9,7 @@
 </style>
 
 
-<div id="div_{$tipe_grid}" style="width:102%">
+<div id="div_{$tipe_grid}" style="width:100%">
 	<div id='{$tipe_grid}'></div>
 	<div id='toolbar_{$tipe_grid}' style='padding:5px;height:{$tinggi}'>		
             <!--if $tipe_grid eq 'kementrian_grid' || $tipe_grid eq 'bidang_urusan' || $tipe_grid eq 'kel_kompetensi' ||
@@ -18,8 +18,17 @@
             
             -->
             {if $tipe_grid eq 'skema_sertifikasi' || $tipe_grid eq 'dasar_hukum'}
-            <a href="#" class="btn waves-effect waves-light " onClick="loadUrl_adds('{$tipe_grid}','{$host}form-{$tipe_grid}','tMain', '' )">Tambah<i class="mdi-content-add right"></i></a>
+				<a href="#" class="btn waves-effect waves-light " onClick="loadUrl_adds('{$tipe_grid}','{$host}form-{$tipe_grid}','tMain', '' )">Tambah<i class="mdi-content-add right"></i></a>
             {/if}
+			{if $tipe_grid eq 'bidang_lain'}
+				<a href="#" class="btn waves-effect waves-light " onClick="loadUrl_adds('form-tambah-bidang-lain','{$host}sub-bidang-lain','tMain');">Tambah<i class="mdi-content-add right"></i></a>
+			{/if}
+			{if $tipe_grid eq 'sub_bidang_lain'}
+				<a href="#" class="btn waves-effect waves-light " onClick="loadUrl_adds('form-tambah-subbidang-lain','{$host}sub-subbidang-lain','tMain', '{$p1}');">Tambah<i class="mdi-content-add right"></i></a>
+			{/if}
+			{if $tipe_grid eq 'fungsional'}
+				<a href="#" class="btn waves-effect waves-light " onClick="loadUrl_adds('form-tambah-sub-subbidang-lain','{$host}form-sub-subbidang-lain','tMain', '{$p1}', '{$p2}');">Tambah<i class="mdi-content-add right"></i></a>
+			{/if}
 	</div>
 </div>
 

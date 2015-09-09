@@ -56,6 +56,30 @@ class modul_admin extends SHIPMENT_Controller{
                             $content = "modul-lv/bidang/tabel.html";
                             $this->smarty->assign('tipe',$p1);
                         break; 
+                        case 'bidang_lain':
+                            $content = "modul-lv/bidang_lain/tabel.html";
+                            $this->smarty->assign('tipe',$p1);
+                        break; 
+                        case "sub_bidang_lain":
+                            $this->load->library('lib');
+                            $this->load->model('why/madmin');
+							$id_bidang = $this->input->post('id_bidang');
+                            $editstatus = $this->input->post('editstatus');
+                            if($editstatus){
+								$this->smarty->assign('editstatus', $editstatus);
+								$this->smarty->assign('display', 'none');
+							}else{
+								$sql = $this->db->query("SELECT * FROM idx_bidang WHERE id = '$id_bidang'")->row_array(); 
+								$this->smarty->assign('row', $sql);
+								$this->smarty->assign('class','active'); 
+								$this->smarty->assign('editstatus', 'edit');
+								$this->smarty->assign('display', 'inline');
+							}
+                            $content = "modul-lv/bidang_lain/sub_bidang.html";
+                            $this->smarty->assign('tipe',$p1);  
+                            $this->smarty->assign('id_where', $id_bidang);
+                            
+                        break;								
                         case "kel_kompetensi":
                             $content = "modul-lv/kel_kompetensi/tabel.html";
                             $this->smarty->assign('tipe',$p1);                    
@@ -83,8 +107,8 @@ class modul_admin extends SHIPMENT_Controller{
                         break;
                         case "sub_bidang":
                             $id_bidang = $this->input->post('id_bidang');
-                            $sql = $this->db->query("SELECT * FROM idx_bidang WHERE id = '$id_bidang'")->row_array(); 
-                            $this->smarty->assign('row',$sql);
+							$sql = $this->db->query("SELECT * FROM idx_bidang WHERE id = '$id_bidang'")->row_array(); 
+							$this->smarty->assign('row',$sql);
                             $content = "modul-lv/bidang/sub_bidang.html";
                             $this->smarty->assign('tipe',$p1);  
                             $this->smarty->assign('id_where', $id_bidang);
@@ -133,6 +157,44 @@ class modul_admin extends SHIPMENT_Controller{
                     $this->smarty->assign('data_kab',$sql_kab);
                     $this->smarty->assign('id_sub_bidang', $id_sub2bidang);
                     $content = "modul-lv/bidang/sub_subbidang.html";
+                break;
+                case 'sub_subbidang_lain':
+                    $id_sub2bidang = $this->input->post('id_subbidang');
+                    $id_bidang = $this->input->post('id_bidang');
+					$editstatus = $this->input->post('editstatus');
+					if($editstatus){
+						$this->smarty->assign('editstatus', $editstatus);
+						$this->smarty->assign('display', 'none');
+					}else{
+						$sql = $this->db->query("SELECT * FROM idx_sub_bidang WHERE id = '$id_sub2bidang'")->row_array(); 
+						$this->smarty->assign('row', $sql);
+						$this->smarty->assign('class','active'); 
+						$this->smarty->assign('editstatus', 'edit');
+						$this->smarty->assign('display', 'inline');
+					}
+					
+                    $this->smarty->assign('id_sub_bidang', $id_sub2bidang);
+                    $this->smarty->assign('id_bidang', $id_bidang);
+                    $content = "modul-lv/bidang_lain/sub_subbidang.html";
+                break;
+				case "form_sub_subbidang_lain":
+					$id_sub_subbidang = $this->input->post('id_sub_subbidang');
+					$id_sub_bidang = $this->input->post('id_sub_bidang');
+					$id_bidang = $this->input->post('id_bidang');
+					$editstatus = $this->input->post('editstatus');
+					if($editstatus){
+						$this->smarty->assign('editstatus', $editstatus);
+						$this->smarty->assign('display', 'none');
+					}else{
+						$sql = $this->db->query("SELECT * FROM idx_sub_subbidang WHERE id = '$id_sub_subbidang'")->row_array(); 
+						$this->smarty->assign('row', $sql);
+						$this->smarty->assign('class','active'); 
+						$this->smarty->assign('editstatus', 'edit');
+						$this->smarty->assign('display', 'inline');
+					}
+					$this->smarty->assign('id_sub_bidang', $id_sub_bidang);
+                    $this->smarty->assign('id_bidang', $id_bidang);
+                    $content = "modul-lv/bidang_lain/form_sub_subbidang.html";
                 break;
                 case 'detil_komp_manaj':
                     $id_kompt_man = $this->input->post('id_komp_man');

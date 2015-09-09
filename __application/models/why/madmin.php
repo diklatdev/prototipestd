@@ -268,6 +268,15 @@ class madmin extends SHIPMENT_Model{
 					id, dasar_hukum as txt
 				";
 			break;
+			case "idx_kelompok_urusan_lain":
+				$tabel = "idx_kelompok_urusan";
+				$select = "
+					id, kelompok as txt
+				";
+				$where .= "
+					AND id IN (5,6,7)
+				";
+			break;
 		}
 		
 		$sql = "
