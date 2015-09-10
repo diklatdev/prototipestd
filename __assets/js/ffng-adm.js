@@ -79,7 +79,7 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                 fitnya = true;
                 pagesizeboy = 50;
                 kolom[modnya] = [
-                    {field:'nama_bidang',title:'<b>Urusan & Fungsi Kerja</b>',width:700, halign:'left',align:'left'},
+                    {field:'nama_bidang',title:'<b>Urusan Konruen</b>',width:700, halign:'left',align:'left'},
                     {field:'inisial',title:'<b>Inisial</b>', halign:'left',width:150, align:'left'},
                     {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
                         formatter: function(value,row,index){
@@ -654,6 +654,42 @@ function sbmbyk(type, p1, p2){
 					$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
 					console.log(resp);
 					loadUrl_adds('sub-subbidang-lain',hostir+'sub-subbidang-lain','tMain', p1, p2);
+					//loadUrl_adds('det-petjab', hostir+'detail-peta-jabatan', 'tMain', tipologi, jenis_bkl, kubil, breadcumb);					
+				}
+			});
+		break;
+		case "bidang":
+			ajxamsterfrm('frm-bidang', function(resp){
+				if(resp == 1){
+					//alert('Data Tersimpan');
+					//loadUrl(hostir+'rencana-perumusan');
+					$.messager.alert('Sukses','Data Tersimpan','info');
+					loadUrl(hostir+'bidang');
+				}else{
+					//alert(resp);
+					//loadUrl(hostir+'rencana-perumusan');
+					$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
+					console.log(resp);
+					loadUrl(hostir+'bidang');
+					//loadUrl_adds('det-petjab', hostir+'detail-peta-jabatan', 'tMain', tipologi, jenis_bkl, kubil, breadcumb);					
+				}
+			});
+		break;
+		case "sub_bidang":
+			ajxamsterfrm('frm-subbidang', function(resp){
+				if(resp == 1){
+					//alert('Data Tersimpan');
+					//loadUrl(hostir+'rencana-perumusan');
+					//loadUrl(hostir+'bidang-lain');
+					$.messager.alert('Sukses','Data Tersimpan','info');
+					//loadUrl_adds('det-petjab', hostir+'detail-peta-jabatan', 'tMain', tipologi, jenis_bkl, kubil, breadcumb);					
+					loadUrl_adds("sub-bidang", hostir+"sub-bidang", "tMain", p1);
+				}else{
+					//alert(resp);
+					//loadUrl(hostir+'rencana-perumusan');
+					$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
+					console.log(resp);
+					loadUrl_adds("sub-bidang", hostir+"sub-bidang", "tMain", p1);
 					//loadUrl_adds('det-petjab', hostir+'detail-peta-jabatan', 'tMain', tipologi, jenis_bkl, kubil, breadcumb);					
 				}
 			});
