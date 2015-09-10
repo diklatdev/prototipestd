@@ -7,11 +7,11 @@
 <div class="container">
     <div class="row">
       <div class="col s12 m12 l12">
-            <h5 class="breadcrumbs-title">SUB SUB BIDANG & FUNGSI KERJA URUSAN PEMERINTAHAN</h5>
+            <h5 class="breadcrumbs-title">SUB SUB-URUSAN KONRUEN</h5>
             <ol class="breadcrumb">
-                    <li><a href="#" onclick="loadUrl('{$host}bidang')">Bidang & Fungsi Kerja</a></li>
-                    <li><a href="#" onclick="loadUrl_adds('sub-bidang', '{$host}sub-bidang', 'tMain','{$id_sub_bidang}')">Sub Bidang & Fungsi Kerja</a></li>
-                    <li><a href="#">Sub Sub Bidang & Fungsi Kerja</a></li>
+                    <li><a href="#" onclick="loadUrl('{$host}bidang')">Urusan Konruen</a></li>
+                    <li><a href="#" onclick="loadUrl_adds('sub-bidang', '{$host}sub-bidang', 'tMain','{$id_sub_bidang}')">Sub Urusan Konruen</a></li>
+                    <li><a href="#">Sub Sub-Urusan Konruen</a></li>
             </ol>
       </div>
     </div>
@@ -21,6 +21,32 @@
 <div class="container">
 	<div class="section">
 		<div class="row">
+			<div class="col s12 m12 l12">
+				<div class="card-panel">
+					<div class="row">					
+						<form id="frm-subbidang" method='post' url='{$host}submit-subbidang' enctype="multipart/form-data" class="col s12">
+							<input type='hidden' name='editstatus' value='{$editstatus}'>
+							<input type='hidden' name='id' value="{$row.id|default:''}">
+							<h4 class="header2">I. Sub Urusan</h4>
+							<div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='besar' name='nama_sub_bidang' label="Nama Sub Urusan" class="active" value={$row.nama_sub_bidang|default:''}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='besar' name='inisial' label="Inisial" class="active" value={$row.inisial|default:''}} 
+							</div>
+						</form>
+						<div class="col s12 m8 l9" style='margin-top:40px;'>
+							<button class="btn cyan waves-effect waves-light " onClick="javascript:void(0);sbmbyk('sub_bidang', {$id_sub_bidang});">Submit
+								<i class="mdi-content-send right"></i>
+							</button>
+						</div>						
+						
+					</div>
+				</div>
+			</div>
+			
+            <div class="divider"></div>
+		
 			<div class="col s12 m12 l12">
 				<div class="card-panel">
 					<div class="row">					

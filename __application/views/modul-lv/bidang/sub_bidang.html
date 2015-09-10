@@ -8,10 +8,10 @@
   <div class="container">
         <div class="row">
           <div class="col s12 m12 l12">
-                <h5 class="breadcrumbs-title">SUB BIDANG & FUNGSI KERJA URUSAN PEMERINTAHAN</h5>
+                <h5 class="breadcrumbs-title">URUSAN KONRUEN</h5>
                 <ol class="breadcrumb">
-                    <li><a href="#" onclick="loadUrl('{$host}bidang')">Bidang & Fungsi Kerja</a></li>
-                    <li><a href="#">Sub Bidang & Fungsi Kerja</a></li>
+                    <li><a href="#" onclick="loadUrl('{$host}bidang')">Urusan Konruen</a></li>
+                    <li><a href="#">Sub Urusan Konruen</a></li>
                 </ol>
           </div>
         </div>
@@ -26,14 +26,36 @@
     <!--Form Advance-->          
       <div class="row">
             <div class="col s12">
-                <h4 class="header col s12 m9">{$row.nama_bidang}</h4>
-                <h4 class="header s12 m3">{$row.inisial}</h4>
+                <div class="card-panel">
+					<div class="row">
+						<form id="frm-bidang" method='post' url='{$host}submit-bidang' enctype="multipart/form-data" class="col s12">
+							<input type='hidden' name='id' value="{$row.id|default:''}">
+							<h4 class="header2">I. Urusan Konruen</h4>
+							<div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='besar' name='nama_bidang' label="Nama Urusan" class="active" value={$row.nama_bidang|default:''}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='besar' name='inisial' label="Inisial" class="active" value={$row.inisial|default:''}} 
+							</div>
+						</form>
+						<div class="col s12 m8 l9" style='margin-top:40px;'>
+							<button class="btn cyan waves-effect waves-light " onClick="javascript:void(0);sbmbyk('bidang');">Submit
+								<i class="mdi-content-send right"></i>
+							</button>
+						</div>						
+						
+					</div>
+				</div>
             </div>
             <div class="divider"></div>
             <div class="col s12">
-                    {if isset($id_where)}{assign var="p1" value=$id_where}{else}{assign var="p1" value=""}{/if}
-                    {if isset($id_where2)}{assign var="p2" value=$id_where2}{else}{assign var="p2" value=""}{/if}
-                    {include file='modul-lv/template/grid.html' tipe_grid={$tipe} tinggi='55px'}
+				<div class="card-panel">
+					<div class="row">
+						{if isset($id_where)}{assign var="p1" value=$id_where}{else}{assign var="p1" value=""}{/if}
+						{if isset($id_where2)}{assign var="p2" value=$id_where2}{else}{assign var="p2" value=""}{/if}
+						{include file='modul-lv/template/grid.html' tipe_grid={$tipe} tinggi='55px'}
+					</div>
+				</div>
             </div>
       </div>						  
 

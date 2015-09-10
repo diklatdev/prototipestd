@@ -646,6 +646,20 @@ class madmin extends SHIPMENT_Model{
                             $update_db = $this->db->update('idx_sub_subbidang', $post_data);
 						}
                     break;
+					case "bidang":
+						$post_data = array();
+						$post_data['nama_bidang'] = $post['nama_bidang'];
+						$post_data['inisial'] = $post['inisial'];
+						$this->db->where('id', $post['id']);
+                        $this->db->update('idx_bidang', $post_data);
+                    break;
+					case "sub_bidang":
+						$post_data = array();
+						$post_data['nama_sub_bidang'] = $post['nama_sub_bidang'];
+						$post_data['inisial'] = $post['inisial'];
+						$this->db->where('id', $post['id']);
+                        $this->db->update('idx_sub_bidang', $post_data);
+                    break;
 					
                 }
 		

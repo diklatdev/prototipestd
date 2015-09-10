@@ -152,6 +152,8 @@ class modul_admin extends SHIPMENT_Controller{
                     $sql_pusat = $this->madmin->get_data('sub_sub2bidang','result_array',$id_sub2bidang,'1');
                     $sql_prov = $this->madmin->get_data('sub_sub2bidang','result_array',$id_sub2bidang,'2');
                     $sql_kab = $this->madmin->get_data('sub_sub2bidang','result_array',$id_sub2bidang,'3');
+					$sql = $this->db->query("SELECT * FROM idx_sub_bidang WHERE id = '$id_sub2bidang'")->row_array(); 
+					$this->smarty->assign('row', $sql);
                     $this->smarty->assign('data_pusat',$sql_pusat);
                     $this->smarty->assign('data_prov',$sql_prov);
                     $this->smarty->assign('data_kab',$sql_kab);
