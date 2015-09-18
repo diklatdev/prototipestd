@@ -1,6 +1,6 @@
 {if $ukuran eq 'besar'}
 	<div class="input-field col s12">
-		<input id="{$name}" name="{$name}" type="text" value='{$value}'>
+		<input {$redonly|default:''} id="{$name}" name="{$name}" type="text" value='{$value}'>
 		<label class="{$class}" for="{$name}">{$label}</label>
 	</div>
 {/if}

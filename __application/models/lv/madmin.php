@@ -150,9 +150,80 @@ class madmin extends SHIPMENT_Model{
                             . 'FROM idx_bidang A WHERE idx_kelompok_urusan_id IN (1,2,3)';
                     break;
                     case 'bidang_lain':
-                        $sql = 'SELECT A.id, A.nama_bidang, A.inisial '
-                            . 'FROM idx_bidang A WHERE idx_kelompok_urusan_id IN (4,5,6,7)';
+                        $sql = "SELECT A.id, A.nama_bidang, A.inisial "
+                            . "FROM idx_bidang A WHERE idx_kelompok_urusan_id = '4'";
                     break;
+                    
+                    case 'bidang_umum':
+                        $sql = "SELECT A.id, A.nama_bidang, A.inisial "
+                            . "FROM idx_bidang A WHERE idx_kelompok_urusan_id = '5'";
+                    break;
+                    case 'sub_bidang_umum':
+                         $sql = "SELECT A.*, B.nama_bidang FROM idx_sub_bidang A "
+                            . "LEFT JOIN idx_bidang B ON B.id = A.idx_bidang_id "
+                            . "WHERE A.idx_bidang_id = $p1";
+                    break;
+                    case 'fungsional_umum':
+                         $sql = "SELECT A.* FROM idx_sub_subbidang A "
+                            . " WHERE A.idx_sub_bidang_id = $p1";
+                    break;
+
+                    case 'bidang_binwas':
+                        $sql = "SELECT A.id, A.nama_bidang, A.inisial "
+                            . "FROM idx_bidang A WHERE idx_kelompok_urusan_id = '6'";
+                    break;
+                    case 'sub_bidang_binwas':
+                         $sql = "SELECT A.*, B.nama_bidang FROM idx_sub_bidang A "
+                            . "LEFT JOIN idx_bidang B ON B.id = A.idx_bidang_id "
+                            . "WHERE A.idx_bidang_id = $p1";
+                    break;
+                    case 'fungsional_binwas':
+                         $sql = "SELECT A.* FROM idx_sub_subbidang A "
+                            . " WHERE A.idx_sub_bidang_id = $p1";
+                    break;
+                    
+                    case 'bidang_sekwan':
+                        $sql = "SELECT A.id, A.nama_bidang, A.inisial "
+                            . "FROM idx_bidang A WHERE idx_kelompok_urusan_id = '7'";
+                    break;
+                    case 'sub_bidang_sekwan':
+                         $sql = "SELECT A.*, B.nama_bidang FROM idx_sub_bidang A "
+                            . "LEFT JOIN idx_bidang B ON B.id = A.idx_bidang_id "
+                            . "WHERE A.idx_bidang_id = $p1";
+                    break;
+                    case 'fungsional_sekwan':
+                         $sql = "SELECT A.* FROM idx_sub_subbidang A "
+                            . " WHERE A.idx_sub_bidang_id = $p1";
+                    break;
+
+                    case 'bidang_kecamatan':
+                        $sql = "SELECT A.id, A.nama_bidang, A.inisial "
+                            . "FROM idx_bidang A WHERE idx_kelompok_urusan_id = '8'";
+                    break;
+                    case 'sub_bidang_kecamatan':
+                         $sql = "SELECT A.*, B.nama_bidang FROM idx_sub_bidang A "
+                            . "LEFT JOIN idx_bidang B ON B.id = A.idx_bidang_id "
+                            . "WHERE A.idx_bidang_id = $p1";
+                    break;
+                    case 'fungsional_kecamatan':
+                         $sql = "SELECT A.* FROM idx_sub_subbidang A "
+                            . " WHERE A.idx_sub_bidang_id = $p1";
+                    break;
+    
+                    case 'bidang_kelurahan':
+                        $sql = "SELECT A.id, A.nama_bidang, A.inisial "
+                            . "FROM idx_bidang A WHERE idx_kelompok_urusan_id = '9'";
+                    break;
+                    case 'sub_bidang_kelurahan':
+                         $sql = "SELECT A.*, B.nama_bidang FROM idx_sub_bidang A "
+                            . "LEFT JOIN idx_bidang B ON B.id = A.idx_bidang_id "
+                            . "WHERE A.idx_bidang_id = $p1";
+                    break;
+                    case 'fungsional_kelurahan':
+                         $sql = "SELECT A.* FROM idx_sub_subbidang A "
+                            . " WHERE A.idx_sub_bidang_id = $p1";
+                    break;
+                                                
                     case 'kel_kompetensi':
                         $sql = 'SELECT A.id, A.nama_kelompok_kompetensi, A.inisial '
                             . 'FROM idx_kelompok_kompetensi A';
@@ -607,6 +678,21 @@ class madmin extends SHIPMENT_Model{
                             $update_db = $this->db->delete('idx_dasar_hukum');                            
                         }
 					break;
+                    case "bidang":
+						$post_data = array();
+						$post_data['nama_bidang'] = $post['nama_bidang'];
+						$post_data['inisial'] = $post['inisial'];
+						$this->db->where('id', $post['id']);
+                        $this->db->update('idx_bidang', $post_data);
+                    break;
+					case "sub_bidang":
+						$post_data = array();
+						$post_data['nama_sub_bidang'] = $post['nama_sub_bidang'];
+						$post_data['inisial'] = $post['inisial'];
+						$this->db->where('id', $post['id']);
+                        $this->db->update('idx_sub_bidang', $post_data);
+                    break;     
+                                   
                     case "bidang_lain":
 						$post_data = array();
 						$post_data['nama_bidang'] = $post['nama_bidang'];
@@ -646,21 +732,272 @@ class madmin extends SHIPMENT_Model{
                             $update_db = $this->db->update('idx_sub_subbidang', $post_data);
 						}
                     break;
-					case "bidang":
+                    
+                    case "bidang_umum":
 						$post_data = array();
 						$post_data['nama_bidang'] = $post['nama_bidang'];
 						$post_data['inisial'] = $post['inisial'];
-						$this->db->where('id', $post['id']);
-                        $this->db->update('idx_bidang', $post_data);
+						$post_data['idx_kelompok_urusan_id'] = '5';//$post['idx_kelompok_urusan_id'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_bidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_bidang', $post_data);
+						}
                     break;
-					case "sub_bidang":
+                    case "submit_subbidang_umum":
 						$post_data = array();
+						$post_data['idx_bidang_id'] = $post['idx_bidang_id'];
 						$post_data['nama_sub_bidang'] = $post['nama_sub_bidang'];
 						$post_data['inisial'] = $post['inisial'];
-						$this->db->where('id', $post['id']);
-                        $this->db->update('idx_sub_bidang', $post_data);
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_bidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_bidang', $post_data);
+						}
                     break;
-					
+                    case "submit_sub_subbidang_umum":
+						$post_data = array();
+						$post_data['idx_sub_bidang_id'] = $post['idx_sub_bidang_id'];
+						$post_data['nama_sub_subbidang'] = $post['nama_sub_subbidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_subbidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_subbidang', $post_data);
+						}
+                    break;
+                    case "submit_sub_subbidang_umum":
+						$post_data = array();
+						$post_data['idx_sub_bidang_id'] = $post['idx_sub_bidang_id'];
+						$post_data['nama_sub_subbidang'] = $post['nama_sub_subbidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_subbidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_subbidang', $post_data);
+						}
+                    break;
+                    
+                    case "bidang_binwas":
+						$post_data = array();
+						$post_data['nama_bidang'] = $post['nama_bidang'];
+						$post_data['inisial'] = $post['inisial'];
+						$post_data['idx_kelompok_urusan_id'] = '6';//$post['idx_kelompok_urusan_id'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_bidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_bidang', $post_data);
+						}
+                    break;
+                    case "submit_subbidang_binwas":
+						$post_data = array();
+						$post_data['idx_bidang_id'] = $post['idx_bidang_id'];
+						$post_data['nama_sub_bidang'] = $post['nama_sub_bidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_bidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_bidang', $post_data);
+						}
+                    break;
+                    case "submit_sub_subbidang_binwas":
+						$post_data = array();
+						$post_data['idx_sub_bidang_id'] = $post['idx_sub_bidang_id'];
+						$post_data['nama_sub_subbidang'] = $post['nama_sub_subbidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_subbidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_subbidang', $post_data);
+						}
+                    break;
+                    case "submit_sub_subbidang_binwas":
+						$post_data = array();
+						$post_data['idx_sub_bidang_id'] = $post['idx_sub_bidang_id'];
+						$post_data['nama_sub_subbidang'] = $post['nama_sub_subbidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_subbidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_subbidang', $post_data);
+						}
+                    break;
+                    
+                    case "bidang_sekwan":
+						$post_data = array();
+						$post_data['nama_bidang'] = $post['nama_bidang'];
+						$post_data['inisial'] = $post['inisial'];
+						$post_data['idx_kelompok_urusan_id'] = '7';//$post['idx_kelompok_urusan_id'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_bidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_bidang', $post_data);
+						}
+                    break;
+                    case "submit_subbidang_sekwan":
+						$post_data = array();
+						$post_data['idx_bidang_id'] = $post['idx_bidang_id'];
+						$post_data['nama_sub_bidang'] = $post['nama_sub_bidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_bidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_bidang', $post_data);
+						}
+                    break;
+                    case "submit_sub_subbidang_sekwan":
+						$post_data = array();
+						$post_data['idx_sub_bidang_id'] = $post['idx_sub_bidang_id'];
+						$post_data['nama_sub_subbidang'] = $post['nama_sub_subbidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_subbidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_subbidang', $post_data);
+						}
+                    break;
+                    case "submit_sub_subbidang_sekwan":
+						$post_data = array();
+						$post_data['idx_sub_bidang_id'] = $post['idx_sub_bidang_id'];
+						$post_data['nama_sub_subbidang'] = $post['nama_sub_subbidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_subbidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_subbidang', $post_data);
+						}
+                    break;
+                    
+                    case "bidang_kecamatan":
+						$post_data = array();
+						$post_data['nama_bidang'] = $post['nama_bidang'];
+						$post_data['inisial'] = $post['inisial'];
+						$post_data['idx_kelompok_urusan_id'] = '8';//$post['idx_kelompok_urusan_id'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_bidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_bidang', $post_data);
+						}
+                    break;
+                    case "submit_subbidang_kecamatan":
+						$post_data = array();
+						$post_data['idx_bidang_id'] = $post['idx_bidang_id'];
+						$post_data['nama_sub_bidang'] = $post['nama_sub_bidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_bidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_bidang', $post_data);
+						}
+                    break;
+                    case "submit_sub_subbidang_kecamatan":
+						$post_data = array();
+						$post_data['idx_sub_bidang_id'] = $post['idx_sub_bidang_id'];
+						$post_data['nama_sub_subbidang'] = $post['nama_sub_subbidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_subbidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_subbidang', $post_data);
+						}
+                    break;
+                    case "submit_sub_subbidang_kecamatan":
+						$post_data = array();
+						$post_data['idx_sub_bidang_id'] = $post['idx_sub_bidang_id'];
+						$post_data['nama_sub_subbidang'] = $post['nama_sub_subbidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_subbidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_subbidang', $post_data);
+						}
+                    break;
+
+                    case "bidang_kelurahan":
+						$post_data = array();
+						$post_data['nama_bidang'] = $post['nama_bidang'];
+						$post_data['inisial'] = $post['inisial'];
+						$post_data['idx_kelompok_urusan_id'] = '9';//$post['idx_kelompok_urusan_id'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_bidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_bidang', $post_data);
+						}
+                    break;
+                    case "submit_subbidang_kelurahan":
+						$post_data = array();
+						$post_data['idx_bidang_id'] = $post['idx_bidang_id'];
+						$post_data['nama_sub_bidang'] = $post['nama_sub_bidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_bidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_bidang', $post_data);
+						}
+                    break;
+                    case "submit_sub_subbidang_kelurahan":
+						$post_data = array();
+						$post_data['idx_sub_bidang_id'] = $post['idx_sub_bidang_id'];
+						$post_data['nama_sub_subbidang'] = $post['nama_sub_subbidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_subbidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_subbidang', $post_data);
+						}
+                    break;
+                    case "submit_sub_subbidang_kelurahan":
+						$post_data = array();
+						$post_data['idx_sub_bidang_id'] = $post['idx_sub_bidang_id'];
+						$post_data['nama_sub_subbidang'] = $post['nama_sub_subbidang'];
+						$post_data['inisial'] = $post['inisial'];
+						
+						if($post['editstatus'] == 'add'){
+							$this->db->insert("idx_sub_subbidang", $post_data);
+						}elseif($post['editstatus'] == 'edit'){
+							$update_db = $this->db->where('id', $post['id']);
+                            $update_db = $this->db->update('idx_sub_subbidang', $post_data);
+						}
+                    break;
+                                        
                 }
 		
 		

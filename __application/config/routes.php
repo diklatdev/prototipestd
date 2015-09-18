@@ -95,6 +95,54 @@ $route['form-bakat'] = "lv/modul_admin/getdisplay/datagridview/bakat";
 $route['new-fishbone/(:any)'] = "lv/modul_admin/new_fishbone/$1";
 $route['json-data'] = "lv/modul_admin/json_fishbone";
 
+//punya wahyu nyempil
+/*
+$route['bidang-lain'] = "lv/modul_admin/getdisplay/datagridview/bidang_lain";
+$route['sub-bidang-lain'] = "lv/modul_admin/getdisplay/datagridview/sub_bidang_lain";
+$route['sub-subbidang-lain'] = "lv/modul_admin/getdisplay/sub_subbidang_lain";
+$route['form-sub-subbidang-lain'] = "lv/modul_admin/getdisplay/form_sub_subbidang_lain";
+*/
+$route['bidang-umum'] = "lv/modul_admin/getdisplay/datagridview/bidang_umum";
+$route['sub-bidang-umum'] = "lv/modul_admin/getdisplay/datagridview/sub_bidang_umum";
+$route['sub-subbidang-umum'] = "lv/modul_admin/getdisplay/sub_subbidang_umum";
+$route['form-sub-subbidang-umum'] = "lv/modul_admin/getdisplay/form_sub_subbidang_umum";
+$route['submit-bidang-umum'] = "lv/modul_admin/simpansavedbx/bidang_umum";
+$route['submit-subbidang-umum'] = "lv/modul_admin/simpansavedbx/submit_subbidang_umum";
+$route['submit-sub-subbidang-umum'] = "lv/modul_admin/simpansavedbx/submit_sub_subbidang_umum";
+
+$route['bidang-binwas'] = "lv/modul_admin/getdisplay/datagridview/bidang_binwas";
+$route['sub-bidang-binwas'] = "lv/modul_admin/getdisplay/datagridview/sub_bidang_binwas";
+$route['sub-subbidang-binwas'] = "lv/modul_admin/getdisplay/sub_subbidang_binwas";
+$route['form-sub-subbidang-binwas'] = "lv/modul_admin/getdisplay/form_sub_subbidang_binwas";
+$route['submit-bidang-binwas'] = "lv/modul_admin/simpansavedbx/bidang_binwas";
+$route['submit-subbidang-binwas'] = "lv/modul_admin/simpansavedbx/submit_subbidang_binwas";
+$route['submit-sub-subbidang-binwas'] = "lv/modul_admin/simpansavedbx/submit_sub_subbidang_binwas";
+
+$route['bidang-sekwan'] = "lv/modul_admin/getdisplay/datagridview/bidang_sekwan";
+$route['sub-bidang-sekwan'] = "lv/modul_admin/getdisplay/datagridview/sub_bidang_sekwan";
+$route['sub-subbidang-sekwan'] = "lv/modul_admin/getdisplay/sub_subbidang_sekwan";
+$route['form-sub-subbidang-sekwan'] = "lv/modul_admin/getdisplay/form_sub_subbidang_sekwan";
+$route['submit-bidang-sekwan'] = "lv/modul_admin/simpansavedbx/bidang_sekwan";
+$route['submit-subbidang-sekwan'] = "lv/modul_admin/simpansavedbx/submit_subbidang_sekwan";
+$route['submit-sub-subbidang-sekwan'] = "lv/modul_admin/simpansavedbx/submit_sub_subbidang_sekwan";
+
+$route['bidang-kecamatan'] = "lv/modul_admin/getdisplay/datagridview/bidang_kecamatan";
+$route['sub-bidang-kecamatan'] = "lv/modul_admin/getdisplay/datagridview/sub_bidang_kecamatan";
+$route['sub-subbidang-kecamatan'] = "lv/modul_admin/getdisplay/sub_subbidang_kecamatan";
+$route['form-sub-subbidang-kecamatan'] = "lv/modul_admin/getdisplay/form_sub_subbidang_kecamatan";
+$route['submit-bidang-kecamatan'] = "lv/modul_admin/simpansavedbx/bidang_kecamatan";
+$route['submit-subbidang-kecamatan'] = "lv/modul_admin/simpansavedbx/submit_subbidang_kecamatan";
+$route['submit-sub-subbidang-kecamatan'] = "lv/modul_admin/simpansavedbx/submit_sub_subbidang_kecamatan";
+
+$route['bidang-kelurahan'] = "lv/modul_admin/getdisplay/datagridview/bidang_kelurahan";
+$route['sub-bidang-kelurahan'] = "lv/modul_admin/getdisplay/datagridview/sub_bidang_kelurahan";
+$route['sub-subbidang-kelurahan'] = "lv/modul_admin/getdisplay/sub_subbidang_kelurahan";
+$route['form-sub-subbidang-kelurahan'] = "lv/modul_admin/getdisplay/form_sub_subbidang_kelurahan";
+$route['submit-bidang-kelurahan'] = "lv/modul_admin/simpansavedbx/bidang_kelurahan";
+$route['submit-subbidang-kelurahan'] = "lv/modul_admin/simpansavedbx/submit_subbidang_kelurahan";
+$route['submit-sub-subbidang-kelurahan'] = "lv/modul_admin/simpansavedbx/submit_sub_subbidang_kelurahan";
+
+
 $route['404_override'] = '';
 
 /* End of file routes.php */

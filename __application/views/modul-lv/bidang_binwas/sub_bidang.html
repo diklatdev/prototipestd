@@ -1,0 +1,86 @@
+<!--breadcrumbs start-->
+<div id="breadcrumbs-wrapper" class=" grey lighten-3">
+        <!-- Search for small screen -->
+        <div class="header-search-wrapper grey hide-on-large-only">
+                <i class="mdi-action-search active"></i>
+                <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
+        </div>
+  <div class="container">
+        <div class="row">
+          <div class="col s12 m12 l12">
+                <h5 class="breadcrumbs-title">SUB URUSAN PEMBINAAN & PENGAWASAN</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#" onclick="loadUrl('{$host}bidang-umum')">Urusan Pembinaan & Pengawasan</a></li>
+                    <li><a href="#">Sub Urusan Pembinaan & Pengawasan</a></li>
+                </ol>
+          </div>
+        </div>
+  </div>
+</div>
+<!--breadcrumbs end-->
+
+<!--start container-->
+<div class="container">
+    <div class="section">
+
+    <!--Form Advance-->          
+      <div class="row">
+            <div class="col s12">
+                <div class="card-panel">
+					<div class="row">
+						<form id="frm-bidang-binwas" method='post' url='{$host}submit-bidang-binwas' enctype="multipart/form-data" class="col s12">
+							<input type='hidden' name='editstatus' value='{$editstatus}'>
+							<input type='hidden' name='id' value="{$row.id|default:''}">
+							<h4 class="header2">I. Urusan Pembinaan & Pengawasan</h4>
+							<div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='besar' name='nama_bidang' label="Nama Urusan" class={$class|default:''} value={$row.nama_bidang|default:''}} 
+							</div>
+							<div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='besar' name='inisial' label="Inisial" class={$class|default:''} value={$row.inisial|default:''}} 
+							</div>
+                            
+                            {*
+							<div class="row">
+								{include file='modul-why/template/input_select.html' ukuran='besar' name='idx_kelompok_urusan_id' label="Kelompok Urusan" option=""} 
+							</div>
+                            *}
+                            							
+						</form>
+						<div class="col s12 m8 l9" style='margin-top:40px;'>
+							<button class="btn cyan waves-effect waves-light " onClick="javascript:void(0);sbmbyk('bidang_binwas');">Submit
+								<i class="mdi-content-send right"></i>
+							</button>
+						</div>						
+						
+					</div>
+				</div>
+            </div>
+			
+            <div class="divider"></div>
+			
+            <div class="col s12" style='display:{$display};'>
+                <div class="card-panel">
+					<div class="row">
+					<h4 class="header2">II. Data Sub Urusan Umum</h4>
+					{if isset($id_where)}{assign var="p1" value=$id_where}{else}{assign var="p1" value=""}{/if}
+                    {if isset($id_where2)}{assign var="p2" value=$id_where2}{else}{assign var="p2" value=""}{/if}
+                    {include file='modul-lv/template/grid.html' tipe_grid={$tipe} tinggi='55px'}
+					</div>
+				</div>
+            </div>
+      </div>						  
+
+    </div>
+</div>
+
+<script>
+	var id_bidang1 = "{$p1}";
+	var editstatus = "{$editstatus}";
+	var kel_urusan = "{$row.idx_kelompok_urusan_id|default:''}";
+	
+	if(editstatus == 'add'){
+		fillCmb(hostir+'why/modul_admin/getcombo/idx_kelompok_urusan_lain', "idx_kelompok_urusan_id" );
+	}else{
+		fillCmb(hostir+'why/modul_admin/getcombo/idx_kelompok_urusan_lain', "idx_kelompok_urusan_id", kel_urusan );
+	}
+</script>
