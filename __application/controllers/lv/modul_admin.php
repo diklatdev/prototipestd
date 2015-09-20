@@ -213,6 +213,10 @@ class modul_admin extends SHIPMENT_Controller{
                             $content = "modul-lv/kompetensi_kunci/tabel.html";     
                             $this->smarty->assign('tipe',$p1);                      
                         break;
+                        case "kompetensi_pemerintahan":
+                            $content = "modul-lv/kompetensi_pemerintahan/tabel.html";     
+                            $this->smarty->assign('tipe',$p1);                      
+                        break;
                         case "bakat_list":
                             $content = "modul-lv/bakat/tabel.html";      
                             $this->smarty->assign('tipe',$p1);                     
@@ -239,6 +243,36 @@ class modul_admin extends SHIPMENT_Controller{
                             $this->smarty->assign('tipe',$p1);  
                             $this->smarty->assign('kel', 'UK');
                         break;		
+                        case "pemetaan_fungsi-UP":                            
+                            $content = "modul-lv/pemetaan-fungsi/main.html";
+                            $this->smarty->assign('tipe',$p1);  
+                            $this->smarty->assign('kel', 'UP');
+                        break;		
+                        case "pemetaan_fungsi-UU":                            
+                            $content = "modul-lv/pemetaan-fungsi/main.html";
+                            $this->smarty->assign('tipe',$p1);  
+                            $this->smarty->assign('kel', 'UU');
+                        break;		
+                        case "pemetaan_fungsi-UB":                            
+                            $content = "modul-lv/pemetaan-fungsi/main.html";
+                            $this->smarty->assign('tipe',$p1);  
+                            $this->smarty->assign('kel', 'UB');
+                        break;		
+                        case "pemetaan_fungsi-US":                            
+                            $content = "modul-lv/pemetaan-fungsi/main.html";
+                            $this->smarty->assign('tipe',$p1);  
+                            $this->smarty->assign('kel', 'US');
+                        break;		
+                        case "pemetaan_fungsi-UC":                            
+                            $content = "modul-lv/pemetaan-fungsi/main.html";
+                            $this->smarty->assign('tipe',$p1);  
+                            $this->smarty->assign('kel', 'UC');
+                        break;		
+                        case "pemetaan_fungsi-UH":                            
+                            $content = "modul-lv/pemetaan-fungsi/main.html";
+                            $this->smarty->assign('tipe',$p1);  
+                            $this->smarty->assign('kel', 'UH');
+                        break;		
                         case "pemetaan_fungsi-UL":                            
                             $content = "modul-lv/pemetaan-fungsi/main.html";
                             $this->smarty->assign('tipe',$p1);
@@ -262,7 +296,15 @@ class modul_admin extends SHIPMENT_Controller{
                         case "dasar_hukum":
                             $content = "modul-lv/dasar_hukum/tabel.html";      
                             $this->smarty->assign('tipe',$p1);                     
-                        break;                       
+                        break;  
+                        case "unit_kompetensi_pemerintahan":
+                            $id_bidang = $this->input->post('id_bidang');
+                            $data_kp = $this->db->query("SELECT * FROM idx_kompetensi_pemerintahan WHERE id = '$id_bidang'")->row_array();
+                            $this->smarty->assign('data_kp', $data_kp);
+                            $content = "modul-lv/kompetensi_pemerintahan/unit_kompetensi.html";
+                            $this->smarty->assign('tipe',$p1); 
+                            $this->smarty->assign('id_where', $id_bidang);                            
+                        break;                     
                     }
                 break; 
                 case 'kementrian_grid':
@@ -688,6 +730,42 @@ class modul_admin extends SHIPMENT_Controller{
                        $content = "modul-lv/dasar_hukum/form-ed.html"; 
                     }
                 break;
+                case "edit_form_kompetensi_pemerintahan":
+                    $id_kompetensi = $this->input->post("id_unit_kompetensi");
+                    $data = $this->madmin->get_data("unit_kompetensi_pemerintahan","row_array",$id_kompetensi);
+                    $this->smarty->assign("row",$data);  
+                    
+                    $elemen = $this->db->query("SELECT * FROM tbl_elemen_unit_kompetensi_pemerintahan "
+                            . "WHERE tbl_unit_kompetensi_pemerintahan_id = $id_kompetensi")->result_array();
+                    $elem = "";
+                    foreach ($elemen as $k => $v){
+                        $unjuk = $this->db->query("SELECT * "
+                                . "FROM tbl_kuk_elemen_unit_kompetensi_pemerintahan "
+                                . "WHERE tbl_elemen_unit_kompetensi_pemerintahan_id = '".$v['id']."';")->result_array();
+                        $elem[$k]["id_elemen"]=$v['id'];
+                        $elem[$k]["nama_elemen"]=$v['nama']; 
+                        $elem[$k]["kuk"] = $unjuk;
+                    }
+                    $this->smarty->assign('elemen', $elem);
+                    
+                    $kom_kunci_uk = $this->madmin->get_data('kom_kunci_uk_pemerintahan','result_array',$id_kompetensi);
+                    $this->smarty->assign('kompetensi_kunci', $kom_kunci_uk); 
+                    
+                    $das_hukum = $this->madmin->get_data('dasar_hukum_uk_pemerintahan', 'result_array', $id_kompetensi);
+                    $this->smarty->assign('das_hukum', $das_hukum);
+                    
+                    $kompetensi_pemerintahan = $this->db->query("SELECT * FROM idx_kompetensi_pemerintahan")->result_array();
+                    $this->smarty->assign('kompetensi_pemerintahan', $kompetensi_pemerintahan);
+                    
+                    $content = "modul-lv/kompetensi_pemerintahan/form_kompetensi.html";
+                break;
+                case "new_form_kompetensi_pemerintahan":
+                    
+                    $kompetensi_pemerintahan = $this->db->query("SELECT * FROM idx_kompetensi_pemerintahan")->result_array();
+                    $this->smarty->assign('kompetensi_pemerintahan', $kompetensi_pemerintahan);
+                    
+                    $content = "modul-lv/kompetensi_pemerintahan/form_kompetensi_new.html";
+                break;
                         
             }
             $this->smarty->assign('type', $type);
@@ -746,11 +824,12 @@ class modul_admin extends SHIPMENT_Controller{
                 case "select_dasar_hukum":                    
                     $counter = $this->input->post("counter");
                     $id_bidang = $this->input->post('id_bidang');
-                    
+                    $where = '';
+                    if ($id_bidang != '0'){$where = "WHERE B.idx_bidang_id = '$id_bidang'";}
                     $query = "SELECT C.id as id, B.idx_bidang_id, C.dasar_hukum FROM `tbl_dasarhukum_perumusan` A
                         LEFT JOIN tbl_perumusan B ON B.id = A.tbl_perumusan_id
                         LEFT JOIN idx_dasar_hukum C ON C.id = A.idx_dasar_hukum_id
-                        WHERE B.idx_bidang_id = '$id_bidang';";
+                        $where;";
                     
                     $dasar_hukum = $this->db->query($query)->result_array();
                     $this->smarty->assign('dasar_hukum', $dasar_hukum);
@@ -868,6 +947,7 @@ class modul_admin extends SHIPMENT_Controller{
                 case "delete_fd":
                 case "delete_skema":
                 case "dasar_hukum":
+                case "unit_kompetensi_pemerintahan":
                 break;
             }
             $this->smarty->display("string:" . $html);
@@ -888,8 +968,93 @@ class modul_admin extends SHIPMENT_Controller{
 		echo $this->madmin->simpansavedatabase($type, $post);
 	}
         
-        function getcombo($type){
+    function getcombo($type){
 		echo $this->lib->fillcombo($type, "echo");
+	}
+	
+	function postSkema(){
+		
+		$service_url = 'http://apps.paramadina.ac.id/akademik/perpus-asik.php';
+		
+		$username = 'asikIntegrasi';
+		$password = 'asikIntegrasi';
+		
+		$query_skema = "SELECT A.id as id_skema, A.pekerjaan, IF(A.jenis_bkl = 'B',B.nama_bidang, C.nama_kl) AS bidang_kl, D.jenjang FROM tbl_skema_sertifikasi A
+                        LEFT JOIN idx_bidang B ON B.id = A.idx_bkl_id
+                        LEFT JOIN idx_kl C ON C.id = A.idx_bkl_id
+                        LEFT JOIN idx_jenjang_kknipdn D ON D.id = A.idx_jenjang_kknipdn_id
+                        WHERE id = '$id_skema';";
+		$query_skema = $this->db->query($query_skema)->row_array();
+		
+		$query_unit_kompetensi = "SELECT A.id, A.tbl_unit_kompetensi_id, B.judul_unit, B.kode_unit_kompetensi AS id_unit_kompetensi 
+                        FROM `tbl_skesert_unit_kompetensi` A
+                        LEFT JOIN tbl_unit_kompetensi B ON B.id = A.tbl_unit_kompetensi_id
+                        WHERE A.tbl_skema_sertifikasi_id = '$id_skema';";		
+		$query_unit_kompetensi = $this->db->query($query_unit_kompetensi)->result_array();
+		
+		$query_syarat = "";
+		$query_syarat = $this->db->query($query_syarat)->result_array();
+		
+		$data = array($query_skema, "unit_kompetensi"=>$query_unit_kompetensi, "syarat"=>$query_syarat);
+		
+		$curl_post_data = json_encode($data, true);
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $service_url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION,true);
+		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($curl, CURLOPT_USERPWD, $username . ":" . $password);
+		curl_setopt($curl, CURLOPT_POST, true);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_post_data);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT ,0);
+		curl_setopt($curl, CURLOPT_TIMEOUT, 400); //timeout in seconds
+		curl_setopt($curl, CURLOPT_VERBOSE, true); #debugging purpose only
+
+		$curl_response = curl_exec($curl);
+		curl_close($curl);
+
+		$response = json_decode($curl_response);
+		//echo $curl_post_data;
+		print_r($curl_response);
+		
+	}
+	
+	function getSkema(){
+		$username = $_SERVER['PHP_AUTH_USER'];
+		$pass = $_SERVER['PHP_AUTH_PW'];
+		
+		if ($username == 'asikIntegrasi' && $pass == 'asikIntegrasi'){
+	
+			$json = file_get_contents('php://input');
+			
+			if (ISSET($json)){
+			
+				$data = json_decode($json, true);
+				// echo '<pre>';
+				// print_r($data);
+				
+				foreach ($data as $baris) {
+				
+					##query insert data ke DB
+					
+
+				} 
+				// echo '<pre>';
+				// print_r($output);
+				
+				header('Content-Type: application/json'); 
+				echo json_encode($output);
+				
+			}else{
+				$result = array('result'=>'Empty Array');
+				echo json_encode($result);
+			}
+		}else{
+			$result = array('result'=>'Wrong Authentication!');
+			echo json_encode($result);
+		}
 	}
 	
 	

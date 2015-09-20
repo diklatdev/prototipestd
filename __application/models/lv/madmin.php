@@ -125,6 +125,28 @@ class madmin extends SHIPMENT_Model{
                                     LEFT JOIN idx_dasar_hukum C ON C.id = A.idx_dasar_hukum_id
                                     WHERE A.tbl_unit_kompetensi_id = '$p1'";
                         break;
+                        case "unit_kompetensi_pemerintahan":
+                            $sql ="SELECT A.id as id_ukp, A.idx_kompetensi_pemerintahan_id,
+                                    A.judul_unit, A.deskripsi, A.batasan_variabel, A.panduan_penilaian, A.kode_unit_kompetensi_pemerintahan,
+                                    B.inisial as ini_bidang
+                                    FROM `tbl_unit_kompetensi_pemerintahan` A
+                                    LEFT JOIN idx_kompetensi_pemerintahan B ON B.id = A.idx_kompetensi_pemerintahan_id
+                                    WHERE A.id = '$p1';";
+                        break;   
+                        case "kom_kunci_uk_pemerintahan":
+                            $sql = "SELECT A.*, CONCAT (B.level, '-', B.deskripsi) as level, C.nama as kom_kunci "
+                                . "FROM tbl_kompetensi_kunci_unit_kompetensi_pemerintahan A "
+                                . "LEFT JOIN idx_level_kompetensi_kunci B ON B.id = A.idx_level_kompetensi_kunci_id "
+                                . "LEFT JOIN idx_kompetensi_kunci C ON C.id = B.idx_kompetensi_kunci_id "
+                                . "WHERE A.tbl_unit_kompetensi_pemerintahan_id = $p1";
+                        break;
+                        case "dasar_hukum_uk_pemerintahan":
+                            $sql = "SELECT A.id, C.dasar_hukum 
+                                    FROM tbl_dasar_hukum_unit_kompetensi_pemerintahan A
+                                    LEFT JOIN tbl_unit_kompetensi_pemerintahan B ON B.id = A.tbl_unit_kompetensi_pemerintahan_id
+                                    LEFT JOIN idx_dasar_hukum C ON C.id = A.idx_dasar_hukum_id
+                                    WHERE A.tbl_unit_kompetensi_pemerintahan_id = '$p1'";
+                        break;
                     
 			
 		}
@@ -237,6 +259,9 @@ class madmin extends SHIPMENT_Model{
                     case 'kompetensi_kunci':
                          $sql = "SELECT * FROM idx_kompetensi_kunci";
                     break;
+                    case 'kompetensi_pemerintahan':
+                         $sql = "SELECT * FROM idx_kompetensi_pemerintahan";
+                    break;
                     case 'bakat_list':
                          $sql = "SELECT id, nama_bakat FROM idx_bakat";
                     break;
@@ -262,6 +287,30 @@ class madmin extends SHIPMENT_Model{
                     case "pemetaan_fungsi-UK":
                         $sql = 'SELECT A.*, A.id as fishbone, A.id as fungsi_dasar, A.id as unit_kompetensi '
                             . 'FROM idx_bidang A WHERE idx_kelompok_urusan_id IN(1,2,3)';
+                    break;
+                    case "pemetaan_fungsi-UP":
+                        $sql = 'SELECT A.*, A.id as fishbone, A.id as fungsi_dasar, A.id as unit_kompetensi '
+                            . 'FROM idx_bidang A WHERE idx_kelompok_urusan_id = 4';
+                    break;
+                    case "pemetaan_fungsi-UU":
+                        $sql = 'SELECT A.*, A.id as fishbone, A.id as fungsi_dasar, A.id as unit_kompetensi '
+                            . 'FROM idx_bidang A WHERE idx_kelompok_urusan_id = 5';
+                    break;
+                    case "pemetaan_fungsi-UB":
+                        $sql = 'SELECT A.*, A.id as fishbone, A.id as fungsi_dasar, A.id as unit_kompetensi '
+                            . 'FROM idx_bidang A WHERE idx_kelompok_urusan_id = 6';
+                    break;
+                    case "pemetaan_fungsi-US":
+                        $sql = 'SELECT A.*, A.id as fishbone, A.id as fungsi_dasar, A.id as unit_kompetensi '
+                            . 'FROM idx_bidang A WHERE idx_kelompok_urusan_id = 7';
+                    break;
+                    case "pemetaan_fungsi-UC":
+                        $sql = 'SELECT A.*, A.id as fishbone, A.id as fungsi_dasar, A.id as unit_kompetensi '
+                            . 'FROM idx_bidang A WHERE idx_kelompok_urusan_id = 8';
+                    break;
+                    case "pemetaan_fungsi-UH":
+                        $sql = 'SELECT A.*, A.id as fishbone, A.id as fungsi_dasar, A.id as unit_kompetensi '
+                            . 'FROM idx_bidang A WHERE idx_kelompok_urusan_id = 9';
                     break;
                     case "pemetaan_fungsi-UL":
                         $sql = 'SELECT A.*, A.id as fishbone, A.id as fungsi_dasar, A.id as unit_kompetensi '
@@ -290,6 +339,11 @@ class madmin extends SHIPMENT_Model{
                     break;
                     case "dasar_hukum":
                         $sql = "SELECT * FROM idx_dasar_hukum";
+                    break;
+                    case "unit_kompetensi_pemerintahan":
+                        $sql = "SELECT A.* FROM tbl_unit_kompetensi_pemerintahan A "
+                            . "WHERE idx_kompetensi_pemerintahan_id = $p1 "
+                            . "ORDER BY id";
                     break;
                     
                     
@@ -540,6 +594,7 @@ class madmin extends SHIPMENT_Model{
                         }
                         
                     break;
+                    
                     case "skema_sertifikasi":
                         if ($p1 == 'sv'){
                             $post_bnr = array();
@@ -997,6 +1052,164 @@ class madmin extends SHIPMENT_Model{
                             $update_db = $this->db->update('idx_sub_subbidang', $post_data);
 						}
                     break;
+                    case "unit_kompetensi_pemerintahan":
+                        $id_ukp = '';
+                                
+                        $post_bnr = array();
+                        $post_bnr['judul_unit'] = $post['nama_bidang'];
+                        $post_bnr['deskripsi'] = $post['deskripsi'];
+                        $post_bnr['batasan_variabel'] = $post['batasan_var'];
+                        $post_bnr['panduan_penilaian'] = $post['panduan_penilaian']; 
+                        $post_bnr['kode_unit_kompetensi_pemerintahan'] = $post['kode_unit'];
+                        $post_bnr['idx_kompetensi_pemerintahan_id'] = $post['id_kompetensi_pemerintahan'];
+                        
+                        if ($p1 == 'update'){
+                            $id_ukp = $post['id_ukp'];
+                            $insert_reg = $this->db->where("id", $id_ukp);
+                            $insert_reg = $this->db->update("tbl_unit_kompetensi_pemerintahan", $post_bnr);                            
+                        }elseif ($p1 == 'submit'){
+                            $insert_reg = $this->db->insert("tbl_unit_kompetensi_pemerintahan", $post_bnr);
+                            $id_ukp = $this->db->query('SELECT LAST_INSERT_ID() as last_id;')->row_array();
+                            $id_ukp = $id_ukp['last_id'];
+                        }
+                        
+                        if (isset($post['elemen'])){
+                            $count_el = count($post['elemen']) - 1;
+                            $post_el = array();
+                            for($i = 0; $i <= $count_el; $i++){
+                                $post_el['nama'] = $post['elemen'][$i];
+                                $post_el['tbl_unit_kompetensi_pemerintahan_id']= $id_ukp;
+                                $insert_el = $this->db->insert("tbl_elemen_unit_kompetensi_pemerintahan", $post_el);
+                            }
+                        }
+                        
+                        $elemen_sql = $this->db->query("SELECT id, nama FROM tbl_elemen_unit_kompetensi_pemerintahan "
+                                . "WHERE tbl_unit_kompetensi_pemerintahan_id = '$id_ukp'");
+                        $elemen_data = $elemen_sql->result_array();
+                        $elemen_num = $elemen_sql->num_rows();
+                        
+                        foreach($elemen_data as $k => $v){
+                            if (isset($post['unjuk_'.$v['id']])){
+                                
+                                $count_kuk = count($post['unjuk_'.$v['id']]) -1;
+                                //print_r ($post['unjuk_'.$v['id']]);
+                                
+                                $post_kuk = array();
+                                for($i = 0; $i <= $count_kuk; $i++){
+                                    
+                                    $post_kuk['nama'] = $post['unjuk_'.$v['id']][$i];
+                                    $post_kuk['tbl_elemen_unit_kompetensi_pemerintahan_id'] = $v['id'];
+                                    //print_r($post_kuk);
+                                    $insert_kuk = $this->db->insert("tbl_kuk_elemen_unit_kompetensi_pemerintahan", $post_kuk);
+                                }
+                                
+                            }
+                        }
+                        
+                        foreach ($elemen_data as $k => $v){
+                            if (isset($post['editelemen_'.$v['id']])){
+                                $count_ed_el = count($post['editelemen_'.$v['id']]) -1 ;
+                                for($i = 0;$i <= $count_ed_el; $i++){
+                                    $nama_elem = $post['editelemen_'.$v['id']][$i];
+                                    
+                                    
+                                    $post_ed_el = array();
+                                    $post_ed_el['nama'] = $nama_elem;
+                                    
+                                    $edit_elem = $this->db->where('id', $v['id']);
+                                    $edit_elem = $this->db->update('tbl_elemen_unit_kompetensi_pemerintahan', $post_ed_el);
+                                    
+                                }
+                            }else{
+                                $kuk_que = "SELECT * FROM tbl_kuk_elemen_unit_kompetensi_pemerintahan "
+                                            . "WHERE tbl_elemen_unit_kompetensi_pemerintahan_id = '".$v['id']."'";
+                                $kuk_que = $this->db->query($kuk_que)->result_array();
+
+                                foreach($kuk_que as $kv){
+                                    if (isset($post['editkuk_'.$kv['id']])){
+                                        $count_ed_kuk = count($post['editkuk_'.$kv['id']])-1;
+                                        for($j=0;$j<=$count_ed_kuk;$j++){
+                                            $nama_kuk = $post['editkuk_'.$kv['id']][$j];
+
+                                            $post_ed_kuk = array();
+                                            $post_ed_kuk['nama'] = $nama_kuk;
+
+                                            $edit_kuk = $this->db->where('id', $kv['id']);
+                                            $edit_kuk = $this->db->update('tbl_kuk_elemen_unit_kompetensi_pemerintahan', $post_ed_kuk);
+                                        }
+                                    }
+                                }
+                                
+                            }
+                        }
+                        
+                        if (isset($post['del_kuk'])){
+                          $count_del_kuk = count($post['del_kuk']) - 1;
+                          
+                          for($i = 0; $i <= $count_del_kuk; $i++){
+                              $delete_kuk = $this->db->where('id', $post['del_kuk'][$i]);
+                              $delete_kuk = $this->db->delete('tbl_kuk_elemen_unit_kompetensi_pemerintahan');
+                          }
+                        }
+                        
+                        if (isset($post['del_elemen'])){
+                          $count_del_elem = count($post['del_elemen']) - 1;
+                          
+                          for($i = 0; $i <= $count_del_elem; $i++){
+                              $delete_elem = $this->db->where('id', $post['del_elemen'][$i]);
+                              $delete_elem = $this->db->delete('tbl_elemen_unit_kompetensi_pemerintahan');
+                              
+                              $sql_kuk_el = $this->db->query("SELECT * FROM tbl_kuk_elemen_unit_kompetensi_pemerintahan "
+                                      . "WHERE tbl_elemen_unit_kompetensi_pemerintahan_id = '".$post['del_elemen'][$i]."'")->result_array();
+                              
+                              foreach($sql_kuk_el as $val_kuk){
+                                  $del_kuk_el = $this->db->where('id', $val_kuk['id']);
+                                  $del_kuk_el = $this->db->delete('tbl_kuk_elemen_unit_kompetensi_pemerintahan');
+                              }
+                          }
+                        }
+                        
+                        if (isset($post['level_kom_kunci'])){
+                            $count_level_kk = count($post['level_kom_kunci'])-1;
+                            for($i= 0; $i <= $count_level_kk; $i++){
+                                $post_lkk = array();
+                                $post_lkk['idx_level_kompetensi_kunci_id'] = $post['level_kom_kunci'][$i];
+                                $post_lkk['tbl_unit_kompetensi_pemerintahan_id'] = $id_ukp;
+                                
+                                $insert_lkk = $this->db->insert('tbl_kompetensi_kunci_unit_kompetensi_pemerintahan', $post_lkk);
+                            }
+                        }
+                        
+                        if (isset($post['del_lev_kk'])){
+                            $count_del_lkk = count($post['del_lev_kk']) - 1;
+                            $post_del_kll = array();
+                            for($i = 0;$i<=$count_del_lkk;$i++){
+                                $delete_lkk = $this->db->where('id', $post['del_lev_kk'][$i]);
+                                $delete_lkk = $this->db->delete('tbl_kompetensi_kunci_unit_kompetensi_pemerintahan');
+                            }
+                        }
+                        
+                        if (isset($post['dasar_hukum'])){
+                            $count_das_hukum = count($post['dasar_hukum']) - 1;
+                            $post_dHukum = array();
+                            for ($i = 0; $i <= $count_das_hukum; $i++){
+                                $post_dHukum['idx_dasar_hukum_id'] = $post['dasar_hukum'][$i];
+                                $post_dHukum['tbl_unit_kompetensi_pemerintahan_id'] = $id_ukp;
+                                
+                                $insert_dasar_hukum = $this->db->insert('tbl_dasar_hukum_unit_kompetensi_pemerintahan', $post_dHukum);
+                            }
+                        }
+                        
+                        if (isset($post['del_dasar_hukum'])){
+                            $count_del_dh = count($post['del_dasar_hukum']) - 1;
+                            $post_del_dh = array();
+                            for($i = 0;$i<=$count_del_dh;$i++){
+                                $delete_dh = $this->db->where('id', $post['del_dasar_hukum'][$i]);
+                                $delete_dh = $this->db->delete('tbl_dasar_hukum_unit_kompetensi_pemerintahan');
+                            }
+                        }
+                        
+                    break;
                                         
                 }
 		
@@ -1006,7 +1219,12 @@ class madmin extends SHIPMENT_Model{
 			$this->db->trans_rollback();
 			return "Data not saved";
 		} else{
+                    if ($type == 'unit_kompetensi_pemerintahan' && $p1 == 'submit'){
+                        $this->db->trans_commit();
+                        return $id_ukp;
+                    }else{
 			return $this->db->trans_commit();
+                    }
 		}
 	
 	}

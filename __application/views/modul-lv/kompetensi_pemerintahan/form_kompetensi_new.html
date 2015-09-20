@@ -1,0 +1,208 @@
+
+
+<!--start container-->
+<div class="container">
+        <div class="section">
+
+                <!--Form Advance-->          
+                <div class="row">
+                        <div class="col s12 m12 l12">
+                          <div class="card-panel">
+                                <div class="row">
+                                  <form class="col s12" id="form_komp">
+                                        <div class="row">
+                                          <div class="input-field col s12">
+                                                <input id="namaprogram" type="text" value="" name="kode_unit" placeholder="">
+                                                <label for="namaprogram" class='active' disabled>Kode Unit Kompetensi</label>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="input-field col s12">
+                                                <select class='browser-default' name='id_kompetensi_pemerintahan' id='id_kompetensi_pemerintahan' style='width:100%;'>
+                                                  <option value="">--Pilih Kompetensi Pemerintahan--</option>
+                                                  {foreach from=$kompetensi_pemerintahan item=foo}
+                                                  <option value="{$foo.id}">{$foo.kompetensi_pemerintahan}</option>
+                                                  {/foreach}
+                                                </select>
+                                                <label class="active">Kompetensi Pemerintahan</label>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="input-field col s12">
+                                                <input id="namaprogram" type="text" name="nama_bidang" >
+                                                <label for="namaprogram" class="active">Judul Unit</label>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="input-field col s12">
+                                                <textarea id="message5" class="materialize-textarea" length="120" name="deskripsi"></textarea>
+                                                <label for="message" class="active">Deskripsi Unit</label>
+                                          </div>
+                                        </div>
+                                        <div class="row" id="element_id">
+                                          <div class="input-field col s12"  id="btn_elemen">
+                                              <div>
+                                              <font>Elemen Kompetensi</font> 
+                                                <a class="btn-floating btn-small waves-effect waves-light green" href="javascript:void(0);" onClick="addrowtableinput_lv('add-element','list_elemen_row','btn_elemen',  '0');" >
+                                                    <i class="mdi-content-add"></i>
+                                                </a>
+                                              </div>
+                                          </div>
+                                        </div>
+                                        <div id="list_elemen_row"></div>
+                                        <div class="row">
+                                            <div class="col s12">
+<!--                                                 {if $elemen}
+                                                    {foreach name=elem from=$elemen key=k item=i}
+                                                <ul class="collection with-header" id="li_elemen_{$i.id_elemen}">
+                                                    <li  class="collection-header grey" id="ele_id_{$i.id_elemen}">
+                                                        <div>
+                                                        <font style="font-size:1.3rem" id="txtel_{$i.id_elemen}">{$i.nama_elemen}</font>
+                                                            <a href="javascript:void(0)" class="secondary-content" onclick="addrowtableinput_lv('edit_elemen','ele_id_{$i.id_elemen}','','','{$i.id_elemen}')">
+                                                                <i class="mdi-content-create tiny"></i> </a> 
+                                                            <a href="javascript:void(0)" class="secondary-content" onclick="addrowtableinput_lv('del_elemen','li_elemen_{$i.id_elemen}','','id_fung_das','{$i.id_elemen}')">
+                                                                <i class="mdi-content-clear tiny"></i> 
+                                                            </a> 
+                                                        
+                                                        </div>
+                                                    </li>
+                                                    <li class="collection-item  teal lighten-2">Kriteria Unjuk Kerja</li>
+                                                    {if $i.kuk}
+                                                        {foreach name=kuk from=$i.kuk item=v key=k}                                                                                                    
+                                                    <li class="collection-item" id="li_kuk_{$v.id}">
+                                                        <div>
+                                                            <font id="txt_{$v.id}">{$v.nama}</font> 
+                                                            <a href="javascript:void(0)" class="secondary-content" onclick="addrowtableinput_lv('edit_kuk','li_kuk_{$v.id}','','','{$v.id}')">
+                                                                <i class="mdi-content-create tiny"></i> 
+                                                            </a> 
+                                                            <a href="javascript:void(0)" class="secondary-content" onclick="addrowtableinput_lv('del_kuk','li_kuk_{$v.id}','','id_fung_das','{$v.id}')">
+                                                                <i class="mdi-content-clear tiny"></i> 
+                                                            </a>  
+                                                        </div>                          
+                                                    </li>
+                                                        {/foreach}
+                                                    {/if}
+                                                    <li class="collection-item" id="li_id{$i.id_elemen}">
+                                                        <div>
+                                                            <a href="#" class=""><i class="mdi-content-add tiny"></i> </a>
+                                                            <a href="javascript:void(0);" onClick="addrowtableinput_lv('unjuk-kerja','li_id{$i.id_elemen}','btn_unjuk',  '0', '{$i.id_elemen}');" ><i class="mdi-content-add tiny"></i></a>
+                                                        </div> 
+                                                    </li>
+                                                </ul>
+                                                    {/foreach}
+                                                {/if}-->
+                                                <br>
+                                            </div>
+                                        </div>
+                                      <br><br>
+                                        <div class="row">
+                                          <div class="input-field col s12">
+                                                <textarea id="message5" class="materialize-textarea" length="120" name="batasan_var"></textarea>
+                                                <label for="message" class="active">Batasan Variabel</label>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="input-field col s12">
+                                                <textarea id="message5" class="materialize-textarea" length="120" name="panduan_penilaian"></textarea>
+                                                <label for="message" class="active">Panduan Penilaian</label>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col s12">
+                                            <br/>
+                                            <div id="responsive-table">
+                                              <div class="row">
+                                                    <div class="col s12">
+                                                    <table class="responsive-table" style='width:100%'>
+                                                      <thead>
+                                                            <tr>
+                                                                    <th>Kompetensi Kunci</th>
+                                                                    <th>Level </th>
+                                                                    <th width="10%">Action</th>
+                                                            </tr>
+                                                      </thead>
+                                                            <tbody>
+<!--                                                            {foreach from=$kompetensi_kunci item=rows}    
+                                                                <tr id="komkunci_{$rows.id}">
+                                                                    <td>{$rows.kom_kunci}</td>
+                                                                    <td>{$rows.level}</td>
+                                                                    <td>
+                                                                        <a href="javascript:void(0)" onclick="addrowtableinput_lv('del_lev_kk','komkunci_{$rows.id}','','id_fung_das','{$rows.id}')">
+                                                                        <i class="mdi-content-clear tiny"></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                            {/foreach}-->
+                                                            <tr id="dasar_row">
+                                                              <td></td>
+                                                              <td></td>
+                                                              <td id = "btn_add_dasar">
+                                                                    <a href='javascript:void(0)' onclick="addrowtableinput_lv('add_komp_kunci','dasar_row','', '0');"><i class='mdi-content-add-box tiny right'></i></a>
+                                                              </td>
+                                                            </tr>
+                                                      </tbody>
+                                                    </table>
+                                                    </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      <div class="row">
+                                          <div class="col s12">
+                                            <br/>
+                                            <div id="responsive-table">
+                                              <div class="row">
+                                                    <div class="col s12">
+                                                    <table class="responsive-table" style='width:100%'>
+                                                      <thead>
+                                                            <tr>
+                                                                    <th>Dasar Hukum</th>
+                                                                    <th width="10%">Action</th>
+                                                            </tr>
+                                                      </thead>
+                                                            <tbody>
+<!--                                                            {foreach from=$das_hukum item=rows}    
+                                                                <tr id="dashukum_{$rows.id}">
+                                                                    <td>{$rows.dasar_hukum}</td>
+                                                                    <td>
+                                                                        <a href="javascript:void(0)" onclick="addrowtableinput_lv('del_dasar_hukum','dashukum_{$rows.id}','','id_fung_das','{$rows.id}')">
+                                                                        <i class="mdi-content-clear tiny"></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                            {/foreach}-->
+                                                            <tr id="hukum_row">
+                                                              <td></td>
+                                                              <td></td>
+                                                              <td id = "btn_add_hukum">
+                                                                    <a href='javascript:void(0)' onclick="addrowtableinput_lv('add_dasar_hukum','hukum_row','', '0', '0');"><i class='mdi-content-add-box tiny right'></i></a>
+                                                              </td>
+                                                            </tr>
+                                                      </tbody>
+                                                    </table>
+                                                    </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="row">
+                                                <div class="input-field col s12">
+                                                    <a href='#' class="btn waves-effect waves-light " onclick="loadUrl_adds('kompetensi-pemerintahan','{$host}kompetensi-pemerintahan','tMain','')">BACK
+                                                        <i class="mdi-content-reply left"></i>
+                                                    </a>
+                                                    <a href='#' class="btn cyan waves-effect waves-light right" onclick="kumpulPost('sv-unit-kompetensi-pemerintahan', 'tMain')">Submit
+                                                        <i class="mdi-content-send right"></i>
+                                                  </a>
+                                                </div>
+                                          </div>
+                                        </div>
+                                  </form>
+                                </div>
+                          </div>
+                        </div>
+                </div>
+
+
+        </div>
+</div>
