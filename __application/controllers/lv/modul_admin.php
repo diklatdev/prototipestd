@@ -948,6 +948,7 @@ class modul_admin extends SHIPMENT_Controller{
                 case "delete_skema":
                 case "dasar_hukum":
                 case "unit_kompetensi_pemerintahan":
+                case "del_kompetensi_pemerintahan":
                 break;
             }
             $this->smarty->display("string:" . $html);

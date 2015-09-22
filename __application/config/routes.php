@@ -89,6 +89,7 @@ $route['edit-form-kompetensi-pemerintahan'] = "lv/modul_admin/getdisplay/edit_fo
 $route['add-form-kompetensi-pemerintahan'] = "lv/modul_admin/getdisplay/new_form_kompetensi_pemerintahan";
 $route["update-unit-kompetensi-pemerintahan"] = "lv/modul_admin/simpandgnView/unit_kompetensi_pemerintahan/update";
 $route["submit-unit-kompetensi-pemerintahan"] = "lv/modul_admin/simpandgnView/unit_kompetensi_pemerintahan/submit";
+$route["del-kompetensi-pemerintahan"] = "lv/modul_admin/simpandgnView/del_kompetensi_pemerintahan";
 
 $route['form-dasar_hukum'] = "lv/modul_admin/getdisplay/dasar_hukum/form";
 $route['submit-dasar-hukum'] = "lv/modul_admin/simpandgnView/dasar_hukum/sv";

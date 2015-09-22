@@ -394,22 +394,6 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                     },
                 ];                
             break;
-            case"kompetensi_pemerintahan":
-                judulnya = "";
-                fitnya = true;
-                pagesizeboy = 50;
-                kolom[modnya] = [
-                    {field:'kompetensi_pemerintahan',title:'<b>Kompetensi Pemerintahan</b>',width:700, halign:'left',align:'left'},
-                    {field:'inisial',title:'<b>Inisial</b>',width:150, halign:'center',align:'center'},
-                    {field:'id', title:'<b>Unit Kompetensi</b>', halign:'center', width:150,align:'center',
-                        formatter: function(value,row,index){
-                                return '<a title="Unit Kompetensi" class="btn-floating btn-small waves-effect waves-light blue"  href="#" onclick=\'\loadUrl_adds("kompetensi-pemerintahan","'+hostir+'unit-kompetensi-pemerintahan","tMain","'+value+'")\'\><i class="mdi-action-assignment"></i></a>';/*\n\
-                                <a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
-                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';*/
-                        }
-                    },
-                ];                
-            break;
             case"bakat_list":
                 judulnya = "";
                 fitnya = true;
@@ -766,16 +750,32 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                             {field:'nama_lengkap',title:'Bidang Urusan',width:250, halign:'center',align:'left'},
                     ];
             break;
+            case"kompetensi_pemerintahan":
+                judulnya = "";
+                fitnya = true;
+                pagesizeboy = 50;
+                kolom[modnya] = [
+                    {field:'kompetensi_pemerintahan',title:'<b>Kompetensi Pemerintahan</b>',width:600, halign:'left',align:'left'},
+                    {field:'inisial',title:'<b>Inisial</b>',width:50, halign:'center',align:'center'},
+                    {field:'id', title:'<b>Unit Kompetensi</b>', halign:'center', width:50,align:'center',
+                        formatter: function(value,row,index){
+                                return '<a title="Unit Kompetensi" class="btn-floating btn-small waves-effect waves-light blue"  href="#" onclick=\'\loadUrl_adds("kompetensi-pemerintahan","'+hostir+'unit-kompetensi-pemerintahan","tMain","'+value+'")\'\><i class="mdi-action-assignment"></i></a>';/*\n\
+                                <a class="btn-floating btn-small waves-effect waves-light orange" href="kldirjen.shtml"><i class="mdi-content-create"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light "><i class="mdi-content-clear"></i></a>';*/
+                        }
+                    },
+                ];                
+            break;
             case "unit_kompetensi_pemerintahan":
                 judulnya = "";
                 fitnya = true;
                 pagesizeboy = 50;
                 kolom[modnya] = [	
-                    {field:'judul_unit',title:'<b>Judul Unit Kompetensi</b>',width:850, halign:'left',align:'left'},
+                    {field:'judul_unit',title:'<b>Judul Unit Kompetensi</b>',width:700, halign:'left',align:'left'},
                     {field:'id', title:'<b>Action</b>', halign:'center', width:150,align:'center',
                         formatter: function(value,row,index){
-                                return '<a class="btn-floating btn-small waves-effect waves-light blue"  href="#" onclick=\'\loadUrl_adds("edit-form-kompetensi-pemerintahan","'+hostir+'edit-form-kompetensi-pemerintahan","tMain","'+value+'")\'\><i class="mdi-content-send"></i></a>';
-//                                <a class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'\loadUrl_adds("fungsi-dasar","'+hostir+'fungsi-dasar","tMain","'+value+'")\'\><i class="mdi-hardware-keyboard-arrow-up"></i></a>\n\
+                                return '<a class="btn-floating btn-small waves-effect waves-light blue"  href="#" onclick=\'\loadUrl_adds("edit-form-kompetensi-pemerintahan","'+hostir+'edit-form-kompetensi-pemerintahan","tMain","'+value+'")\'\><i class="mdi-content-send"></i></a>\n\
+                                <a class="btn-floating btn-small waves-effect waves-light orange" href="#" onclick=\'\kumpulPost("del-kompetensi-pemerintahan","tMain","'+value+'","'+p1+'")\'\><i class="mdi-content-clear"></i></a>';
                                 
                         }
                     },
@@ -1776,6 +1776,18 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 
 function kumpulPost($type, domnya, p1, p2, p3, p4){
     switch($type){
+    case "del-kompetensi-pemerintahan":
+            if (confirm('Apakah Anda Akan Menghapus Unit Kompetensi Ini?')) {
+                $.post(hostir+"del-kompetensi-pemerintahan",{'id_ukp':p1},function(rspp){
+                   if (rspp == 1){
+                       alert('Data berhasil Dihapus');
+                        loadUrl_adds('kompetensi-pemerintahan', hostir+'unit-kompetensi-pemerintahan','tMain',p2 );
+                   } else{
+                       alert(rspp);
+                   }
+                });
+            }
+        break;
         case "delete_fd":
             if (confirm('Apakah Anda Akan Menghapus Fungsi Dasar Ini?')) {
                 $.post(hostir+"delete-fd",{'id_fd':p1},function(rspp){

@@ -1210,6 +1210,10 @@ class madmin extends SHIPMENT_Model{
                         }
                         
                     break;
+                    case "del_kompetensi_pemerintahan":
+                        $delete_ukp = $this->db->where('id',$post['id_ukp']);
+                        $delete_ukp = $this->db->delete('tbl_unit_kompetensi_pemerintahan');                        
+                    break;
                                         
                 }
 		
