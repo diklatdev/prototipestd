@@ -7,9 +7,9 @@
 <div class="container">
     <div class="row">
       <div class="col s12 m12 l12">
-            <h5 class="breadcrumbs-title">SUB SUB URUSAN & FUNGSI URUSAN LAIN JFU</h5>
+            <h5 class="breadcrumbs-title">SUB SUB PENUNJANG URUSAN</h5>
             <ol class="breadcrumb">
-                    <li><a href="#" onclick="loadUrl('{$host}bidang-lain')">Urusan Lain & JFU</a></li>
+                    <li><a href="#" onclick="loadUrl('{$host}bidang-lain')">Penunjang Urusan</a></li>
                     <li><a href="#" onclick="loadUrl_adds('sub-bidang', '{$host}sub-bidang-lain', 'tMain','{$id_bidang}')">Sub Urusan Lain & JFU</a></li>
                     <li><a href="#">Sub Sub Urusan</a></li>
             </ol>
@@ -28,7 +28,7 @@
 							<input type='hidden' name='editstatus' value='{$editstatus}'>
 							<input type='hidden' name='idx_bidang_id' value="{$id_bidang}">
 							<input type='hidden' name='id' value="{$row.id|default:''}">
-							<h4 class="header2">I. Sub Urusan</h4>
+							<h4 class="header2">I. Sub Penunjang Urusan</h4>
 							<div class="row">
 								{include file='modul-why/template/input_text.html' ukuran='besar' name='nama_sub_bidang' label="Nama Urusan" class={$class|default:''} value={$row.nama_sub_bidang|default:''}} 
 							</div>
@@ -51,7 +51,7 @@
             <div class="col s12" style='display:{$display};'>
 				<div class="card-panel">
 					<div class="row">	
-						<h4 class="header2">II.Sub Sub-Urusan</h4>
+						<h4 class="header2">II.Sub Sub-Penunjang Urusan</h4>
 						{if isset($id_sub_bidang)}{assign var="p1" value=$id_sub_bidang}{else}{assign var="p1" value=""}{/if}
 						{if isset($id_bidang)}{assign var="p2" value=$id_bidang}{else}{assign var="p2" value=""}{/if}
 						{include file='modul-lv/template/grid.html' tipe_grid="fungsional" tinggi='55px'}

@@ -7,11 +7,11 @@
 <div class="container">
     <div class="row">
       <div class="col s12 m12 l12">
-            <h5 class="breadcrumbs-title">Form Sub Sub-Urusan</h5>
+            <h5 class="breadcrumbs-title">Form Sub Sub-Penunjang Urusan</h5>
             <ol class="breadcrumb">
-                    <li><a href="#" onclick="loadUrl('{$host}bidang-lain')">Urusan Lain & JFU</a></li>
-                    <li><a href="#" onclick="loadUrl_adds('sub-bidang', '{$host}sub-bidang-lain', 'tMain','{$id_bidang}')">Sub Urusan Lain & JFU</a></li>
-                    <li><a href="#" onClick="loadUrl_adds('sub-subbidang-lain','{$host}sub-subbidang-lain','tMain', '{$id_sub_bidang}', '{$id_bidang}');">Sub Sub Urusan</a></li>
+                    <li><a href="#" onclick="loadUrl('{$host}bidang-lain')">Penunjang Urusan</a></li>
+                    <li><a href="#" onclick="loadUrl_adds('sub-bidang', '{$host}sub-bidang-lain', 'tMain','{$id_bidang}')">Sub Penunjang Urusan</a></li>
+                    <li><a href="#" onClick="loadUrl_adds('sub-subbidang-lain','{$host}sub-subbidang-lain','tMain', '{$id_sub_bidang}', '{$id_bidang}');">Sub Sub Penunjang Urusan</a></li>
             </ol>
       </div>
     </div>
@@ -28,7 +28,7 @@
 							<input type='hidden' name='editstatus' value='{$editstatus}'>
 							<input type='hidden' name='idx_sub_bidang_id' value="{$id_sub_bidang}">
 							<input type='hidden' name='id' value="{$row.id|default:''}">
-							<h4 class="header2">I. Sub Sub-Urusan</h4>
+							<h4 class="header2">I. Sub Sub-Penunjang Urusan</h4>
 							<div class="row">
 								{include file='modul-why/template/input_text.html' ukuran='besar' name='nama_sub_subbidang' label="Nama Sub Sub-Urusan" class={$class|default:''} value={$row.nama_sub_subbidang|default:''}} 
 							</div>
