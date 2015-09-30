@@ -113,7 +113,7 @@ class madmin extends SHIPMENT_Model{
                                 . "WHERE tbl_skema_sertifikasi_id = '$p1'";
                         break;    
                         case "kom_kunci_uk":
-                            $sql = "SELECT A.*, CONCAT (B.level, '-', B.deskripsi) as level, C.nama as kom_kunci "
+                            $sql = "SELECT A.*, CONCAT (B.level, '-', B.deskripsi) as level, C.nama as kom_kunci, B.level "
                                 . "FROM tbl_kompetensi_kunci_unit_kompetensi A "
                                 . "LEFT JOIN idx_level_kompetensi_kunci B ON B.id = A.idx_level_kompetensi_kunci_id "
                                 . "LEFT JOIN idx_kompetensi_kunci C ON C.id = B.idx_kompetensi_kunci_id "

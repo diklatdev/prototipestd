@@ -1057,6 +1057,60 @@ class modul_admin extends SHIPMENT_Controller{
 			echo json_encode($result);
 		}
 	}
+        
+        function UnitKompetensiPdf($id_kompetensi = ''){
+            
+            $data = $this->madmin->get_data("unit_kompetensi","row_array",$id_kompetensi);
+            $this->smarty->assign("row",$data);    
+            
+            $elemen = $this->db->query("SELECT * FROM tbl_elemen_unit_kompetensi "
+                    . "WHERE tbl_unit_kompetensi_id = $id_kompetensi")->result_array();
+            $elem = "";
+            foreach ($elemen as $k => $v){
+                $unjuk = $this->db->query("SELECT * "
+                        . "FROM tbl_kuk_elemen_unit_kompetensi "
+                        . "WHERE tbl_elemen_unit_kompetensi_id = '".$v['id']."';")->result_array();
+                $elem[$k]["id_elemen"]=$v['id'];
+                $elem[$k]["nama_elemen"]=$v['nama']; 
+                $elem[$k]["kuk"] = $unjuk;
+            }
+            $this->smarty->assign('elemen', $elem);
+
+            $kom_kunci_uk = $this->madmin->get_data('kom_kunci_uk','result_array',$id_kompetensi);
+            $this->smarty->assign('kompetensi_kunci', $kom_kunci_uk); 
+
+            $das_hukum = $this->madmin->get_data('dasar_hukum_uk', 'result_array', $id_kompetensi);
+            $this->smarty->assign('das_hukum', $das_hukum);
+            
+            $htmlcontent = $this->smarty->fetch('modul-lv/laporan/unit_kompetensi.html');
+            $filename = 'Unit Kompetensi';
+            $this->show_pdf($htmlcontent,$filename);
+        }
+        
+        function show_pdf($htmlcontent, $filename){            
+            $this->load->library('mlpdf');
+            
+            $pdf = $this->mlpdf->load();
+            $spdf = new mPDF('', 'A4', 0, '', 12.7, 12.7, 5, 20, 5, 2, 'P');
+            $spdf->ignore_invalid_utf8 = true;
+            $spdf->useOnlyCoreFonts = true;
+            $spdf->SetProtection(array('print'));
+            // bukan sulap bukan sihir sim salabim jadi apa prok prok prok
+            $spdf->allow_charset_conversion = true;     // which is already true by default
+            $spdf->charset_in = 'iso-8859-2';  // set content encoding to iso
+            $spdf->SetDisplayMode('fullpage');		
+            //$spdf->SetHTMLHeader($htmlheader);
+            /*$spdf->SetHTMLFooter('
+                    <div style="font-family:arial; font-size:8px; text-align:center; font-weight:bold;">
+                            Sistem Informasi Sertifikasi & Penilaian Kementerian Dalam Negeri
+                    </div>
+            ');
+            */
+            $spdf->WriteHTML($htmlcontent); // write the HTML into the PDF
+            //$spdf->Output('repositories/Dokumen_LS/LS_PDF/'.$filename.'.pdf', 'F'); // save to file because we can
+            $spdf->Output('__repository/temp_sertifikat/'.$filename.'.pdf', 'I'); // view file
+            
+        }
 	
 	
 }

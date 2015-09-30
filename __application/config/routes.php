@@ -108,6 +108,8 @@ $route['form-bakat'] = "lv/modul_admin/getdisplay/datagridview/bakat";
 $route['new-fishbone/(:any)'] = "lv/modul_admin/new_fishbone/$1";
 $route['json-data'] = "lv/modul_admin/json_fishbone";
 
+$route['print-unit-kompetensi/(:any)'] = "lv/modul_admin/UnitKompetensiPdf/$1";
+
 //punya wahyu nyempil
 /*
 $route['bidang-lain'] = "lv/modul_admin/getdisplay/datagridview/bidang_lain";

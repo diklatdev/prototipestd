@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>Unit Kompetensi</title>
+<style>
+{literal}
+ul.a { list-style-type: none;}
+
+.left-hide td {border:none;}
+{/literal}
+</style>
+</head>
+<body>
+
+<div id='content'>
+	<table width="100%" style="margin-bottom:10px; font-family:arial; font-size:12px;border-collapse: collapse;border:0.1mm solid black;padding 15px">
+            <tbody >
+		<tr>
+			<td align='left'>
+                            KODE UNIT
+			</td>
+                        <td align='left' colspan='2'>
+                             : {$row.kode_unit_kompetensi}
+			</td>
+		</tr>
+		<tr>
+			<td align='left' >
+                            JUDUL UNIT 
+			</td>
+                        <td align='left' colspan='2'>
+                             : {$row.judul_unit}
+			</td>
+		</tr>
+		<tr>
+			<td align='left'  >
+                            DESKRIPSI UNIT
+			</td>
+                        <td align='left' colspan='2'>
+                            : <font>{$row.deskripsi}</font>
+			</td>
+		</tr>
+                <tr>
+                    <td colspan="2"><b>Elemen Kompetensi</b></td>    
+                    <td><b>Kriteria Unjuk Kerja</b></td>
+                </tr>            
+            {foreach name=no from=$elemen item=el}
+                <tr style="padding:15px">
+                    <td colspan="2" >
+                        {$el.nama_elemen}       
+                    </td>    
+                    <td>   
+                            {if $el.kuk}
+                            {foreach name=kuk from=$el.kuk item=kuk} 
+                            <p style="margin-bottom:15px">{$kuk.nama}</p>
+                            {/foreach}
+                            {/if}
+                    </td>
+                </tr>
+            {/foreach}
+                <tr>
+                    <td colspan="3">
+                        BATASAN VARIABEL (RANGE OF VARIABLES)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        {$row.batasan_variabel}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        PANDUAN PENILAIAN (EVIDENCE GUIDE)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                       {$row.panduan_penilaian} 
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        KOMPETENSI KUNCI 
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="padding:10px">
+                        <table width="100%" border="1" style="margin-bottom:10px; font-family:arial; font-size:12px;border-collapse: collapse;padding 5px">
+                            <tr style="border-bottom:0mm">
+                                <td width="5%"><b>NO</b></th>
+                                <td width="80%"><b>KOMPETENSI KUNCI DALAM UNIT INI</b></th>
+                                <td width="5%"><b>TINGKAT</b></th>
+                            </tr>
+                            {assign var=ind value=1}
+                            {foreach from=$kompetensi_kunci item=kk}
+                            <tr>
+                                <td>{$ind}. </td>
+                                <td>{$kk.kom_kunci}</td>
+                                <td>{$kk.level}</td>
+                            </tr>
+                            {assign var=ind value=$ind+1}
+                            {/foreach}
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+	</table>
+</div> 
+
+</body>
+</html>
