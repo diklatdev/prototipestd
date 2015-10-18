@@ -781,6 +781,7 @@ function genGrid(modnya, lebarnya, tingginya, p1, p2){
                     },
                     ];
             break;
+            
 	}
 	
 	$("#"+modnya).datagrid({
@@ -895,6 +896,41 @@ function genGrid2(modnya, lebarnya, tingginya, p1, p2){
 				},
 			];
 		break;
+        
+        case "manajemen_user_list":
+            judulnya = "";
+            fitnya = true;
+            pagesizeboy = 50;
+            kolom[modnya] = [	
+                    {field:'username',title:'<b>Nama User</b>',width:250, halign:'center',align:'left'},
+                    {field:'real_name',title:'<b>Nama Asli</b>',width:250, halign:'center',align:'left'},
+                    {field:'nama_level',title:'<b>Level User</b>',width:200, halign:'center',align:'left'},
+                    {field:'aktif',title:'<b>Status</b>',width:200, halign:'center',align:'left',
+                        formatter: function(value,row,index){
+                            if(row.aktif == 1){
+                                return "<font color='green'>User Aktif</font>";
+                            }else if(row.aktif == 0){
+                                return "<font color='red'>User Tidak Aktif</font>";
+                            }
+                        }
+                    },
+            ];
+        break;        
+        case "manajemen_user_role":
+            judulnya = "";
+            fitnya = true;
+            pagesizeboy = 50;
+            kolom[modnya] = [	
+                    {field:'nama_level',title:'<b>Level/Grup User</b>',width:250, halign:'center',align:'left'},
+                    {field:'id',title:'<b>User Role</b>',width:150, halign:'center',align:'center',
+                        formatter: function(value,row,index){
+                            var buttonhtml = "";
+                            buttonhtml = '<a href="javascript:void(0);" onClick="loadUrl_adds(\'user_role\', \''+row.id+'\')" class="btn-floating waves-effect waves-light orange"><i class="mdi-content-create"></i></a> &nbsp;';
+                            return buttonhtml;
+                        }
+                    },
+            ];
+        break;      
 	}
 	
 	$("#"+modnya).datagrid({
@@ -1005,6 +1041,37 @@ function sbmbyk(type, p1, p2){
 				}
 			});
 		break;
+        
+        case "manajemen_user_list":
+            ajxamsterfrm('list_user', function(resp){
+				if(resp == 1){
+					//alert('Data Tersimpan');
+					$.messager.alert('Sukses','Data Tersimpan','info');
+					loadUrl(hostir+'manajemen-user-list');
+				}else{
+					//alert(resp);
+					$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
+					console.log(resp);
+					loadUrl(hostir+'manajemen-user-list');
+				}
+			});
+        break;
+        case "user_role_submit":
+            var pecah={};
+    		$('.cek_role:checkbox:checked').each(function(i) { 
+    			pecah[i]=$(this).attr("data");
+    		});
+            
+    		$.post(hostir+'submit-role',{ 'data':pecah, 'id':p1 } ,function(r){
+    			if(r==1){
+    				$.messager.alert('ABC System', "Data Was Saved", 'info');
+    			}else{
+    				$.messager.alert('ABC System', "Data Not Saved", 'error');
+    			}
+                loadUrl(hostir+'manajemen-user-role');
+    		});
+        break;
+        
 		case "bidang_lain":
 			ajxamsterfrm('frm-bidang-lain', function(resp){
 				if(resp == 1){
@@ -1487,6 +1554,50 @@ function loadUrl_adds(type, urlnya, domnya, p1, p2, p3, p4, p5, p6, p7){
 			loadUrl(hostir+'peta-jabatan');
 		break;
 		
+        case "tambah_manajemen_user_list":
+			$("#div_"+urlnya).html("").addClass("loading");
+			$.post(hostir+'form-manajemen-user-list', { 'editstatus':'add' }, function(respo){
+				$("#div_"+urlnya).html(respo).removeClass("loading");
+			 });
+		break;
+        case "edit_manajemen_user_list":
+			var rows = $('#manajemen_user_list').datagrid('getSelected');
+			if(rows){
+				$("#div_"+urlnya).html("").addClass("loading");
+				$.post(hostir+'form-manajemen-user-list', { 'editstatus':'edit', 'id':rows.id }, function(respo){
+					$("#div_"+urlnya).html(respo).removeClass("loading");
+				});
+			}else{
+				$.messager.alert('Warning','Pilih Data Yang Akan Diedit.','warning');
+			}		
+		break;
+		case "hapus_manajemen_user_list":
+			var rows = $('#manajemen_user_list').datagrid('getSelected');
+			if(rows){
+				$.messager.confirm('Confirm','Anda Yakin Akan Menghapus Data Ini?',function(r){
+					if(r){
+						$.post(hostir+'hapus-manajemen-user-list', { 'editstatus':'delete', 'id':rows.id }, function(respo){
+							if(respo == 1){
+								$.messager.alert('Sukses','Data Sudah Terhapus','info');
+							}else{
+								$.messager.alert('Warning','Gagal, Ada Kesalahan Sistem.','warning');
+							}
+							$('#manajemen_user_list').datagrid('reload');
+						});
+					}
+				});
+			}else{
+				$.messager.alert('Warning','Pilih Data Yang Akan Diedit.','warning');
+			}
+		break;
+        
+        case 'user_role':
+            $("#div_manajemen_user_role").html("").addClass("loading");
+			$.post(hostir+'user-role', { 'id_group':urlnya }, function(respo){
+				$("#div_manajemen_user_role").html(respo).removeClass("loading");
+            });
+        break;
+        
 	/*Levi*/
         case "kementrian_grid":  
             $("#"+domnya).html("").addClass("loading");
