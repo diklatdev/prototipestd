@@ -1,0 +1,66 @@
+<div class="container">
+	<div class="section">
+		<div class="row">
+			<div class="col s12 m12 l12">
+				<div class="card-panel">
+					<div class="row">
+     Cek All &nbsp;&nbsp;&nbsp; <input type="checkbox" id="ck_all" />
+     <br />
+     <br />                 
+     <form method='post' url="" id="form_user_role" enctype="multipart/form-data">			
+		<table cellspacing="1" cellpadding="0" border="0" style="width:100%; border: 1px solid #4C4747;">
+			<tr style='background:#7DB3CB; color:#fff; font-weight:bold;'>
+				<td align='center' style="text-align: center;padding:10px !important;" width='50%'>MODUL</td>
+				<td align='center' style="text-align: center;padding:10px !important;" width='25%'>IS ACCESS</td>
+				<td align='center' style="text-align: center;padding:10px !important;" width='25%'>IS CRUD</td>
+			</tr>
+			
+			{foreach from=$role item=rows}
+				<tr style='background:#F2F2F2; color:#333333; font-weight:bold;'>
+					<td colspan="3" style='padding-left:5px;'>{$rows.nama_module}</td>
+				</tr>
+				{foreach from=$rows.child_menu item=riws}
+					{if $riws.is_access eq 1}
+						{assign var=stsbuatChild value='checked'}
+					{elseif $riws.is_access eq 0}
+						{assign var=stsbuatChild value=''}
+					{/if}
+
+                    {if $riws.is_crud eq 1}
+						{assign var=stscrudChild value='checked'}
+					{elseif $riws.is_crud eq 0}
+						{assign var=stscrudChild value=''}
+					{/if}
+                    				
+					<tr style='background:#F2F2F2; color:#333333;'>
+						<td style='padding-left:15px;'>- {$riws.nama_menu_child}</td>
+						<td style="text-align: center;" align='center'><input type="checkbox" class='cek_role' name="checkbuat[]" data="A_{$riws.id_child}" {$stsbuatChild}></td>
+                        <td style="text-align: center;" align='center'><input type="checkbox" class='cek_role' name="checkcrud[]" data="C_{$riws.id_child}" {$stscrudChild}></td>
+					</tr>
+				{/foreach}
+			{/foreach}
+				
+		</table>
+	</form>
+      
+                    <div class="col s12 m8 l9" style='margin-top:40px;'>
+						<button class="btn cyan waves-effect waves-light " onClick="javascript:void(0);sbmbyk('user_role_submit', '{$id_group}');">Submit
+							<i class="mdi-content-send right"></i>
+						</button>
+						<button class="btn waves-effect waves-light " onClick="javascript:void(0);loadUrl('{$host}manajemen-user-role');">Kembali
+							<i class="mdi-content-reply left"></i>
+						</button>
+                    </div>              
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+</div>
+
+<script>
+    $('#ck_all').change(function() {
+        $('.cek_role').prop('checked',true);    
+    });
+</script>

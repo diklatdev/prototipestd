@@ -14,8 +14,9 @@ class madmin extends SHIPMENT_Model{
 			// User Manajemen & ACL
 			case "data_login_admin":
 				$sql = "
-					SELECT A.*
+					SELECT A.*, B.nama_level
 					FROM tbl_user_admin A
+                    LEFT JOIN idx_level_user B ON B.id = A.level_admin
 					WHERE A.username = '".$p1."' AND A.aktif = '1'
 				";
 			break;
@@ -48,6 +49,27 @@ class madmin extends SHIPMENT_Model{
 					FROM tbl_petjab_kompetensi_teknis A
 					LEFT JOIN tbl_unit_kompetensi B ON A.tbl_unit_kompetensi_id = B.id 
 					WHERE A.tbl_peta_jabatan_id = '".$p1."'
+				";
+			break;
+            
+            case "menu_parent":
+				$sql = "
+					SELECT A.*
+					FROM idx_menu_module A
+				";
+			break;
+			case "menu_child":
+				$sql = "
+					SELECT A.*
+					FROM idx_menu_submodule A
+					WHERE A.idx_module_id = '".$p1."'
+				";
+			break;
+			case "previliges_menu":
+				$sql = "
+					SELECT A.*
+					FROM idx_menu_policy A
+					WHERE A.idx_submodule_id = '".$p1."' AND A.idx_level_user_id = '".$p2."'
 				";
 			break;
 			// End User Manajemen & ACL
@@ -135,6 +157,20 @@ class madmin extends SHIPMENT_Model{
 					AND A.idx_bkl_id = '".$id_bkl."' 
 				";
 			break;
+            
+            case "manajemen_user_list":
+                $sql = "
+                    SELECT A.id, A.username, A.real_name, A.email, A.aktif, B.nama_level
+                    FROM tbl_user_admin A
+                    LEFT JOIN idx_level_user B ON B.id = A.level_admin
+                ";
+            break;
+            case "manajemen_user_role":
+                $sql = "
+                    SELECT A.*
+                    FROM idx_level_user A
+                ";
+            break;
 		}
 		
 		return $this->lib->jsondata($sql, $type, $var_additional);
@@ -277,6 +313,15 @@ class madmin extends SHIPMENT_Model{
 					AND id IN (5,6,7)
 				";
 			break;
+            case "idx_level_user":
+				$select = "
+					id, nama_level as txt
+				";
+                $where .= "
+                    AND id = '99'
+                ";
+			break;
+            
 		}
 		
 		$sql = "
@@ -701,6 +746,63 @@ class madmin extends SHIPMENT_Model{
 					
 				}
 			break;
+            
+            case "manajemen_user_list":
+                if($post['editstatus'] != 'delete'){
+                    $this->load->library('encrypt');
+					$post_bnr['username'] 	    = $post['username'];
+					$post_bnr['password'] 	    = $this->encrypt->encode($post['password']);
+					$post_bnr['real_name'] 	    = $post['real_name'];
+                    $post_bnr['level_admin'] 	= $post['level_admin'];
+                    $post_bnr['aktif'] 	        = $post['aktif'];	
+                    $post_bnr['email'] 	        = $post['email'];				
+				}
+				
+				if($post['editstatus'] == 'add'){
+					$execute = $this->db->insert('tbl_user_admin', $post_bnr);
+				}elseif($post['editstatus'] == 'edit'){
+					$execute = $this->db->update('tbl_user_admin', $post_bnr, array('id'=>$post['id']) );
+				}elseif($post['editstatus'] == 'delete'){
+					$execute = $this->db->delete('tbl_user_admin', array('id'=>$post['id']) );
+				}
+            break;
+            case "user_role":
+                $id_group = $post['id'];
+				$this->db->delete('idx_menu_policy', array('idx_level_user_id'=>$id_group) );
+				if(isset($post['data'])){
+					$postdata = $post['data'];
+					$row=array();
+					foreach($postdata as $v){
+						$pecah = explode("_",$v);
+						$row["is_access"]=0;
+						$row["is_crud"]=0;
+						
+						
+						switch($pecah[0]){
+							case "A":
+								$row["is_access"]=1;
+							break;
+							case "C":
+								$row["is_crud"]=1;
+							break;							
+						}
+						
+						$row["idx_submodule_id"] = $pecah[1];
+						$row["idx_level_user_id"] = $id_group;
+						
+						$cek_data = $this->db->get_where('idx_menu_policy', array('idx_submodule_id'=>$pecah[1], 'idx_level_user_id'=>$id_group) )->row_array();
+						
+						if(!$cek_data){
+							$this->db->insert('idx_menu_policy', $row);
+						}else{
+							if($row["is_access"]==0)unset($row["is_access"]);
+							if($row["is_crud"]==0)unset($row["is_crud"]);
+							                   
+							$this->db->update('idx_menu_policy', $row, array('idx_submodule_id'=>$pecah[1], 'idx_level_user_id'=>$id_group) );
+						}
+					}	
+				}
+            break;
 		}
 		
 		if($this->db->trans_status() == false){

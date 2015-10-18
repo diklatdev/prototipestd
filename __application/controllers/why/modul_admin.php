@@ -14,7 +14,7 @@ class modul_admin extends SHIPMENT_Controller{
 	
 	function index() {
 		if($this->auth) {
-			/*
+			
 			$module = $this->madmin->get_data('get_module', 'result_array');
 			$submodule = $this->madmin->get_data('get_submodule', 'result_array');
 			
@@ -35,7 +35,7 @@ class modul_admin extends SHIPMENT_Controller{
 				$access = $this->madmin->is_access($t['function_id'], $this->auth['level_admin']);
 				$this->smarty->assign($menu, $access);
 			}			
-			*/
+			
 			
 			$this->smarty->display('index-admin.html');
 		}else {
@@ -282,6 +282,72 @@ class modul_admin extends SHIPMENT_Controller{
 				exit;
 			break;
 
+            case "manajemen_user_list":
+				$content = "modul-why/manajemen-user/main-user-list.html";
+			break;
+            case "form_manajemen_user_list":
+                $editstatus = $this->input->post('editstatus');
+                if($editstatus == 'edit'){
+                    $this->load->library('encrypt');
+                    $id = $this->input->post('id');
+                    $data = $this->db->get_where('tbl_user_admin', array('id'=>$id) )->row_array();
+                    $data['password'] = $this->encrypt->decode($data['password']);
+                    
+                    $this->smarty->assign('data', $data);
+					$this->smarty->assign('class', "active");
+                }
+                
+                $content = "modul-why/manajemen-user/form-manajemen-user-list.html";
+                
+                $this->smarty->assign('editstatus', $editstatus);
+                $this->smarty->assign('level_admin', $this->lib->fillcombo('idx_level_user', 'return', ($editstatus == 'edit' ? $data['level_admin'] : "") ));
+                $this->smarty->assign('status_aktif', $this->lib->fillcombo('status', 'return', ($editstatus == 'edit' ? $data['aktif'] : "") ));
+            break;
+            
+            case "manajemen_user_role":
+				$content = "modul-why/manajemen-user/main-user-role.html";
+			break;
+            case "form_manajemen_user_role":
+                
+            break;
+            
+            case "user_role":
+                $content = "modul-why/manajemen-user/user-role.html";
+                $id_group = $this->input->post('id_group');
+                $array = array();
+                $dataParent = $this->madmin->get_data('menu_parent', 'result_array');
+                    foreach($dataParent as $k=>$v){
+								$dataChild = $this->madmin->get_data('menu_child', 'result_array', $v['id']);
+								$dataPrev = $this->madmin->get_data('previliges_menu', 'row_array', $v['id'], $id_group);
+								
+								$array[$k]['id'] = $v['id'];
+								$array[$k]['nama_module'] = $v['nama_module'];
+								$array[$k]['id_prev'] = (isset($dataPrev['id']) ? $dataPrev['id'] : 0) ;
+								$array[$k]['is_access'] = (isset($dataPrev['is_access']) ? $dataPrev['is_access'] : 0) ;
+                                $array[$k]['is_crud'] = (isset($dataPrev['is_crud']) ? $dataPrev['is_crud'] : 0) ;
+
+								$array[$k]['child_menu'] = array();
+								$jml = 0;
+								foreach($dataChild as $y => $t){
+									$dataPrevChild = $this->madmin->get_data('previliges_menu', 'row_array', $t['id'], $id_group);
+									$array[$k]['child_menu'][$y]['id_child'] = $t['id'];
+									$array[$k]['child_menu'][$y]['nama_menu_child'] = $t['nama_submodule'];
+									$array[$k]['child_menu'][$y]['id_prev'] = (isset($dataPrevChild['id']) ? $dataPrevChild['id'] : 0) ;
+									$array[$k]['child_menu'][$y]['is_access'] = (isset($dataPrevChild['is_access']) ? $dataPrevChild['is_access'] : 0) ;
+                                    $array[$k]['child_menu'][$y]['is_crud'] = (isset($dataPrevChild['is_crud']) ? $dataPrevChild['is_crud'] : 0) ;
+									$jml++;
+								}
+								$array[$k]['total_child'] = $jml;
+                    }
+                    /*
+                    echo "<pre>";
+                    print_r($array);
+                    exit;
+                    */
+                    
+                $this->smarty->assign('role', $array);
+                $this->smarty->assign('id_group', $id_group);
+            break;
 		}
 		
 		$this->smarty->assign('type', $type);

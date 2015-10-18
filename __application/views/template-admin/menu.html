@@ -5,7 +5,9 @@
                     <li class="user-details cyan darken-2">
                         <div class="row">
                             <div class="col col s4 m4 l4">
+                                {*
                                 <img src="{$host}__assets/images/avatsar.jpg" alt="" class="circle responsive-img valign profile-image">
+                                *}
                             </div>
                             <div class="col col s8 m8 l8">
                                 <ul id="profile-dropdown" class="dropdown-content">
@@ -15,65 +17,52 @@
                                     <li><a href="http://localhost/sk3apdn/ref" target="blank"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
                                     </li>
                                 </ul>
-                                <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown">Nurdin Mak Bacah<i class="mdi-navigation-arrow-drop-down right"></i></a>
-                                <p class="user-roal">Administrator</p>
+                                <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown">{$auth.real_name|UPPER}<i class="mdi-navigation-arrow-drop-down right"></i></a>
+                                <p class="user-roal">Level : {$auth.nama_level}</p>
                             </div>
                         </div>
                     </li>
-					
-                    <!--li class="bold"><a href="dashboard.shtml" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Dashboard</a></li-->
 										
 					<li class="li-hover"><div class="divider"></div></li>
-					{*
-					<li class="no-padding">
-                        <ul class="collapsible collapsible-accordion">
-                            <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Standar Kompetensi</a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="kknipdn.shtml">KKNIPDN</a></li>
-                                        <li><a href="rencana.shtml">SK3APDN</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
 					
-						<ul class="collapsible collapsible-accordion">
-                            <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Persiapan Perumusan</a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pembentukan-tim-kerja');">Pembentukan Tim</a></li>
-                                        <li><a href="javascript:void(0);" onClick="loadUrl('{$host}rencana-perumusan');">Rencana Perumusan</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-
-					*}
-
-					<li class="bold">
+					{if $mainmenupembentukantim eq '1'}
+                    <li class="bold">
                         <a href="javascript:void(0);" class="waves-effect waves-cyan" onClick="loadUrl('{$host}pembentukan-tim-kerja');"><i class="mdi-action-dashboard"></i> Pembentukan Tim</a>						
                     </li>
+                    {/if}
+                    {if $mainmenurencanaperumusan eq '1'}
 					<li class="bold">
 						<a href="javascript:void(0);" class="waves-effect waves-cyan" onClick="loadUrl('{$host}rencana-perumusan');"><i class="mdi-action-dashboard"></i> Rencana Perumusan</a>
 					</li>
-					{*
-					<li class="bold">
-						<a href="javascript:void(0);" class="waves-effect waves-cyan" onClick="loadUrl('{$host}pemetaan-fungsi');" ><i class="mdi-action-dashboard"></i> Pemetaan Fungsi</a>
-					</li>
-                                        *}
+					{/if}
+                    {if $mainmenupemetaanfungsi eq '1'}
                                         <li class="no-padding">
                                             <ul class="collapsible collapsible-accordion">
                                                 <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Pemetaan Fungsi</a>
                                                     <div class="collapsible-body">
                                                         <ul>
+                                                            {if $urusankonkuren eq '1'}
                                                             <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pemetaan-fungsi-UK');" >Urusan Konkuren</a></li>
+                                                            {/if}
+                                                            {if $penunjangurusan eq '1'}
                                                             <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pemetaan-fungsi-UP');" >Penunjang Urusan</a></li>
+                                                            {/if}
+                                                            {if $urusanumum eq '1'}
                                                             <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pemetaan-fungsi-UU');" >Urusan Umum</a></li>
+                                                            {/if}
+                                                            {if $urusanbinwas eq '1'}
                                                             <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pemetaan-fungsi-UB');" >Urusan Binwas</a></li>
+                                                            {/if}
+                                                            {if $urusansekwan eq '1'}
                                                             <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pemetaan-fungsi-US');" >Urusan Sekwan</a></li>
+                                                            {/if}
+                                                            {if $urusankecamatan eq '1'}
                                                             <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pemetaan-fungsi-UC');" >Urusan Kecamatan</a></li>
+                                                            {/if}
+                                                            {if $urusankelurahan eq '1'}
                                                             <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pemetaan-fungsi-UH');" >Urusan Kelurahan</a></li>
+                                                            {/if}
+                                                            
 <!--                                                            <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pemetaan-fungsi-UL');">Urusan Lain</a></li>
                                                             <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pemetaan-fungsi-JFU');">JFT</a></li>-->
                                                         </ul>
@@ -81,17 +70,145 @@
                                                 </li>
                                             </ul>
                                         </li>
-					{*
-                    <li class="bold">
-						<a href="javascript:void(0);" class="waves-effect waves-cyan" onClick="loadUrl('{$host}peta-jabatan')"><i class="mdi-action-dashboard"></i> Peta Jabatan</a>
-					</li>
-                    *}
+                    {/if}          
+                              
+					{if $skemasertifikasi eq '1'}
 					<li class="bold">
 						<a href="#" class="waves-effect waves-cyan" onclick="loadUrl('{$host}skema-sertifikasi')"><i class="mdi-action-dashboard"></i> Skema Sertifikasi</a>
 					</li>
-					
-					
+                    {/if}
+				    
+                    {if $mainmenumasterdata eq '1'}
+					<li class="no-padding">
+                        <ul class="collapsible collapsible-accordion">
+                            <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-image-grid-on"></i> Master Data</a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        {if $masterurusankonkuren eq '1'}
+                                        <li><a href="#" onClick="loadUrl('{$host}bidang')">Urusan Konkuren </a></li>
+                                        {/if}
+                                        {if $masterpenunjangurusan eq '1'}
+                                        <li><a href="#" onClick="loadUrl('{$host}bidang-lain')">Penunjang Urusan</a></li>
+                                        {/if}
+                                        {if $masterurusanumum eq '1'}
+                                        <li><a href="#" onClick="loadUrl('{$host}bidang-umum')">Urusan Umum</a></li>
+                                        {/if}
+                                        {if $masterurusanbinwas eq '1'} 
+                                        <li><a href="#" onClick="loadUrl('{$host}bidang-binwas')">Urusan Binwas</a></li>
+                                        {/if}
+                                        {if $masterurusansekwan eq '1'} 
+                                        <li><a href="#" onClick="loadUrl('{$host}bidang-sekwan')">Urusan Sekwan</a></li>
+                                        {/if}
+                                        {if $masterurusankecamatan eq '1'}
+                                        <li><a href="#" onClick="loadUrl('{$host}bidang-kecamatan')">Urusan Kecamatan</a></li>
+                                        {/if}
+                                        {if $masterurusankelurahan eq '1'}
+                                        <li><a href="#" onClick="loadUrl('{$host}bidang-kelurahan')">Urusan Kelurahan</a></li>
+                                        {/if}
+                                        {if $masterkementerianlembaga eq '1'}
+                                        <li><a href="#" onClick="loadUrl('{$host}kementrian-grid')">Kementrian & Lembaga</a></li>
+                                        {/if}
+                                        {if $masterkelompokkompetensi eq '1'}
+                                        <li><a href="#" onClick="loadUrl('{$host}kel-kompetensi')">Kelompok Kompetensi</a></li>
+                                        {/if}
+                                        {if $masterkompetensimanagerial eq '1'}
+                                        <li><a href="#" onClick="loadUrl('{$host}kompetensi-manajerial')">Kompetensi Managerial</a></li>
+                                        {/if}
+                                        {if $masterkompetensipemerintahan eq '1'}
+                                        <li><a href="#" onClick="loadUrl('{$host}kompetensi-pemerintahan')" style="font-size:12px">Kompetensi Pemerintahan</a></li>
+                                        {/if}
+                                        {if $masterkompetensikunci eq '1'}
+                                        <li><a href="#" onClick="loadUrl('{$host}kompetensi-kunci')">Kompetensi Kunci</a></li>
+                                        {/if}
+                                        {if $masterbakat eq '1'}
+                                        <li><a href="#" onClick="loadUrl('{$host}bakat')">Bakat</a></li>
+                                        {/if}
+                                        {if $masterdasarhukum eq '1'}
+                                        <li><a href="#" onClick="loadUrl('{$host}dasar-hukum')">Dasar Hukum</a></li>
+                                        {/if}
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    {/if}
+                    
+                    {if $mainmenumanajemenuser eq '1'}
+					<li class="no-padding">
+                        <ul class="collapsible collapsible-accordion">
+                            <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-image-grid-on"></i> Manajemen User</a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        {if $listuser eq '1'}
+                                        <li><a href="#" onClick="loadUrl('{$host}manajemen-user-list')">List User</a></li>
+                                        {/if}
+                                        {if $roleuser eq '1'}
+                                        <li><a href="#" onClick="loadUrl('{$host}manajemen-user-role')">Role User</a></li>
+                                        {/if}
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>	
+                    {/if}
+                    
+					<li class="li-hover"><div class="divider"></div></li>                    
+                    				
+					</br>
+					</br>
+					</br>
+					</br>
+					</br>
+					</br>
+						
+                </ul>
+				
+                <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="mdi-navigation-menu"></i></a>
+            </aside>
+            <!-- END LEFT SIDEBAR NAV-->
+
+            <!-- //////////////////////////////////////////////////////////////////////////// -->
+            
+            
+            
+            
+            
 					{*
+					<li class="bold"><a href=".shtml" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Forum</a></li>
+					
+					<li class="no-padding">
+                        <ul class="collapsible collapsible-accordion">
+                            <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Galeri</a>
+                                <div class="collapsible-body">
+                                    <ul>
+										<li><a href=".shtml">Kategori</a></li>
+                                        <li><a href=".shtml">Foto</a></li>
+                                        <li><a href=".shtml">Video</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+					
+					<li class="no-padding">
+                        <ul class="collapsible collapsible-accordion">
+                            <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Artikel</a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li><a href=".shtml">Kategori</a></li>
+                                        <li><a href=".shtml">Tulisan</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+					
+					
+					<li class="bold"><a href=".shtml" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> FAQ</a></li>
+					<li class="bold"><a href=".shtml" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Kontak</a></li> 
+					*}        
+                    
+                    	{*
 					<li class="no-padding">
                         <ul class="collapsible collapsible-accordion">
                             <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Perumusan</a>
@@ -148,80 +265,42 @@
                         </ul>
                     </li>
 					*}
-					
+                    {*
+                    <li class="bold">
+						<a href="javascript:void(0);" class="waves-effect waves-cyan" onClick="loadUrl('{$host}peta-jabatan')"><i class="mdi-action-dashboard"></i> Peta Jabatan</a>
+					</li>
+                    *}	
+                        	
+                    {*
+					<li class="bold">
+						<a href="javascript:void(0);" class="waves-effect waves-cyan" onClick="loadUrl('{$host}pemetaan-fungsi');" ><i class="mdi-action-dashboard"></i> Pemetaan Fungsi</a>
+					</li>
+                    *}	
+                    
+{*
 					<li class="no-padding">
                         <ul class="collapsible collapsible-accordion">
-                            <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-image-grid-on"></i> Master Data</a>
+                            <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Standar Kompetensi</a>
                                 <div class="collapsible-body">
                                     <ul>
-                                        <li><a href="#" onClick="loadUrl('{$host}bidang')">Urusan Konruen</a></li>
-                                        <li><a href="#" onClick="loadUrl('{$host}bidang-lain')">Penunjang Urusan</a></li>
-                                        <li><a href="#" onClick="loadUrl('{$host}bidang-umum')">Urusan Umum</a></li> 
-                                        <li><a href="#" onClick="loadUrl('{$host}bidang-binwas')">Urusan Binwas</a></li> 
-                                        <li><a href="#" onClick="loadUrl('{$host}bidang-sekwan')">Urusan Sekwan</a></li>
-                                        <li><a href="#" onClick="loadUrl('{$host}bidang-kecamatan')">Urusan Kecamatan</a></li>
-                                        <li><a href="#" onClick="loadUrl('{$host}bidang-kelurahan')">Urusan Kelurahan</a></li>
-                                                                                                                      
-                                        <li><a href="#" onClick="loadUrl('{$host}kementrian-grid')">Kementrian & Lembaga</a></li>
-                                        <li><a href="#" onClick="loadUrl('{$host}kel-kompetensi')">Kelompok Kompetensi</a></li>
-                                        <li><a href="#" onClick="loadUrl('{$host}kompetensi-manajerial')">Kompetensi Managerial</a></li>
-                                        <li><a href="#" onClick="loadUrl('{$host}kompetensi-pemerintahan')" style="font-size:12px">Kompetensi Pemerintahan</a></li>
-                                        <li><a href="#" onClick="loadUrl('{$host}kompetensi-kunci')">Kompetensi Kunci</a></li>
-                                        <li><a href="#" onClick="loadUrl('{$host}bakat')">Bakat</a></li>
-                                        <li><a href="#" onClick="loadUrl('{$host}dasar-hukum')">Dasar Hukum</a></li>
+                                        <li><a href="kknipdn.shtml">KKNIPDN</a></li>
+                                        <li><a href="rencana.shtml">SK3APDN</a></li>
                                     </ul>
                                 </div>
                             </li>
                         </ul>
                     </li>
 					
-					<li class="li-hover"><div class="divider"></div></li>
-					
-					{*
-					<li class="bold"><a href=".shtml" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Forum</a></li>
-					
-					<li class="no-padding">
-                        <ul class="collapsible collapsible-accordion">
-                            <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Galeri</a>
+						<ul class="collapsible collapsible-accordion">
+                            <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Persiapan Perumusan</a>
                                 <div class="collapsible-body">
                                     <ul>
-										<li><a href=".shtml">Kategori</a></li>
-                                        <li><a href=".shtml">Foto</a></li>
-                                        <li><a href=".shtml">Video</a></li>
+                                        <li><a href="javascript:void(0);" onClick="loadUrl('{$host}pembentukan-tim-kerja');">Pembentukan Tim</a></li>
+                                        <li><a href="javascript:void(0);" onClick="loadUrl('{$host}rencana-perumusan');">Rencana Perumusan</a></li>
                                     </ul>
                                 </div>
                             </li>
                         </ul>
-                    </li>
-					
-					<li class="no-padding">
-                        <ul class="collapsible collapsible-accordion">
-                            <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Artikel</a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href=".shtml">Kategori</a></li>
-                                        <li><a href=".shtml">Tulisan</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-					
-					
-					<li class="bold"><a href=".shtml" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> FAQ</a></li>
-					<li class="bold"><a href=".shtml" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Kontak</a></li> 
-					*}
-					</br>
-					</br>
-					</br>
-					</br>
-					</br>
-					</br>
-						
-                </ul>
-				
-                <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="mdi-navigation-menu"></i></a>
-            </aside>
-            <!-- END LEFT SIDEBAR NAV-->
 
-            <!-- //////////////////////////////////////////////////////////////////////////// -->
+					*}
+                    		    

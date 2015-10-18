@@ -1,0 +1,49 @@
+<div class="container">
+	<div class="section">
+		<div class="row">
+			<div class="col s12 m12 l12">
+				<div class="card-panel">
+					<div class="row">
+						<form id="list_user" method='post' url='{$host}submit-user-list' enctype="multipart/form-data" class="col s12">                        
+                            <input type='hidden' name='editstatus' value='{$editstatus}'>
+							<input type='hidden' name='id' value="{$data.id|default:''}">
+                            <h4 class="header2" >1. Form Manajemen User</h4>
+                            
+                            <div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='besar' name='real_name' label="Nama Asli" class={$class|default:''} value={$data.real_name|default:''}} 
+							</div>                            
+                            
+                            <div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='besar' name='username' label="Username" class={$class|default:''} value={$data.username|default:''}} 
+							</div>
+                            
+                            <div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='sedang' name='password' label="Password" tipe='password' class={$class|default:''} value={$data.password|default:''}} 
+							</div>
+
+                            <div class="row">
+								{include file='modul-why/template/input_text.html' ukuran='sedang' name='email' label="Email" class={$class|default:''} value={$data.email|default:''}} 
+							</div>
+                            
+                            <div class="row">
+								{include file='modul-why/template/input_select.html' ukuran='sedang' name='level_admin' label="Level User" option={$level_admin} }
+                                {include file='modul-why/template/input_select.html' ukuran='sedang' name='aktif' label="Status Aktif" option={$status_aktif} }
+							</div>
+                            
+                        </form>
+                        
+                    <div class="col s12 m8 l9" style='margin-top:40px;'>
+						<button class="btn cyan waves-effect waves-light " onClick="javascript:void(0);sbmbyk('manajemen_user_list');">Submit
+							<i class="mdi-content-send right"></i>
+						</button>
+						<button class="btn waves-effect waves-light " onClick="javascript:void(0);loadUrl('{$host}manajemen-user-list');">Kembali
+							<i class="mdi-content-reply left"></i>
+						</button>
+                    </div>        
+                         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    

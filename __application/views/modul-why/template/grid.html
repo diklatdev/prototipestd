@@ -31,6 +31,12 @@
 			
 			{include file='modul-why/template/button.html' id="kembali_{$tipe_grid}" gridnya={$tipe_grid} tipe='easyui-button' label='Kembali' class='icon-undo' float='right'}
 		{/if}
+        
+        {if $tipe_grid eq 'manajemen_user_list'}
+			{include file='modul-why/template/button.html' id="tambah_{$tipe_grid}" gridnya={$tipe_grid} tipe='easyui-button' label='Tambah' class='icon-add'}
+			{include file='modul-why/template/button.html' id="edit_{$tipe_grid}" gridnya={$tipe_grid} tipe='easyui-button' label='Edit' class='icon-edit'}
+			{include file='modul-why/template/button.html' id="hapus_{$tipe_grid}" gridnya={$tipe_grid} tipe='easyui-button' label='Hapus' class='icon-cancel'}
+		{/if}
 		
 	</div>
 </div>

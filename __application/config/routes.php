@@ -24,6 +24,18 @@ $route['get-kode-unit-kompetensi'] = "why/modul_admin/getdisplay/get_kode_kompet
 $route['submit-detail-peta-jabatan'] = "why/modul_admin/simpansavedbx/detail_peta_jabatan";
 $route['hapus-detail-peta-jabatan'] = "why/modul_admin/simpansavedbx/detail_peta_jabatan";
 
+$route['manajemen-user-list'] = "why/modul_admin/getdisplay/manajemen_user_list";
+$route['form-manajemen-user-list'] = "why/modul_admin/getdisplay/form_manajemen_user_list";
+$route['submit-user-list'] = "why/modul_admin/simpansavedbx/manajemen_user_list";
+$route['hapus-manajemen-user-list'] = "why/modul_admin/simpansavedbx/manajemen_user_list";
+
+$route['manajemen-user-role'] = "why/modul_admin/getdisplay/manajemen_user_role";
+$route['form-manajemen-user-role'] = "why/modul_admin/getdisplay/form_manajemen_user_role";
+$route['submit-user-role'] = "why/modul_admin/simpansavedbx/manajemen_user_role";
+$route['hapus-manajemen-user-role'] = "why/modul_admin/simpansavedbx/manajemen_user_role";
+
+$route['user-role'] = "why/modul_admin/getdisplay/user_role";
+$route['submit-role'] = "why/modul_admin/simpansavedbx/user_role";
 
 $route['datagrid-adm/(:any)'] = "why/modul_admin/getdatagrid/$1";
 
